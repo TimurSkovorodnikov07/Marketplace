@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "wLpwv6ZN7abZKX1tn45FocmjtXfMg0cFCLKM35EKeBc=",
+  "Source": "serverApp",
+  "BasePath": "_content/serverApp",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "serverApp/wwwroot",
+      "Source": "serverApp",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/serverApp/wwwroot/",
+      "BasePath": "_content/serverApp",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/serverApp/wwwroot/favicon.ico",
+      "SourceId": "serverApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/serverApp/wwwroot/",
+      "BasePath": "_content/serverApp",
+      "RelativePath": "favicon.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/serverApp/wwwroot/favicon.jpg",
+      "SourceId": "serverApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/serverApp/wwwroot/",
+      "BasePath": "_content/serverApp",
+      "RelativePath": "favicon.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.jpg"
+    }
+  ]
+}
