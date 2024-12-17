@@ -1,8 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
+//$sudo docker run -e ASPNETCORE_ENVIRONMENT=Development -v /root/.microsoft/usersecrets skovorodnikovtimur07/marketplace-server-app
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json")
+    .AddEnvironmentVariables();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -21,25 +28,32 @@ builder.Services.AddStackExchangeRedisCache((opts) =>
     opts.Configuration = connectionStr;
 });
 builder.Services.AddAutoMapper(typeof(MainMapperProfile));
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors((opts) =>
 {
-    opts.AddPolicy("defaultCorsPolicy", (builder) =>
+    opts.AddDefaultPolicy((corsPolicyBuilder) =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        corsPolicyBuilder.WithOrigins("http://localhost:3000")
             .AllowAnyMethod()
-            .AllowAnyHeader();
+            .AllowAnyHeader()
+            .WithExposedHeaders(BaseLoginController.AccountIsConfirmedHeaderType,
+                SellerController.GetForOwnerHeaderType,
+                ProductsController.IsForOwnerHeaderType,
+                ProductsController.CategoriesMaxNumberHeaderType,
+                ProductsController.IsBoughtHeaderType,
+                ProductsController.GetIsBoughtRequestHeaderType,
+                ProductsController.PurchasedProductsMaxNumberHeaderType,
+                ReviewController.GetReviewsMaxCount);
     });
 });
 builder.Services.AddAuthentication(auth =>
 {
-    var defaultAuthSceme = JwtBearerDefaults.AuthenticationScheme;
-    
-    auth.DefaultAuthenticateScheme = defaultAuthSceme;
-    auth.DefaultChallengeScheme = defaultAuthSceme;
+    var defaultAuthScheme = JwtBearerDefaults.AuthenticationScheme;
+
+    auth.DefaultAuthenticateScheme = defaultAuthScheme;
+    auth.DefaultChallengeScheme = defaultAuthScheme;
 }).AddJwtBearer((opts) =>
 {
-    opts.RequireHttpsMetadata = false/*TODO true*/;
+    opts.RequireHttpsMetadata = false /*TODO true*/;
 
     opts.TokenValidationParameters = new TokenValidationParameters
     {
@@ -76,14 +90,28 @@ builder.Services.AddSwaggerGen(o =>
     });
     o.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        [new OpenApiSecurityScheme {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" },
-                Name = "Authorization"
-            }] = new List<string>()
+        [new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" },
+            Name = "Authorization"
+        }] = new List<string>(),
     });
 });
+builder.Services.AddDbContext<MainDbContext>(optionsBuilder =>
+{
+    // Unable to create a 'DbContext' of type ''. The exception 'Unable to resolve service for type 'Microsoft.Extensions.Configuration.IConfiguration' while attempting to activate 'MainDbContext'.' was thrown while attempting to create an instance. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
+    // Ебанный efcore опять радует своими ебучими ошибками
+    // Потому решил не юзать OnConfiguring, тк а как же мне нахуй брать сервисы тогда, пиздец
+    var pgConnectionStr = builder.Configuration["UserSecrets:PostgresConnectionStr"];
+
+    if (string.IsNullOrWhiteSpace(pgConnectionStr))
+        throw new NullReferenceException("No PostgresConnectionStr");
+    optionsBuilder
+        .UseNpgsql(pgConnectionStr)
+        .UseLoggerFactory(MainDbContext.CreateLoggerFactory())
+        .EnableSensitiveDataLogging();
+});
 builder.Services.AddControllers();
-builder.Services.AddDbContext<MainDbContext>();
 
 #region addServices
 
@@ -96,28 +124,35 @@ builder.Services.Configure<HealthOptions>(
     builder.Configuration.GetRequiredSection("Health"));
 builder.Services.Configure<EmailOptions>(
     builder.Configuration.GetRequiredSection("UserSecrets:Email"));
+builder.Services.Configure<RatingForceOptions>(
+    builder.Configuration.GetRequiredSection("RattingForce"));
+
 
 builder.Services.AddSingleton<ITokenNameInCookies>(jwtOptions);
 builder.Services.AddSingleton<BaseEmailSenderService>();
 builder.Services.AddSingleton<IHasher, HashingManagerService>();
 builder.Services.AddSingleton<IHashVerify, HashingManagerService>();
-builder.Services.AddSingleton(typeof(JwtService<>));
 
 builder.Services.AddSingleton<ICodeCreator, CodeService>();
 builder.Services.AddSingleton<IEmailSender, EmailSenderByYandexService>();
 builder.Services.AddSingleton<IEmailVerify, EmailVerifyService>();
-builder.Services.AddScoped<FileService>();
 
+builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<DeliveryCompanyService>();
-builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<SellerService>();
 builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<UserEntityService>();
+builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<CreditCardService>();
 builder.Services.AddScoped<ImagesService>();
+builder.Services.AddScoped<RatingService>();
 builder.Services.AddScoped<ProductCategoryService>();
+builder.Services.AddScoped<ReviewService>();
 
 builder.Services.AddScoped<ValidationFilter>();
-builder.Services.AddScoped<AgeCheckHandler>();
+//builder.Services.AddScoped<AgeCheckHandler>();
+
 #endregion
 
 var app = builder.Build();
@@ -130,14 +165,20 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseGlobalExceptionHandler();
-    app.UseHttpsRedirection();
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+
+app.UseCors();
 app.UseRouting();
-app.UseCors("defaultCorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
 app.MapControllers();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//Там был срачь с сохранением колонки с DateTime, добавил строчку выше ^
 
 app.Run();

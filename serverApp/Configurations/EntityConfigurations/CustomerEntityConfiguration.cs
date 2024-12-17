@@ -7,9 +7,5 @@ public class CustomerEntityConfiguration : IEntityTypeConfiguration<CustomerEnti
     {
         builder.UseTpcMappingStrategy();
         builder.ToTable("customers");
-        
-        builder.Property(x => x.CreditCardId).HasColumnName("credit_card_id");
-        builder.HasOne<CreditCardEntity>().WithOne()
-            .HasForeignKey<CustomerEntity>(x => x.CreditCardId).OnDelete(DeleteBehavior.SetNull);
     }
 }

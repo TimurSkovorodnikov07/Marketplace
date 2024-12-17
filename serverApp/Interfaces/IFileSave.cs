@@ -1,4 +1,4 @@
 public interface IFileSave
 {
-    Task<bool> Save(IFormFile file);
+    Task Save(SavedFile file);
 }

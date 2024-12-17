@@ -4,14 +4,15 @@ public class PurchasedProductEntity : Entity
     public Guid CategoryId { get; set; }
     public CustomerEntity? Buyer { get; set; }
     public Guid? BuyerId { get; set; }
-
+    public int PurchasedQuantity { get; set; } = 1;
+    public decimal TotalSum { get; set; }
 
     public DateTime PurchasedDate { get; set; }
     public DateTime MustDeliveredBefore { get; set; }
-    public DateTime Delivered { get; set; }
+    public DateTime? DeliveredDate { get; set; }
 
     public static PurchasedProductEntity? Create(ProductCategoryEntity category, CustomerEntity buyer,
-        DateTime mustDeliveredBefore)
+        DateTime mustDeliveredBefore, int purchasedQuantity, decimal totalSum)
     {
         var newProduct = new PurchasedProductEntity
         {
@@ -19,6 +20,9 @@ public class PurchasedProductEntity : Entity
             Buyer = buyer,
             PurchasedDate = DateTime.UtcNow,
             MustDeliveredBefore = mustDeliveredBefore,
+            DeliveredDate = null,
+            PurchasedQuantity = purchasedQuantity,
+            TotalSum = totalSum
         };
 
         return ProductValidator.IsValid(newProduct) ? newProduct : null;

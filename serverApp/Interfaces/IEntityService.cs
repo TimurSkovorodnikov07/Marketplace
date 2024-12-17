@@ -30,3 +30,4 @@ public interface IEntityService<EntityT> where EntityT : Entity
     Task<bool> Update(Entity updatedEntity);
     Task<bool> Remove(Guid guid);
 }
+

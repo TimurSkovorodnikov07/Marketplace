@@ -2,37 +2,22 @@ using Microsoft.EntityFrameworkCore;
 
 public class MainDbContext : DbContext
 {
-    public MainDbContext(IConfiguration conf,
-        ILogger<MainDbContext> logger)
+    public MainDbContext(DbContextOptions<MainDbContext> options) 
+        :base(options)
     {
-        _logger = logger;
-        _pgConnectionStr = conf["UserSecrets:PostgresConnectionStr"];
-
-        if (string.IsNullOrWhiteSpace(_pgConnectionStr))
-            throw new NullReferenceException("No PostgresConnectionStr");
     }
-
-    
     public DbSet<CustomerEntity> Customers { get; set; } = null;
     public DbSet<CreditCardEntity> CreditCards { get; set; } = null;
     public DbSet<SellerEntity> Sellers { get; set; } = null;
     public DbSet<RefreshTokenEntity> RefreshTokens { get; set; } = null;
-    public DbSet<ProductCategoryEntity> ProductsCategory { get; set; } = null;
+    public DbSet<ProductCategoryEntity> ProductsCategories { get; set; } = null;
     public DbSet<PurchasedProductEntity> PurchasedProducts { get; set; } = null;
     public DbSet<DeliveryCompanyEntity> Companies { get; set; } = null;
     public DbSet<ImageEntity> Images { get; set; } = null;
-
-    private readonly string _pgConnectionStr;
-    private readonly ILogger<MainDbContext> _logger;
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder
-            .UseNpgsql(_pgConnectionStr)
-            .UseLoggerFactory(CreateLoggerFactory())
-            .EnableSensitiveDataLogging();
-    }
-
+    public DbSet<RatingEntity> Rattings { get; set; } = null;
+    public DbSet<RatingFromCustomerEntity> RattingFromCustomers { get; set; } = null;
+    public DbSet<ReviewEntity> Reviews { get; set; } = null;
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Efcore странный конечно, вобще очень
@@ -43,15 +28,18 @@ public class MainDbContext : DbContext
         //Ебанная параша
         modelBuilder.ApplyConfiguration(new EntityConfiguration());
         modelBuilder.ApplyConfiguration(new DeliveryCompanyEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new RefreshTokenEntityConfigurations());
         modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new CreditCardEntityConfigurations());
         modelBuilder.ApplyConfiguration(new CustomerEntityConfiguration());
         modelBuilder.ApplyConfiguration(new SellerEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new ImageEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new CreditCardEntityConfigurations());
         modelBuilder.ApplyConfiguration(new ProductCategoryEntityConfigurations());
+        modelBuilder.ApplyConfiguration(new ReviewEntityConfiguration());
         modelBuilder.ApplyConfiguration(new PurchasedProductEntityConfigurations());
+        modelBuilder.ApplyConfiguration(new RatingEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new RatingFromCustomerEntityConfigurations());
+        modelBuilder.ApplyConfiguration(new RefreshTokenEntityConfigurations());
+        modelBuilder.ApplyConfiguration(new ImageEntityConfiguration());
     }
 
-    private ILoggerFactory CreateLoggerFactory() => LoggerFactory.Create(conf => { conf.AddConsole(); });
+    public static ILoggerFactory CreateLoggerFactory() => LoggerFactory.Create(conf => { conf.AddConsole(); });
 }

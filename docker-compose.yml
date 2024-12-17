@@ -1,0 +1,61 @@
+version: '3.3'
+
+services:
+  app:
+    container_name: serverapp_container
+    ports:
+      - "5183:5183"
+    build:
+      context: .
+      dockerfile: serverApp/DockerfileForServer
+    networks:
+      - marketplace-dev
+    depends_on:
+      - db
+      - redis
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_HTTPS_PORTS: 5183
+    
+    volumes:
+      - /root/.microsoft/usersecrets
+      - /root/.asp.net/https
+  
+  
+  redis:
+    container_name: redis_container
+    restart: always
+    image: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    volumes:
+      - redis_data:/data
+    networks:
+      - marketplace-dev
+  db:
+    container_name: postgres_container
+    image: postgres
+    restart: always
+    shm_size: 512mb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=nigPostgres_Pas5432
+
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - marketplace-dev
+
+
+volumes:
+  redis_data:
+  data:
+
+networks:
+  marketplace-dev:
+    driver: bridge

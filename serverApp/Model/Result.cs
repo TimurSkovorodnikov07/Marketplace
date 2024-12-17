@@ -32,9 +32,9 @@ public struct Result
 
     public static Result Ok() => new Result(true);
 
+    public static Result Forbid() => new Result(false, new ForbidResult());
     public static Result BadRequest(object? value = null) =>
         ResultReturn<BadRequestResult, BadRequestObjectResult>(false, new BadRequestObjectResult(value));
-
     public static Result NotFound(object? value = null) =>
         ResultReturn<NotFoundResult, NotFoundObjectResult>(false, new NotFoundObjectResult(value));
 

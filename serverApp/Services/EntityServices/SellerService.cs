@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 public class SellerService(
     ILogger<CustomerService> logger,
-    MainDbContext dbContext)
+    MainDbContext dbContext,
+    IHashVerify hashVerify)
     : IUserService<SellerEntity, UserUpdateDto>
 {
     private readonly ILogger<CustomerService> _logger = logger;
@@ -18,31 +19,35 @@ public class SellerService(
     public async Task<SellerEntity?> Get(Guid guid)
     {
         return await dbContext.Sellers
-            .Include(x => x.ProductsCategories).ThenInclude(c => c.Products)
+            .Include(x => x.ProductsCategories).ThenInclude(c => c.PurchasedProducts)
             .FirstOrDefaultAsync(c => c.Id == guid);
     }
 
+
+    //Confirmed - подвердил почту
+    //Existed - созданный, не обез что подверж
     public async Task<SellerEntity?> GetConfirmedUser(string email)
     {
-        //Confirmed - подвердил почту
-        //Existed - созданный, не обез что подверж
         return await dbContext.Sellers
-            .Include(x => x.ProductsCategories).ThenInclude(c => c.Products)
-            .FirstOrDefaultAsync(s => s.EmailVerify == true
-                                                               && s.Email == email);
+            .Include(x => x.ProductsCategories).ThenInclude(c => c.PurchasedProducts)
+            .FirstOrDefaultAsync(s => s.EmailVerify == true && s.Email == email);
     }
 
-    public async Task<SellerEntity?> GetExistingUser(string email, string passwordHash)
+    public async Task<SellerEntity?> GetExistingUser(string email, string password)
     {
-        var users = dbContext.Sellers
-            .Include(x => x.ProductsCategories).ThenInclude(c => c.Products)
-            .Where(c => c.Email == email);
-        var confirmedUser = await users.FirstOrDefaultAsync(x => x.EmailVerify == true);
+        var confirmedUser = await GetConfirmedUser(email);
 
-        if (confirmedUser is null)
-            return await users.FirstOrDefaultAsync(x => x.PasswordHash == passwordHash);
+        if (confirmedUser is not null)
+            return confirmedUser;
 
-        return confirmedUser;
+        var sellers = await dbContext.Sellers
+            .Include(x => x.ProductsCategories).ThenInclude(c => c.PurchasedProducts)
+            .Where(c => c.Email == email).ToArrayAsync();
+
+        var existingUser =
+            sellers.FirstOrDefault(c => hashVerify.Verify(password, c.PasswordHash));
+
+        return existingUser;
     }
 
 

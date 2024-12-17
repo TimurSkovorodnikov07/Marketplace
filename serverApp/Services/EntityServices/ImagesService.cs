@@ -1,71 +1,76 @@
 using Microsoft.EntityFrameworkCore;
-
 public class ImagesService(
-    FileService imageSer,
+    FileService fileService,
     MainDbContext context,
-    IConfiguration conf)
+    IConfiguration conf,
+    ILogger<ImagesService> logger)
     : IImageService
 {
     private readonly string pathToFiles = conf["UserSecrets:PathToFiles"];
 
-    public async Task<ImageEntity?> Get(Guid guid) => await context.Images
-        .Include(i => i.ProductCategory)
-        .FirstOrDefaultAsync(x => x.Id == guid);
+    public async Task<ImageEntity?> Get(Guid guid) =>
+        await context.Images
+            .FirstOrDefaultAsync(x => x.Id == guid);
 
     public async Task<ImageEntity?> GetByOwnerId(Guid productId) =>
         await context.Images
-            .Include(i => i.ProductCategory)
-            .FirstOrDefaultAsync(x => x.ProductId == productId);
+            .FirstOrDefaultAsync(x => x.ProductCategoryId == productId);
 
     public IEnumerable<ImageEntity> GetImagesByOwnerId(Guid productId) =>
         context.Images
-            .Include(i => i.ProductCategory)
-            .Where(x => x.ProductId == productId);
+            .Where(x => x.ProductCategoryId == productId);
 
 
-    public async Task<bool> Save(IFormFile file, Guid productId) => await Save(file, productId, true);
-    public async Task<bool> Save(IFormFile[] files, Guid productId) => await Save(files.ToList(), productId, true);
+    public async Task<bool> Save(Guid productId, IEnumerable<IFormFile> files) =>
+        await Save(productId, files.ToArray());
 
-    public async Task<bool> Save(List<IFormFile> files, Guid productId, bool saveChange)
+    public async Task<bool> Save(Guid productId, params IFormFile[] files)
     {
-        foreach (var file in files)
-        {
-            var res = await Save(file, productId);
+        var savedFiles = new List<SavedFile>();
 
-            if (!res)
+        foreach (var savedFile in files)
+        {
+            var newGuid = Guid.NewGuid();
+            var fileName = $"{newGuid}.{Path.GetFileName(savedFile.FileName)}";
+            var fullPath = Path.Combine(pathToFiles, fileName);
+
+            if (!ImageExtensionVerify(savedFile, out string? mimeType))
                 return false;
+
+            var newImage = ImageEntity.Create(fileName, fullPath, productId, mimeType);
+
+            if (newImage == null)
+                return false;
+
+            newImage.Id = newGuid;
+            await context.Images.AddAsync(newImage);
+
+            savedFiles.Add(new SavedFile
+                {
+                    FullPath = fullPath,
+                    File = savedFile,
+                }
+            );
         }
 
-        if (saveChange)
-            await context.SaveChangesAsync();
+        logger.LogTrace(@"images of the product category with Id=""{x}"" were saved.", productId);
 
+        await context.SaveChangesAsync();
+        await fileService.Save(savedFiles);
         return true;
     }
-
-    public async Task<bool> Save(IFormFile file, Guid productId, bool saveChange)
+    
+    private bool ImageExtensionVerify(IFormFile file, out string? mimeType)
     {
-        var newImage = ImageEntity.Create(pathToFiles, productId);
-
-        if (newImage == null || ImageExtensionVerify(file) == false)
-            return false;
-
-        await context.Images.AddAsync(newImage);
-
-        if (saveChange)
-            await context.SaveChangesAsync();
-
-        await imageSer.Save(file);
-        return true;
-    }
-
-    private bool ImageExtensionVerify(IFormFile file)
-    {
-        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png" };
-
-        foreach (var type in allowedTypes)
+        foreach (var type in ImageValidator.imageAllowedTypes)
             if (file.ContentType == type)
+            {
+                mimeType = type;
                 return true;
+            }
 
+
+        mimeType = null;
         return false;
     }
 
@@ -81,7 +86,7 @@ public class ImagesService(
         context.Images.Remove(image);
         await context.SaveChangesAsync();
 
-        imageSer.Remove(image.Path);
+        fileService.Remove(image.Path);
         return true;
     }
 }

@@ -1,0 +1,103 @@
+.account-info-container {
+  display: grid;
+  grid-template-areas: "account-info" "account-partial-products";
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  /*
+  With grid or flex height or width doesn't always works, so need uses 
+  the grid-templates-rows(for height) or grid-template-columns(for width).
+
+  grid-template-rows:  1fr = STREACH height to 100%
+  */
+
+  min-height: 100%;
+}
+.account-info-wrapper {
+  margin-bottom: 15px;
+  grid-area: "account-info";
+  margin-right: 50px;
+}
+.account-partial-products-wrapper {
+  grid-area: "account-partial-products";
+}
+
+.account-info-wrapper,
+.account-partial-products-wrapper {
+}
+
+.search-inputs-wrapper {
+  margin: 20px 0px;
+}
+
+.account-info-logout-button {
+  width: 70%;
+}
+.account-info-logout-button-wrapper {
+  margin-top: 120px;
+}
+.account-partial-info {
+}
+.account-icon {
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+}
+.account-partial-icon {
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+}
+
+.account-info-element {
+  margin: 16px;
+}
+.account-info-label {
+  color: #eba0ac;
+  margin: 22px;
+  margin: 10px 0px;
+  font-weight: 800;
+  font-size: 23px;
+}
+
+@media (min-width: 0px) and (max-width: 1049px) {
+  .account-info-container {
+    display: block;
+  }
+
+  .account-info-wrapper {
+    width: 100%;
+  }
+
+  .account-info-logout-button {
+    min-width: 45vw;
+  }
+
+  .account-info-logout-button-wrapper {
+    margin-top: 20px;
+  }
+}
+@media (min-width: 1049px) {
+  .account-partial-products-wrapper {
+    background-color: #181825;
+  }
+}
+@media (min-width: 550px) {
+  .account-info-label {
+    font-size: 17px;
+  }
+}
+@media (min-width: 768px) {
+  .account-info-label {
+    font-size: 20px;
+  }
+}
+@media (min-width: 1300px) {
+  .account-info-label {
+    font-size: 23px;
+  }
+}
+@media (min-width: 1600px) {
+  .account-info-label {
+    font-size: 24px;
+  }
+}

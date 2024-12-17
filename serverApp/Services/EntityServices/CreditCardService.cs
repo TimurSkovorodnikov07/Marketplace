@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 public class CreditCardService(
@@ -6,17 +7,18 @@ public class CreditCardService(
     ILogger<CreditCardService> logger)
 {
     public async Task<CreditCardEntity?> Get(Guid guid) =>
-        await context.CreditCards.FirstOrDefaultAsync(c => c.Id == guid);
+        await context.CreditCards
+            .Include(c => c.Owner)
+            .FirstOrDefaultAsync(c => c.Id == guid);
 
-    public async Task<bool> IsEnoughManyAndWriteOff(Guid id, decimal sum)
+    public async Task<bool> IsEnoughMoneyAndWriteOff(Guid guid, decimal sum)
     {
-        var foundCard = await Get(id);
-
-        if (foundCard == null || foundCard.Many < sum)
+        var foundCard = await Get(guid);
+        
+        if (foundCard is null || foundCard.Many < sum)
             return false;
-
+        
         foundCard.Many -= sum;
-
         await context.SaveChangesAsync();
         return true;
     }

@@ -4,7 +4,7 @@ public interface IUserService<UserT, UpdatedEntityT> : IEntityService<UserT, Upd
 {
     Task<UserT?> Get(Guid guid);
     Task<UserT?> GetConfirmedUser(string email);
-    Task<UserT?> GetExistingUser(string email, string passwordHash);
+    Task<UserT?> GetExistingUser(string email, string password);
     
     Task Add(UserT newUser);
     Task<bool> Update(UpdatedEntityT updatedUser);

@@ -1,7 +1,7 @@
 public class CustomerEntity : UserEntity
 {
     public List<PurchasedProductEntity> Purchases { get; set; }
-    public Guid CreditCardId { get; set; }
+    public CreditCardEntity CreditCard { get; set; }
         
     public static CustomerEntity? Create(string name, string email, string passwordHash)
     {
@@ -10,13 +10,9 @@ public class CustomerEntity : UserEntity
             Name = name,
             Email = email,
             PasswordHash = passwordHash,
-            EmailVerify = false,
         };
 
-        if (CustomerValidator.IsValid(customer))
-            return customer;
-
-        return null;
+        return CustomerValidator.IsValid(customer) ? customer : null;
     }
     public static CustomerEntity? Create(CustomerRegistrationQuery dto, string passwordHash) => Create(dto.Name, dto.Email, passwordHash);
 }

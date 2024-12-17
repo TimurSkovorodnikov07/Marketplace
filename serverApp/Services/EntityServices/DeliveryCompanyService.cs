@@ -9,6 +9,20 @@ public class DeliveryCompanyService(MainDbContext context, IMapper mapper)
         return await context.Companies
             .FirstOrDefaultAsync(p => p.Id == guid);
     }
+    public IEnumerable<DeliveryCompanyForViewerDto> GetAllCompanies()
+    {
+        return context.Companies
+            .Select(c => mapper.Map<DeliveryCompanyForViewerDto>(c));
+    }
+
+    public IEnumerable<DeliveryCompanyForViewerDto> SearchCompaniesByName(string str)
+    {
+        var strToLower = str.ToLower();
+
+        return context.Companies
+            .Where(c => c.Name.ToLower().Contains(strToLower))
+            .Select(c => mapper.Map<DeliveryCompanyForViewerDto>(c));
+    }
 
     public async Task<DeliveryCompanyEntity?> GetByAnyParam(string name, Uri webSite, PhoneNumberValueObject phoneNum)
     {
@@ -29,12 +43,12 @@ public class DeliveryCompanyService(MainDbContext context, IMapper mapper)
         if (await context.Companies
                 .AnyAsync(x => x.Id == updatedCompany.Id) == false)
             return false;
-        
+
         var mappedCompany = mapper.Map<DeliveryCompanyEntity>(updatedCompany);
 
         context.Update(mappedCompany);
         await context.SaveChangesAsync();
-        
+
         return true;
     }
 

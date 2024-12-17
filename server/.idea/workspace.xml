@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f8cfa9c7-dcaa-44df-bb31-639ce87672d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/App.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/classes/Address.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/classes/Note.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/classes/User.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/classes/ValueAndType.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/Addresses.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/AppRouting.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/EmailVerify.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/ErrorMessage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/InputComponent.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/ModalWindow.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/RedirectToAuthPages.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/components/TextAreaComponent.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/configs/HeadersName.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/configs/TextsDuringInvalidity.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/configs/cookiesName.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/configs/localStorageItemName.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/configs/sources.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/hooks/customHooks.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/pages/HomePage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/pages/PolicyAndPrivacyPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/pages/authPages/LoginPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/pages/authPages/RegistrationPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/pages/errorPages/NotFoundPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/redux/authReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/redux/store.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/requests/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/requests/baseAuthRequests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/requests/productCategoriesRequests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/styles/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/styles/input.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/validators/descriptionValidator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/validators/emailValidator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/validators/notNullOrEmptyValidator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/validators/passwordValidator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/validators/regexTest.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client_app/src/validators/userNameValidator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/RatingEntityConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/RatingFromCustomerEntityConfigurations.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/ReviewEntityConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Configurations/Options/RatingForceOptions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Controllers/CustomerController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Controllers/ImageController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Controllers/ReviewController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Controllers/SellerController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/DeliveryCompanyForViewerDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/GetReviewsDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDtoForBuyer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/PurchasedProductDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/ReviewDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/SellerDtoForOwner.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/RatingEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/RatingFromCustomerEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/ReviewEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/AddReviewQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/BaseGetQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/CategoryBuyDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/GetDeliveryCompanyQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/GetPurchasedProductsQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/GetReviewsQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/ReviewUpdateQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/ReviewsModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Model/SavedFile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/ModelBinders/TagsBinder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/RatingService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/ReviewService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/UserEntityService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Validations/CreditCardAddQueryValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Validations/RatingFromCustomerValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Validations/RatingValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Validations/ReviewValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Validations/ValidatorAttributes/BaseGetQueryValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/Validations/ValidatorAttributes/CreditCardAddQueryValidationAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/dump.rdb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.sourcelink.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../serverApp/obj/serverApp.EntityFrameworkCore.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-api" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/.idea/.idea.serverApp.dir/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/.idea/.idea.serverApp.dir/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/.idea/.idea.serverApp/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/.idea/.idea.serverApp/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/CreditCardEntityConfigurations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/CreditCardEntityConfigurations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/CustomerEntityConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/CustomerEntityConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/ImageEntityConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/ImageEntityConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/ProductCategoryEntityConfigurations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/ProductCategoryEntityConfigurations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/PurchasedProductEntityConfigurations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Configurations/EntityConfigurations/PurchasedProductEntityConfigurations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Controllers/BaseLoginController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Controllers/BaseLoginController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Controllers/CustomerLoginController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Controllers/DeliveryCompanyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Controllers/DeliveryCompanyController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Controllers/SellerLoginController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Database/ MainDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Database/ MainDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Extensions/ClaimsExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Extensions/ClaimsExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Filters/ValidationFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Filters/ValidationFilter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Interfaces/IEntityService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Interfaces/IEntityService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Interfaces/IFileSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Interfaces/IFileSave.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Interfaces/IImageService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Interfaces/IImageService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Interfaces/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Interfaces/IUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/MapperProfiles/MainMapperProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/MapperProfiles/MainMapperProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Migrations/20241004100132_InitMig.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Migrations/20241004100132_InitMig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Migrations/MainDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Dtos/DeliveryCompanyDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDtoForOwner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDtoForOwner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDtoForViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/ProductCategoryDtoForViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Dtos/SelleDtorForViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/SellerDtoForViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Dtos/Tokens.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Dtos/Tokens.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Entityes/CreditCardEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/CreditCardEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Entityes/CustomerEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/CustomerEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Entityes/ImageEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/ImageEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Entityes/ProductCategoryEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/ProductCategoryEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Entityes/PurchasedProductEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Entityes/PurchasedProductEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Queryes/CreditCardAddQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/CreditCardAddQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Queryes/DeliveryCompanyCreateQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/DeliveryCompanyCreateQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Queryes/GetCategoriesQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/GetCategoriesQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Queryes/ProductBuyQuery.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Queryes/ProductCategoryCreateQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/ProductCategoryCreateQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Queryes/ProductCategoryUpdateQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Queryes/ProductCategoryUpdateQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Model/Result.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Model/Result.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/CreditCardService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/CreditCardService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/CustomerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/CustomerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/DeliveryCompanyService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/DeliveryCompanyService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/ImagesService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/ImagesService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/ProductCategoryService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/ProductCategoryService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/RefreshTokenService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/RefreshTokenService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/EntityServices/SellerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/EntityServices/SellerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/FileServices/FileService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/FileServices/FileService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Services/JwtService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Services/JwtService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Validations/CreditCardValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Validations/CreditCardValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Validations/ImageValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Validations/ImageValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/Validations/ProductValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/Validations/ProductValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/serverApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/serverApp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/serverApp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/bin/Debug/net8.0/serverApp.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/ref/serverApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/ref/serverApp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/refint/serverApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/refint/serverApp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/Debug/net8.0/serverApp.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/obj/serverApp.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/obj/serverApp.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/serverApp.sln" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/serverApp.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverApp/serverApp.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/../serverApp/serverApp.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/ControllerBaseTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/GlobalUsings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/SellerLoginControllerTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/bin/Debug/net8.0/CoverletSourceRootsMapping_serverAppTests" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/serverAppTests.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/serverAppTests.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/serverAppTests.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/serverAppTests.GlobalUsings.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/serverAppTests.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/Debug/net8.0/serverAppTests.csproj.AssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/project.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/project.packagespec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/rider.project.model.nuget.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/rider.project.restore.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/serverAppTests.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/serverAppTests.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/obj/serverAppTests.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../serverAppTests/serverAppTests.csproj" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2qMM91rNtDI0OdW6n1A3bI3k11V" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f8cfa9c7-dcaa-44df-bb31-639ce87672d7" name="Changes" comment="" />
+      <created>1734467836865</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1734467836865</updated>
+      <workItem from="1734467838893" duration="184000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

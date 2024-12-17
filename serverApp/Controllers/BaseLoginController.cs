@@ -1,57 +1,46 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-public abstract class BaseLoginController<UserT, RegistrationQueryT>(IServiceProvider serviceProvider) : ControllerBase
-    where UserT : UserEntity
-    where RegistrationQueryT : UserRegistrationQuery
+[ApiController, Route("/api/baselogincontroller")]
+public class BaseLoginController(
+    UserEntityService userService,
+    IHasher hasher,
+    IHashVerify hashVerify,
+    ILogger<BaseLoginController> logger,
+    IEmailVerify emailVerify,
+    IOptions<VerfiyCodeOptions> verifyCodeOptions,
+    RefreshTokenService refreshTokenService,
+    JwtService jwtService) : ControllerBase
 {
-    protected readonly IHasher _hasher = serviceProvider.GetService<IHasher>();
-    protected readonly IHashVerify _hashVerify = serviceProvider.GetService<IHashVerify>();
-
-    protected readonly ILogger<BaseLoginController<UserEntity, UserRegistrationQuery>> _logger =
-        serviceProvider.GetService<ILogger<BaseLoginController<UserEntity, UserRegistrationQuery>>>();
-
-    protected readonly IEmailVerify _emailVerify = serviceProvider.GetService<IEmailVerify>();
-    protected readonly JwtService<UserT> _jwtService = serviceProvider.GetService<JwtService<UserT>>();
-
-    protected readonly VerfiyCodeOptions _verifierCodeOptions =
-        serviceProvider.GetService<IOptions<VerfiyCodeOptions>>().Value;
-
-    protected readonly RefreshTokenService _refreshService = serviceProvider.GetService<RefreshTokenService>();
-
-
-    protected abstract IUserService<UserT, UserUpdateDto> _userService { get; }
-    public abstract Task<IActionResult> AccountCreate([FromForm] RegistrationQueryT dto);
-
+    public const string AccountIsConfirmedHeaderType = "X-Account-Is-Confirmed";
+    private readonly VerfiyCodeOptions _verifyCodeOptions = verifyCodeOptions.Value;
 
     [HttpPost, Route("login"), AnonymousOnly, ValidationFilter]
     public virtual async Task<IActionResult> Login([FromForm] UserLoginQuery dto)
     {
-        var confirmedUser = await _userService.GetConfirmedUser(dto.Email);
+        //Confirmed - подвердил почту
+        //Existed - созданный, не обез что подверж
+        var confirmedUser = await userService.GetConfirmedUser(dto.Email);
 
         if (confirmedUser is null)
-            return NotFound("The User was not found with such a email");
+        {
+            Response.Headers.Append(AccountIsConfirmedHeaderType, "false");
+            var existingUser = await userService.GetExistingUser(dto.Email, dto.Password);
 
-        if (!_hashVerify.Verify(dto.Password, confirmedUser.PasswordHash))
+            return existingUser == null
+                ? NotFound("User not found")
+                : await CodeResend(confirmedUser.Id);
+        }
+
+        Response.Headers.Append(AccountIsConfirmedHeaderType, "true");
+
+        if (!hashVerify.Verify(dto.Password, confirmedUser.PasswordHash))
             return BadRequest("Invalid password");
 
-        try
-        {
-            await _emailVerify.CodeSend(confirmedUser.Id, confirmedUser.Email);
-        }
-        catch (SmtpException e)
-        {
-            return StatusCode(((int)e.StatusCode), e.Message);
-        }
-
-        return Ok(new
-        {
-            UserId = confirmedUser.Id.ToString(),
-            CodeDiedAfterSeconds = _verifierCodeOptions.DiedAfterSeconds.ToString(),
-            CodeLength = _verifierCodeOptions.Length.ToString()
-        });
+        return await AccountConfirmed(confirmedUser.Id, true);
     }
 
     [HttpGet, Route("userinfo"), Authorize, ValidationFilter]
@@ -59,27 +48,47 @@ public abstract class BaseLoginController<UserT, RegistrationQueryT>(IServicePro
     {
         var userId = User.Claims.GetUserIdValue();
 
-        if (string.IsNullOrEmpty(userId))
-            return BadRequest();
+        if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
+            return BadRequest("Invalid user id, check your token");
 
-        var user = await _userService.Get(new Guid(userId));
+        var tuple = await userService.GetWithInfoWhoIt(userGuid);
+        var (customer, seller) = tuple;
+        var isCustomer = customer != null;
 
-        return Ok(user != null
-            ? new UserDto { Id = user.Id.ToString(), Email = user.Email, Name = user.Name }
-            : null);
+        if (customer == null && seller == null)
+            return NotFound("User was not found");
+
+        object responseData =
+            isCustomer
+                ? new
+                {
+                    Id = customer.Id.ToString(),
+                    Email = customer.Email,
+                    Name = customer.Name,
+                    isCustomer = isCustomer,
+                }
+                : new
+                {
+                    Id = seller.Id.ToString(),
+                    Email = seller.Email,
+                    Name = seller.Name,
+                    Description = seller.Description,
+                    isCustomer = isCustomer,
+                };
+        return Ok(responseData);
     }
 
     [HttpPut, Route("coderesend/{userId}"), AnonymousOnly, ValidationFilter]
-    public async Task<IActionResult> CodeResend(Guid userId)
+    public async Task<IActionResult> CodeResend([Required] Guid userId)
     {
-        var user = await _userService.Get(userId);
+        var (user, isSeller) = await userService.Get(userId);
 
         if (user is null)
             return NotFound("User not found");
 
         try
         {
-            await _emailVerify.Resend(userId, user.Email);
+            await emailVerify.Resend(userId, user.Email);
         }
         catch (SmtpException e)
         {
@@ -88,69 +97,57 @@ public abstract class BaseLoginController<UserT, RegistrationQueryT>(IServicePro
 
         return Ok(new
         {
-            CodeDiedAfterSeconds = _verifierCodeOptions.DiedAfterSeconds.ToString(),
-            CodeLength = _verifierCodeOptions.Length.ToString()
+            UserId = user.Id.ToString(),
+            CodeDiedAfterSeconds = _verifyCodeOptions.DiedAfterSeconds.ToString(),
+            CodeLength = _verifyCodeOptions.Length.ToString()
         });
     }
 
     [HttpPut, Route("tokensupdate"), AnonymousOnly, ValidationFilter]
-    public virtual async Task<IActionResult> TokensUpdate([FromBody] TokensUpdateQuery query)
+    public async Task<IActionResult> TokensUpdate([FromBody] TokensUpdateQuery query)
     {
-        var oldToken = await _refreshService.GetByUserId(query.UserId);
+        var oldToken = await refreshTokenService.GetByUserId(query.UserId);
 
         if (oldToken is null)
             return NotFound("Token not found");
-        else if (_hashVerify.Verify(query.OldRefreshToken, oldToken.TokenHash) == false)
+        if (hashVerify.Verify(query.OldRefreshToken, oldToken.TokenHash) == false)
             return BadRequest("The wrong token");
 
-        var user = await _userService.Get(oldToken.UserId);
-
-        if (user is null)
-            return NotFound("User not found");
-
-        var tokens = TokensCreate(user);
-        var newRefreshToken = RefreshTokenEntity.Create(oldToken.UserId, _hasher.Hashing(tokens.RefreshToken));
-
-        await _refreshService.Update(newRefreshToken);
-        return Ok(tokens);
+        return await AccountConfirmed(query.UserId, true);
     }
 
     [HttpPost, Route("emailverify"), AnonymousOnly, ValidationFilter]
     public async Task<IActionResult> EmailVerify([FromBody] EmailVerifyQuery query)
     {
-        var foundUser = await _userService.Get(query.UserId);
-
-        if (foundUser is null)
-            return NotFound("Seller not found");
-
-        var verifyRes = await _emailVerify.CodeVerify(query.UserId, query.Code);
+        var verifyRes = await emailVerify.CodeVerify(query.UserId, query.Code);
 
         if (verifyRes)
-        {
-            var findUserId = foundUser.Id;
+            return await AccountConfirmed(query.UserId, false);
 
-            await _userService.EmailVerUpdate(findUserId);
-            var tokens = TokensCreate(foundUser);
-
-            var newRefreshToken = RefreshTokenEntity.Create(findUserId, _hasher.Hashing(tokens.RefreshToken));
-            await _refreshService.AddOrUpdate(newRefreshToken);
-
-            return Ok(tokens);
-        }
-
-        return BadRequest();
+        return BadRequest("Code is invalid");
     }
 
     [NonAction]
-    protected Tokens TokensCreate(UserT user)
+    private async Task<IActionResult> AccountConfirmed(Guid id, bool exectlyUpdate)
     {
-        var accessToken = _jwtService.AccessTokenCreate(user);
-        var refreshToken = _jwtService.RefreshTokenCreate(user);
+        var (tokens, isCustomer) = await jwtService.GenerateTokensForCustomerOrSeller(id);
 
-        return new(accessToken, refreshToken);
+        if (tokens is null)
+            return NotFound("User not found");
+
+        var newRefreshToken = RefreshTokenEntity.Create(id, hasher.Hashing(tokens.RefreshToken));
+
+        if (exectlyUpdate)
+            await refreshTokenService.Update(newRefreshToken);
+        else
+            await refreshTokenService.AddOrUpdate(newRefreshToken);
+
+        return Ok(new
+        {
+            RefreshToken = tokens.RefreshToken,
+            AccessToken = tokens.AccessToken,
+            UserId = id.ToString(),
+            IsCustomer = isCustomer.ToString()
+        });
     }
-
-    [NonAction]
-    protected async Task<UserT?> GetExistingUser(string email, string password) =>
-        await _userService.GetExistingUser(email, _hasher.Hashing(password));
 }

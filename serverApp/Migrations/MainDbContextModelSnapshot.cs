@@ -36,6 +36,21 @@ namespace serverApp.Migrations
                     b.UseTpcMappingStrategy();
                 });
 
+            modelBuilder.Entity("RatingEntity", b =>
+                {
+                    b.Property<Guid>("ProductCategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<int>("TotalRating")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_rating");
+
+                    b.HasKey("ProductCategoryId");
+
+                    b.ToTable("ratings", (string)null);
+                });
+
             modelBuilder.Entity("RefreshTokenEntity", b =>
                 {
                     b.Property<string>("TokenHash")
@@ -64,18 +79,18 @@ namespace serverApp.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("many");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("NumberHash")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("number");
+                        .HasColumnType("text")
+                        .HasColumnName("number_hash");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid")
                         .HasColumnName("owner_id");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer")
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("type");
 
                     b.HasIndex("OwnerId")
@@ -118,16 +133,26 @@ namespace serverApp.Migrations
                 {
                     b.HasBaseType("Entity");
 
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("fileName");
+
+                    b.Property<string>("MimeType")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("mime_type");
+
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("path");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("ProductCategoryId")
                         .HasColumnType("uuid")
-                        .HasColumnName("product_id");
+                        .HasColumnName("category_id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductCategoryId");
 
                     b.ToTable("images", (string)null);
                 });
@@ -144,6 +169,12 @@ namespace serverApp.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("description");
+
+                    b.Property<int>("EstimationCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("estimation_count");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -163,13 +194,24 @@ namespace serverApp.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("quantity");
 
+                    b.Property<int>("TotalEstimation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("total_estimation");
+
                     b.HasIndex("DeliveryCompanyId");
 
                     b.HasIndex("Name");
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("product_categories", (string)null);
+                    b.ToTable("product_categories", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ProductCategories_EstimationCount", "estimation_count >= 0");
+
+                            t.HasCheckConstraint("CK_ProductCategories_TotalEstimation", "total_estimation >= 0 AND total_estimation <= 10");
+                        });
                 });
 
             modelBuilder.Entity("PurchasedProductEntity", b =>
@@ -184,9 +226,9 @@ namespace serverApp.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("category_id");
 
-                    b.Property<DateTime>("Delivered")
+                    b.Property<DateTime?>("DeliveredDate")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("delivered");
+                        .HasColumnName("delivered_date");
 
                     b.Property<DateTime>("MustDeliveredBefore")
                         .HasColumnType("timestamp with time zone")
@@ -196,11 +238,71 @@ namespace serverApp.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("purchased_date");
 
+                    b.Property<int>("PurchasedQuantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("purchased_quantity");
+
+                    b.Property<decimal>("TotalSum")
+                        .HasColumnType("numeric")
+                        .HasColumnName("total_sum");
+
                     b.HasIndex("BuyerId");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("purchased_products", (string)null);
+                });
+
+            modelBuilder.Entity("RatingFromCustomerEntity", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<Guid>("CommonRatingId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("common_ratting_id");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer")
+                        .HasColumnName("ratting");
+
+                    b.HasIndex("CommonRatingId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("rating_from_customers", (string)null);
+                });
+
+            modelBuilder.Entity("ReviewEntity", b =>
+                {
+                    b.HasBaseType("Entity");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<int>("Estimation")
+                        .HasColumnType("integer")
+                        .HasColumnName("estimation");
+
+                    b.Property<Guid>("ReviewOwnerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("owner_id");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("text");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ReviewOwnerId");
+
+                    b.ToTable("reviews", (string)null);
                 });
 
             modelBuilder.Entity("UserEntity", b =>
@@ -235,13 +337,6 @@ namespace serverApp.Migrations
                 {
                     b.HasBaseType("UserEntity");
 
-                    b.Property<Guid>("CreditCardId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("credit_card_id");
-
-                    b.HasIndex("CreditCardId")
-                        .IsUnique();
-
                     b.ToTable("customers", (string)null);
                 });
 
@@ -258,6 +353,17 @@ namespace serverApp.Migrations
                     b.ToTable("sellers", (string)null);
                 });
 
+            modelBuilder.Entity("RatingEntity", b =>
+                {
+                    b.HasOne("ProductCategoryEntity", "ProductCategory")
+                        .WithOne()
+                        .HasForeignKey("RatingEntity", "ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductCategory");
+                });
+
             modelBuilder.Entity("RefreshTokenEntity", b =>
                 {
                     b.HasOne("UserEntity", null)
@@ -270,11 +376,14 @@ namespace serverApp.Migrations
 
             modelBuilder.Entity("CreditCardEntity", b =>
                 {
-                    b.HasOne("CustomerEntity", null)
-                        .WithOne()
+                    b.HasOne("CustomerEntity", "Owner")
+                        .WithOne("CreditCard")
                         .HasForeignKey("CreditCardEntity", "OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_customers_credit_cards");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("DeliveryCompanyEntity", b =>
@@ -309,10 +418,10 @@ namespace serverApp.Migrations
                 {
                     b.HasOne("ProductCategoryEntity", "ProductCategory")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("product_constraint");
+                        .HasConstraintName("category_constraint");
 
                     b.Navigation("ProductCategory");
                 });
@@ -368,35 +477,74 @@ namespace serverApp.Migrations
                         .HasConstraintName("buyer_constraint");
 
                     b.HasOne("ProductCategoryEntity", "Category")
-                        .WithMany("Products")
+                        .WithMany("PurchasedProducts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired()
-                        .HasConstraintName("delivery_company_constraint");
+                        .HasConstraintName("purchased_products_constraint");
 
                     b.Navigation("Buyer");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("CustomerEntity", b =>
+            modelBuilder.Entity("RatingFromCustomerEntity", b =>
                 {
-                    b.HasOne("CreditCardEntity", null)
-                        .WithOne()
-                        .HasForeignKey("CustomerEntity", "CreditCardId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                    b.HasOne("RatingEntity", "CommonRating")
+                        .WithMany("RattingFromCustomers")
+                        .HasForeignKey("CommonRatingId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CustomerEntity", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommonRating");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("ReviewEntity", b =>
+                {
+                    b.HasOne("ProductCategoryEntity", "Category")
+                        .WithMany("Reviews")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CustomerEntity", "ReviewOwner")
+                        .WithMany()
+                        .HasForeignKey("ReviewOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("ReviewOwner");
+                });
+
+            modelBuilder.Entity("RatingEntity", b =>
+                {
+                    b.Navigation("RattingFromCustomers");
                 });
 
             modelBuilder.Entity("ProductCategoryEntity", b =>
                 {
                     b.Navigation("Images");
 
-                    b.Navigation("Products");
+                    b.Navigation("PurchasedProducts");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("CustomerEntity", b =>
                 {
+                    b.Navigation("CreditCard")
+                        .IsRequired();
+
                     b.Navigation("Purchases");
                 });
 

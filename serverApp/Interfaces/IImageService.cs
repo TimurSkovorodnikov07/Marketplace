@@ -1,4 +1,4 @@
 public interface IImageService
 {
-    Task<bool> Save(IFormFile file, Guid productId);
+    Task<bool> Save(Guid productId, IFormFile[] files);
 }

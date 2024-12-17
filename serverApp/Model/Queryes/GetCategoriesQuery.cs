@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-public class GetCategoriesQuery
+public class GetCategoriesQuery : BaseGetQuery
 {
-    [Required] public int From { get; set; }
-    [Required] public int To { get; set; }
-    public  string? Search { get; set; }
-    public int PriceNoMoreThenOrEqual { get; set; }
-    
-    
-    public Guid? SellerId { get; set; }
+    public string? Search { get; set; } = null;
+
+    [Range(0, int.MaxValue)] public int PriceNoMoreThenOrEqual { get; set; } = 0;
+    // TODO: Also need to add filters by tags 
+
+    [Required]public Guid? SellerId { get; set; } = null;
 }

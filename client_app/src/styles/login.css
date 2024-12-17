@@ -1,0 +1,16 @@
+.registration-as-input,
+.registration-as-input:focus {
+  min-height: 40px;
+  padding: 0px 10px;
+  margin: 10px 10px;
+  outline: none;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+@media (min-width: 768px) {
+  .registration-page,
+  .login-page {
+    margin-left: 25%;
+    margin-right: 25%;
+  }
+}

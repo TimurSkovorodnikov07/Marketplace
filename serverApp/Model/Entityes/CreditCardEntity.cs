@@ -1,18 +1,19 @@
 public class CreditCardEntity : Entity
 {
-    public string Number { get; set; }
+    public string NumberHash { get; set; }
     public decimal Many { get; set; }
     public CreditCardType Type { get; set; }
     
+    public CustomerEntity Owner { get; set; }
     public Guid OwnerId { get; set; }
 
-    public static CreditCardEntity? Create(string cardNumber, Guid ownerGuid, CreditCardType type, decimal many)
+    public static CreditCardEntity? Create(string numberHash, CustomerEntity owner, CreditCardType type, decimal many)
     {
         var newCard = new CreditCardEntity
         {
-            Number = cardNumber,
+            NumberHash = numberHash,
             Type = type,
-            OwnerId = ownerGuid,
+            Owner = owner,
             Many = many
         };
         return CreditCardValidator.IsValid(newCard) ? newCard : null;

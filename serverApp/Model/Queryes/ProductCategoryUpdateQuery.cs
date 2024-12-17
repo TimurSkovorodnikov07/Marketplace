@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 public class ProductCategoryUpdateQuery
 {
@@ -7,12 +8,12 @@ public class ProductCategoryUpdateQuery
     
     [Required, StringLength(24)]
     public string NewName { get; set; }
-    
-    [Required, StringLength(500)]
-    public string NewDescription { get; set; }
+
+    [StringLength(500)]
+    public string? NewDescription { get; set; }
     
     [Required]
-    public TagsValueObject NewTags { get; set; }
+    public List<string> NewTags { get; set; }
     
     [Required, Range(0, int.MaxValue)]
     public decimal NewPrice { get; set; }

@@ -1,24 +1,24 @@
 public class FileService : IFileSave
 {
-    public FileService(IConfiguration conf, ILogger<FileService> logger)
+    public FileService(ILogger<FileService> logger)
     {
         _logger = logger;
-        _pathToFiles = conf["UserSecrets:PathToFiles"];
+    }
 
-        if (string.IsNullOrEmpty(_pathToFiles))
-            throw new NullReferenceException();
-    }
     private readonly ILogger<FileService> _logger;
-    private readonly string _pathToFiles;
-    
-    public virtual async Task<bool> Save(IFormFile file)
+
+    public async Task Save(SavedFile file)
     {
-        await using var stream = new FileStream(_pathToFiles, FileMode.Create);
-        await file.CopyToAsync(stream);
-        
-        return true;
+        await using var stream = new FileStream(file.FullPath, FileMode.Create);
+        await file.File.CopyToAsync(stream);
     }
-    
+
+    public async Task Save(IEnumerable<SavedFile> files)
+    {
+        foreach (var savedFile in files)
+            await Save(savedFile);
+    }
+
     public void Remove(string pathToFile)
     {
         File.Delete(pathToFile);

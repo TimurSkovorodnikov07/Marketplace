@@ -7,7 +7,9 @@ public class ProductValidator : AbstractValidator<PurchasedProductEntity>
     {
         RuleFor(x => x.Id).NotNull().WithMessage("Id is null");
         RuleFor(x => x.Category).NotNull().WithMessage("Category is null");
-        RuleFor(x => x.MustDeliveredBefore).Must(date => date > DateTime.UtcNow);
+        RuleFor(x => x.PurchasedQuantity).Must(x => x > 0);
     }
-    public static bool IsValid(PurchasedProductEntity purchasedProduct) => new ProductValidator().Validate(purchasedProduct).IsValid;
+
+    public static bool IsValid(PurchasedProductEntity purchasedProduct) =>
+        new ProductValidator().Validate(purchasedProduct).IsValid;
 }

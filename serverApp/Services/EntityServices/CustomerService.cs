@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 public class CustomerService(
     ILogger<CustomerService> logger,
-    MainDbContext dbContext)
+    MainDbContext dbContext,
+    IHashVerify hashVerify)
     : IUserService<CustomerEntity, UserUpdateDto>
 {
     private readonly ILogger<CustomerService> _logger = logger;
@@ -21,31 +22,39 @@ public class CustomerService(
     {
         return await dbContext.Customers
             .Include(c => c.Purchases)
+            .Include(c => c.CreditCard)
             .Where(c => c.Id == guid).FirstOrDefaultAsync();
     }
 
+
+
+    //Confirmed - подвердил почту
+    //Existed - созданный, не обез что подверж
     public async Task<CustomerEntity?> GetConfirmedUser(string email)
     {
-        //Confirmed - подвердил почту
-        //Existed - созданный, не обез что подверж
         return await dbContext.Customers
             .Include(c => c.Purchases)
+            .Include(c => c.CreditCard)
             .FirstOrDefaultAsync(s => s.EmailVerify == true
                                       && s.Email == email);
     }
 
-    public async Task<CustomerEntity?> GetExistingUser(string email, string passwordHash)
+    public async Task<CustomerEntity?> GetExistingUser(string email, string password)
     {
-        var users = dbContext.Customers
+        var confirmedUser = await GetConfirmedUser(email);
+
+        if (confirmedUser is not null)
+            return confirmedUser;
+
+        var customers = await dbContext.Customers
             .Include(c => c.Purchases)
-            //.ThenInclude(p => p.Seller)
-            .Where(c => c.Email == email);
-        var confirmedUser = await users.FirstOrDefaultAsync(x => x.EmailVerify == true);
+            .Include(c => c.CreditCard)
+            .Where(c => c.Email == email).ToArrayAsync();
 
-        if (confirmedUser is null)
-            return await users.FirstOrDefaultAsync(x => x.PasswordHash == passwordHash);
-
-        return confirmedUser;
+        var existingUser =
+            customers.FirstOrDefault(c => hashVerify.Verify(password, c.PasswordHash));
+        
+        return existingUser;
     }
 
 
@@ -77,16 +86,17 @@ public class CustomerService(
         return true;
     }
 
-    public async Task<bool> AddCard(CreditCardEntity newCreditCard)
+    public async Task<Result> AddCard(CreditCardEntity newCreditCard, Guid ownerId)
     {
-        var customer = await Get(newCreditCard.Id);
+        var customer = await Get(ownerId);
 
         if (customer == null)
-            return false;
-        
+            return Result.NotFound("Customer not found");
+
         await dbContext.CreditCards.AddAsync(newCreditCard);
         await dbContext.SaveChangesAsync();
-        return true;
+
+        return Result.Ok();
     }
 
     public async Task<bool> Remove(Guid guid)
