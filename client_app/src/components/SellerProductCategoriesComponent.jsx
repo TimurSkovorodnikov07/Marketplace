@@ -80,8 +80,8 @@ export function SellerProductCategoriesComponent({
             {categories.length > 0 ? (
               <>
                 {categories.map((category) => (
-                  <div className="partial-product-category-wrapper">
-                    <div className="partial-product-category" key={category.id}>
+                  <div className="partial-product-category-wrapper" key={category.id}>
+                    <div className="partial-product-category">
                       <ProductCategoryPartialInfoComponent
                         category={category}
                         isForOwner={isForOwner}

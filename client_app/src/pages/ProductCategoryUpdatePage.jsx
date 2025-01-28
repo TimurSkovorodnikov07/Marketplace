@@ -24,6 +24,7 @@ import { AddTagsComponent } from "../components/AddTagsComponent";
 import { SelectDeliveryCompanyComponent } from "../components/SelectDeliveryCompanyComponent";
 import { guidValidator } from "../validators/guidValidator";
 import { nameIsFreeCheck } from "./ProductCategoryCreatePage";
+import { TextAreaComponent } from "../components/TextAreaComponent";
 
 export function ProductCategoryUpdate() {
   const categoryId = useParams().id;
@@ -102,131 +103,141 @@ export function ProductCategoryUpdate() {
         return <div>You not owner</div>;
       default:
         return foundCategory ? (
-          <>
-            <InputComponent
-              id="name"
-              type="text"
-              labelText="Name: "
-              invalidText={nameInvalidText}
-              validatorFun={categoryNameValidator}
-              afterValidationFun={(e) => {
-                setName(e.target.value);
-              }}
-              invalidatedFun={() => setName(undefined)}
-              inputOtherProps={{
-                placeholder: "Name...",
-              }}
-              defaultValue={foundCategory.name}
-              showInvalidText={isAllValid === false}
-              beforeValidationFun={(e) => {
-                setIsUpdated(true);
-                setNameIsFree(true);
-              }}
-            />
-
-            <InputComponent
-              id="description"
-              labelText="Descipriton: "
-              type="text"
-              invalidText={descriptionInvalidText}
-              validatorFun={descriptionWithEmptyValidator}
-              afterValidationFun={(e) => {
-                setDescription(e.target.value || "");
-              }}
-              invalidatedFun={() => setDescription(undefined)}
-              inputOtherProps={{
-                placeholder: "Description...",
-              }}
-              defaultValue={foundCategory.description}
-              showInvalidText={isAllValid === false}
-              beforeValidationFun={(e) => setIsUpdated(true)}
-            />
-
-            <AddTagsComponent
-              tags={newTags}
-              labelText="Tags: "
-              addTagFun={(newTag) => setTags([...newTags, newTag])}
-              deleteTagFun={(deletedTag) => {
-                setTags(newTags.filter((x) => x != deletedTag));
-              }}
-              showInvalidText={isAllValid === false}
-              onChanged={(e) => setIsUpdated(true)}
-            />
-            <InputComponent
-              id="price"
-              type="number"
-              labelText="Price: "
-              invalidText={priceInvalidText}
-              validatorFun={greaterThanZeroValidator}
-              afterValidationFun={(e) => {
-                setPrice(e.target.value);
-              }}
-              invalidatedFun={() => setPrice(undefined)}
-              inputOtherProps={{
-                placeholder: "Price...",
-              }}
-              defaultValue={foundCategory.price}
-              showInvalidText={isAllValid === false}
-              beforeValidationFun={(e) => setIsUpdated(true)}
-            />
-            <SelectDeliveryCompanyComponent
-              selectedCompany={newDeliveryCompany}
-              labelText="Delivery company: "
-              selectFun={(selectedCompany) =>
-                setDeliveryCompany(selectedCompany)
-              }
-              showInvalidText={isAllValid === false}
-              defaultCompanyId={foundCategory.deliveryCompanyId}
-              onChanged={(e) => setIsUpdated(true)}
-            />
-
-            <div className="number-input">
+          <div className="product-category-create-or-update-page-wrapper">
+            <h1 className="pb-10">Update the category</h1>
+            <div className="product-category-create-or-update-wrapper">
+              <h2>Name:</h2>
               <InputComponent
-                id="quantity"
-                labelText="Quantity: "
-                type="number"
-                invalidText={quantityInvalidText}
-                validatorFun={greaterThanZeroValidator}
+                id="name"
+                type="text"
+                invalidText={nameInvalidText}
+                validatorFun={categoryNameValidator}
                 afterValidationFun={(e) => {
-                  setQuantity(e.target.value);
+                  setName(e.target.value);
                 }}
-                invalidatedFun={() => setQuantity(undefined)}
+                invalidatedFun={() => setName(undefined)}
                 inputOtherProps={{
-                  placeholder: "Quantity...",
+                  placeholder: "Name...",
                 }}
-                defaultValue={foundCategory.quantity}
+                defaultValue={foundCategory.name}
+                showInvalidText={isAllValid === false}
+                beforeValidationFun={(e) => {
+                  setIsUpdated(true);
+                  setNameIsFree(true);
+                }}
+              />
+
+              <h2 className="mt-5">Description:</h2>
+              <TextAreaComponent
+                id="description"
+                type="text"
+                invalidText={descriptionInvalidText}
+                validatorFun={descriptionWithEmptyValidator}
+                afterValidationFun={(e) => {
+                  setDescription(e.target.value || "");
+                }}
+                invalidatedFun={() => setDescription(undefined)}
+                inputOtherProps={{
+                  placeholder: "Description...",
+                }}
+                defaultValue={foundCategory.description}
                 showInvalidText={isAllValid === false}
                 beforeValidationFun={(e) => setIsUpdated(true)}
               />
-            </div>
-            <button
-              onClick={async () => {
-                const isValid =
-                  greaterThanZeroValidator(newQuantity) &&
-                  newDeliveryCompany &&
-                  guidValidator(newDeliveryCompany?.id) &&
-                  greaterThanZeroValidator(newPrice) &&
-                  newTags.length > 0 &&
-                  descriptionValidator(newDescription) &&
-                  categoryNameValidator(newName);
 
-                setIsAllValid(isValid);
-
-                const isFree = await nameIsFreeCheck(newName);
-                setNameIsFree(isFree);
-
-                if (isValid === true && isUpdated === true && isFree === true) {
-                  console.log("Changed");
-                  await update();
-                } else if (isUpdated === false) {
-                  console.log("Seller didn't changed this product category");
-                  comeBack();
+              <h2 className="mt-5">Price:</h2>
+              <div className="product-category-create-or-update-price">
+                <InputComponent
+                  id="price"
+                  type="number"
+                  invalidText={priceInvalidText}
+                  validatorFun={greaterThanZeroValidator}
+                  afterValidationFun={(e) => {
+                    setPrice(e.target.value);
+                  }}
+                  invalidatedFun={() => setPrice(undefined)}
+                  inputOtherProps={{
+                    placeholder: "Price...",
+                  }}
+                  defaultValue={foundCategory.price}
+                  showInvalidText={isAllValid === false}
+                  beforeValidationFun={(e) => setIsUpdated(true)}
+                />
+              </div>
+              <h2 className="mt-5">Quantity:</h2>
+              <div className="product-category-quantity-input">
+                  <InputComponent
+                    id="quantity"
+                    type="number"
+                    invalidText={quantityInvalidText}
+                    validatorFun={greaterThanZeroValidator}
+                    afterValidationFun={(e) => {
+                      setQuantity(e.target.value);
+                    }}
+                    invalidatedFun={() => setQuantity(undefined)}
+                    inputOtherProps={{
+                      placeholder: "Quantity...",
+                    }}
+                    defaultValue={foundCategory.quantity}
+                    showInvalidText={isAllValid === false}
+                    beforeValidationFun={(e) => setIsUpdated(true)}
+                  />
+              </div>
+              <h2 className="mt-5">Delivery company:</h2>
+              <SelectDeliveryCompanyComponent
+                selectedCompany={newDeliveryCompany}
+                selectFun={(selectedCompany) =>
+                  setDeliveryCompany(selectedCompany)
                 }
-              }}
-            >
-              Come back and save
-            </button>
-          </>
+                showInvalidText={isAllValid === false}
+                defaultCompanyId={foundCategory.deliveryCompanyId}
+                onChanged={(e) => setIsUpdated(true)}
+                showCompaniesAtTheBegin={true}
+              />
+              <h2 className="mt-5">Tags:</h2>
+              <AddTagsComponent
+                tags={newTags}
+                addTagFun={(newTag) => setTags([...newTags, newTag])}
+                deleteTagFun={(deletedTag) => {
+                  setTags(newTags.filter((x) => x != deletedTag));
+                }}
+                showInvalidText={isAllValid === false}
+                onChanged={(e) => setIsUpdated(true)}
+              />
+              <button
+              className="product-category-create-or-uptate-button mt-32"
+                onClick={async () => {
+                  const isValid =
+                    greaterThanZeroValidator(newQuantity) &&
+                    newDeliveryCompany &&
+                    guidValidator(newDeliveryCompany?.id) &&
+                    greaterThanZeroValidator(newPrice) &&
+                    newTags.length > 0 &&
+                    descriptionValidator(newDescription) &&
+                    categoryNameValidator(newName);
+
+                  setIsAllValid(isValid);
+
+                  const isFree = await nameIsFreeCheck(newName);
+                  setNameIsFree(isFree);
+
+                  if (
+                    isValid === true &&
+                    isUpdated === true &&
+                    isFree === true
+                  ) {
+                    console.log("Changed");
+                    await update();
+                  } else if (isUpdated === false) {
+                    console.log("Seller didn't changed this product category");
+                    comeBack();
+                  }
+                }}
+              >
+                Come back and save
+              </button>
+            </div>
+          </div>
         ) : (
           <div>Category not found</div>
         );

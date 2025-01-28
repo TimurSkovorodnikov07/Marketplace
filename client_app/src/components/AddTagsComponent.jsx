@@ -13,27 +13,8 @@ export function AddTagsComponent({
   const newTag = useRef(null);
   return (
     <>
-      <p>{labelText}</p>
-
-      {Array.isArray(tags) &&
-        tags.length > 0 &&
-        tags.map((x) => (
-          <div key={x}>
-            <span>
-              {x}{" "}
-              <button
-                onClick={(e) => {
-                  onChanged?.(e);
-                  deleteTagFun(x);
-                }}
-              >
-                x
-              </button>
-            </span>
-          </div>
-        ))}
-
-      <div>
+      <p className="give-attention-text">{labelText}</p>
+      <div className="add-tag-wrapper">
         <InputComponent
           id="addTag"
           type="text"
@@ -52,11 +33,28 @@ export function AddTagsComponent({
               }
             }}
           >
-            {"add tag"}
+            {"add"}
           </button>
         </span>
       </div>
 
+      <div className="added-tags-wrapper">
+        {Array.isArray(tags) &&
+          tags.length > 0 &&
+          tags.map((x) => (
+            <div key={x} >
+              <button
+                className="added-tag-button"
+                onClick={(e) => {
+                  onChanged?.(e);
+                  deleteTagFun(x);
+                }}
+              >
+                <span className="tag">{x}</span>
+              </button>
+            </div>
+          ))}
+      </div>
       {tags.length == 0 &&
       (showInvalidText == undefined || showInvalidText === true) ? (
         <p className="error-text">{"Choose a tags"}</p>

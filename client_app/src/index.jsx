@@ -7,7 +7,7 @@ import { store } from "./redux/store";
 
 import "./styles/index.css";
 import "./styles/login.css";
-import "./styles/image.css";
+import "./styles/choose-images.css";
 import "./styles/account-info.css";
 import "./styles/input.css";
 import "./styles/link.css";
@@ -16,6 +16,9 @@ import "./styles/topbar.css";
 import "./styles/footer.css";
 import "./styles/ads-panel.css";
 import "./styles/tooltip.css";
+import "./styles/delivery-company-select.css"
+import "./styles/add-tag.css"
+import "./styles/product-category-create-or-update.css"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

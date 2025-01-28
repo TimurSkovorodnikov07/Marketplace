@@ -11,8 +11,13 @@ export async function login(email, password) {
     )
     .then();
 }
-export async function tokensUpdate() {
-  return api.put(`/${loginControllerName}/tokensupdate`).then();
+export async function tokensUpdate(oldRefreshToken, userId) {
+  return api
+    .put(`/${loginControllerName}/tokensupdate`, {
+      OldRefreshToken: oldRefreshToken,
+      UserId: userId,
+    })
+    .then();
 }
 
 export async function codeResend(userId) {

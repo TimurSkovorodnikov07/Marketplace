@@ -1,23 +1,32 @@
 input,
 button,
 textarea,
-select {
+select,
+.choose-images-label{
   min-height: 40px;
   padding: 0px 10px;
   margin: 10px 10px;
   outline: none;
-  border: none;
+  border: 2px solid rgba(137, 180, 250, 0.4);
   background-color: rgb(49, 50, 68);
   border-radius: 6px;
   transition: color 0.1s ease-in, background-color 0.1s ease-in;
 }
+
 input:focus,
+input:hover,
+button:hover,
 button:focus,
 textarea:focus,
-select:focus {
+textarea:hover,
+select:focus,
+select:hover,
+.choose-images-label:focus,
+.choose-images-label:hover{
   transition: color 0.1s ease-in, background-color 0.1s ease-in;
   color: rgb(137, 180, 250);
   background-color: #45475a;
+  border: 2px solid rgb(137, 180, 250);
 }
 textarea {
   overflow-y: hidden;
@@ -32,6 +41,7 @@ textarea {
   flex-grow: 0; /* Prevent growing */
   text-align: center;
   height: 100%;
+  border: none;
 }
 .number-input-wrapper {
   min-height: 50px;
@@ -48,6 +58,7 @@ textarea {
   margin: 0px 0px;
   border-radius: 0px;
   height: 100%;
+  border: none;
 }
 
 .number-input-left-arrow,

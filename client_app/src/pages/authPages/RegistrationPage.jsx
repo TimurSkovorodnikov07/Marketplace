@@ -34,6 +34,7 @@ export default function RegistrationPage() {
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [pasIsValid, setPasIsValid] = useState(false);
   const [sent, setSent] = useState(false); //Чтобы юзер не отправил дважды запрос
+  const [isAllValid, setIsAllValid] = useState(true);
 
   //Only for Seller
   const desRef = useRef(null);
@@ -116,6 +117,7 @@ export default function RegistrationPage() {
                     placeholder: "Name...",
                   }}
                   labelText={"Name: "}
+                  showInvalidText={isAllValid === false}
                 />
               </div>
               {isForCustomer ? (
@@ -137,6 +139,7 @@ export default function RegistrationPage() {
                     inputOtherProps={{
                       placeholder: "Description...",
                     }}
+                    showInvalidText={isAllValid === false}
                   />
                 </div>
               )}
@@ -153,6 +156,7 @@ export default function RegistrationPage() {
                     placeholder: "example@mail.abc...",
                   }}
                   labelText={"Email: "}
+                  showInvalidText={isAllValid === false}
                 />
               </div>
               <div className="mb-8">
@@ -167,6 +171,7 @@ export default function RegistrationPage() {
                   inputOtherProps={{
                     placeholder: "megaPasw03r+dD...",
                   }}
+                  showInvalidText={isAllValid === false}
                   labelText={"Password: "}
                 />
               </div>
@@ -176,14 +181,15 @@ export default function RegistrationPage() {
               <input
                 type="submit"
                 onClick={async () => {
-                  if (
+                  let isVal =
                     nameIsValid === true &&
                     (descriptionIsValid === true || isForCustomer === true) &&
                     emailIsValid === true &&
                     pasIsValid === true &&
-                    sent === false
-                  )
-                    await onSubmit();
+                    sent === false;
+
+                  setIsAllValid(isVal);
+                  if (isVal === true) await onSubmit();
                 }}
               />
               {codeAndText.code == 409 && (

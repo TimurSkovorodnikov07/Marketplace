@@ -1,61 +1,57 @@
-version: '3.3'
+# Не рабочий(пока чтт)
+version: '3.9'
 
 services:
-  app:
-    container_name: serverapp_container
+  # ASP.NET Core application
+  server_app:
+    build:
+      context: ./server_app
+      dockerfile: Dockerfile
     ports:
       - "5183:5183"
-    build:
-      context: .
-      dockerfile: serverApp/DockerfileForServer
-    networks:
-      - marketplace-dev
     depends_on:
-      - db
       - redis
+      - mongodb
+      - postgres
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: https://+;http://+
-      ASPNETCORE_HTTPS_PORTS: 5183
-    
-    volumes:
-      - /root/.microsoft/usersecrets
-      - /root/.asp.net/https
-  
-  
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USER_SECRETS=/root/.microsoft/usersecrets
+
+  # React application
+  client_app:
+    build:
+      context: ./client_app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+
+  # Redis
   redis:
-    container_name: redis_container
-    restart: always
-    image: redis
+    image: redis:7.2.5
     ports:
-      - "6379:6379"
-    healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
-    volumes:
-      - redis_data:/data
-    networks:
-      - marketplace-dev
-  db:
-    container_name: postgres_container
-    image: postgres
-    restart: always
-    shm_size: 512mb
+      - "6370:6370"
+
+  # MongoDB
+  mongodb:
+    image: mongo:8.0.4
+    ports:
+      - "27010:27010"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=nigPostgres_Pas5432
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
 
-    volumes:
-      - data:/var/lib/postgresql/data
+  # PostgreSQL
+  postgres:
+    image: postgres:16.6
     ports:
-      - "5432:5432"
-    networks:
-      - marketplace-dev
-
+      - "5430:5430"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_db
 
 volumes:
   redis_data:
-  data:
-
-networks:
-  marketplace-dev:
-    driver: bridge
+  mongodb_data:
+  postgres_data:

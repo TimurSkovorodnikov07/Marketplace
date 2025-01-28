@@ -62,10 +62,9 @@ export function TextAreaComponent(props) {
           let scrollHeight = e.target.scrollHeight;
           e.target.style.height = `${scrollHeight}px`;
         }}
-        {...props.textareaOtherProps}
         value={value}
         {...props.textareaOtherProps}
-      />
+      ></textarea>
       {isValid === false &&
       (props.showInvalidText == undefined || props.showInvalidText === true) ? (
         <p className="error-text">{props.invalidText}</p>

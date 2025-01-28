@@ -16,8 +16,10 @@ export function saveAuthDates(data, dispath) {
       isCustomer: data.isCustomer,
     };
 
-    if (typeof data.isCustomer != "boolean")
+    if (typeof data.isCustomer != "boolean"){
+      console.error("IsCutomer NOT boolean");
       throw new Error("IsCutomer NOT boolean");
+    }
 
     dispath({
       type: loginType,

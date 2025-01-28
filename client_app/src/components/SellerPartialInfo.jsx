@@ -24,11 +24,11 @@ export function SellerPartialInfo({ sellerId }) {
         imageId={sellerIconImitation}
         linkTo={`/sellers/${sellerId}`}
         imageClass="seller-partial-icon"
+        linkClass="seller-partial-icon-link"
         getFromServer={false}
       />
       <div>
         <div>{seller.name}</div>
-        <div className="seller-partial-description">{seller.description}</div>
       </div>
     </div>
   );

@@ -20,9 +20,9 @@ export function NumberInputComponent({
       <button
         onClick={() => setValueEverywhere(value - 1)}
         className={
-          min && value <= min
+          `small-text ${min && value <= min
             ? "number-input-left-arrow-innactive"
-            : "number-input-left-arrow"
+            : "number-input-left-arrow"}`
         }
       >
         {"-"}
@@ -49,9 +49,9 @@ export function NumberInputComponent({
       <button
         onClick={() => setValueEverywhere(value + 1)}
         className={
-          max && value >= max
+          `small-text ${max && value >= max
             ? "number-input-right-arrow-innactive"
-            : "number-input-right-arrow"
+            : "number-input-right-arrow"}`
         }
       >
         {"+"}

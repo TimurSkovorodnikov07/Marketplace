@@ -63,6 +63,9 @@ export const InputComponent = forwardRef((params, ref) => {
         onChange={(e) => onChangeFun(e)}
         ref={ref}
         value={inputValue}
+        onFocus={() => {
+          if (params?.onFocus) params?.onFocus();
+        }}
         {...params.inputOtherProps}
       />
       {isValid === false &&

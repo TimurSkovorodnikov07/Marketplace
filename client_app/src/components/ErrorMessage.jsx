@@ -1,13 +1,13 @@
 export default function ErrorMessage({ message, httpCode }) {
   return httpCode == 0 ? (
-    <div>Error: {message}</div>
+    <div className="error-text">Error: {message}</div>
   ) : (
     <div>
       <p>
-        Http code: <strong>{httpCode}</strong>
+        Http code: <strong className="error-text">{httpCode}</strong>
       </p>
       <p>
-        Message: <strong>{message}</strong>
+        Message: <strong className="error-text">{message}</strong>
       </p>
     </div>
   );

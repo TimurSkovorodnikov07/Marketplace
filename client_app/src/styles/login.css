@@ -1,5 +1,6 @@
 .registration-as-input,
-.registration-as-input:focus {
+.registration-as-input:focus,
+.registration-as-input:hover {
   min-height: 40px;
   padding: 0px 10px;
   margin: 10px 10px;

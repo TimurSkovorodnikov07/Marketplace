@@ -1,7 +1,6 @@
 .account-info-container {
   display: grid;
   grid-template-areas: "account-info" "account-partial-products";
-  grid-template-columns: 1fr 4fr;
   grid-template-rows: 1fr;
   /*
   With grid or flex height or width doesn't always works, so need uses 
@@ -9,13 +8,15 @@
 
   grid-template-rows:  1fr = STREACH height to 100%
   */
-
   min-height: 100%;
 }
 .account-info-wrapper {
   margin-bottom: 15px;
   grid-area: "account-info";
-  margin-right: 50px;
+  margin-right: 15px;
+
+  overflow:auto;
+  word-wrap:break-word; /* Break long words if necessary */
 }
 .account-partial-products-wrapper {
   grid-area: "account-partial-products";
@@ -51,6 +52,8 @@
 .account-info-element {
   margin: 16px;
 }
+.account-info-element-text{
+}
 .account-info-label {
   color: #eba0ac;
   margin: 22px;
@@ -76,11 +79,6 @@
     margin-top: 20px;
   }
 }
-@media (min-width: 1049px) {
-  .account-partial-products-wrapper {
-    background-color: #181825;
-  }
-}
 @media (min-width: 550px) {
   .account-info-label {
     font-size: 17px;
@@ -91,13 +89,39 @@
     font-size: 20px;
   }
 }
+@media (min-width: 1049px) {
+  .account-partial-products-wrapper {
+    background-color: #181825;
+  }
+  .account-info-container {
+    grid-template-columns: 2fr 3fr;
+  }
+}
 @media (min-width: 1300px) {
   .account-info-label {
     font-size: 23px;
+  }
+
+  .account-info-container {
+    grid-template-columns: 1fr 2fr;
   }
 }
 @media (min-width: 1600px) {
   .account-info-label {
     font-size: 24px;
+  }
+
+  .account-info-container {
+    grid-template-columns: 2fr 5fr;
+  }
+}
+
+@media (min-width: 1750px) {
+  .account-info-label {
+    font-size: 24px;
+  }
+
+  .account-info-container {
+    grid-template-columns: 1fr 3fr;
   }
 }

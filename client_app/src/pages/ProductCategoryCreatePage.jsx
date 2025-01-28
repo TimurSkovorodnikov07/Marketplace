@@ -90,117 +90,121 @@ export function ProductCategoryCreatePage() {
         return <div>You not seller</div>;
       default:
         return (
-          <div className="product-category-create-wrapper">
-            <InputComponent
-              id="name"
-              type="text"
-              labelText="Name: "
-              invalidText={
-                nameIsFree === true ? nameInvalidText : "Name is occupied"
-              }
-              validatorFun={(value) => {
-                return (
-                  categoryNameValidator(value) === true && nameIsFree === true
-                );
-              }}
-              afterValidationFun={(e) => {
-                setName(e.target.value);
-              }}
-              beforeValidationFun={(e) => setNameIsFree(true)}
-              invalidatedFun={() => setName(undefined)}
-              inputOtherProps={{ placeholder: "Name..." }}
-              showInvalidText={isAllValid === false}
-            />
+          <div className="product-category-create-or-update-page-wrapper">
+            <h1 className="pb-10">Create a new product category</h1>
+            <div className="product-category-create-or-update-wrapper">
+              <h2>Name:</h2>
+              <InputComponent
+                id="name"
+                type="text"
+                invalidText={
+                  nameIsFree === true ? nameInvalidText : "Name is occupied"
+                }
+                validatorFun={(value) => {
+                  return (
+                    categoryNameValidator(value) === true && nameIsFree === true
+                  );
+                }}
+                afterValidationFun={(e) => {
+                  setName(e.target.value);
+                }}
+                beforeValidationFun={(e) => setNameIsFree(true)}
+                invalidatedFun={() => setName(undefined)}
+                inputOtherProps={{ placeholder: "Name..." }}
+                showInvalidText={isAllValid === false}
+              />
+              <h2 className="mt-5">Description:</h2>
+              <TextAreaComponent
+                id="description"
+                invalidText={descriptionInvalidText}
+                validatorFun={descriptionWithEmptyValidator}
+                afterValidationFun={(e) => {
+                  setDescription(e.target.value || "");
+                }}
+                invalidatedFun={() => setDescription(undefined)}
+                textareaOtherProps={{
+                  placeholder: "Description...",
+                  maxlength: 500,
+                }}
+                showInvalidText={isAllValid === false}
+              />
+              <h2 className="mt-5">Price:</h2>
+              <div className="product-category-create-or-update-price">
+                <InputComponent
+                  id="price"
+                  type="number"
+                  invalidText={priceInvalidText}
+                  validatorFun={greaterThanZeroValidator}
+                  afterValidationFun={(e) => {
+                    setPrice(e.target.value);
+                  }}
+                  invalidatedFun={() => setPrice(undefined)}
+                  inputOtherProps={{ placeholder: "Price..." }}
+                  showInvalidText={isAllValid === false}
+                />
+              </div>
+              <h2 className="mt-5">Quantity:</h2>
+              <div className="product-category-quantity-input">
+                <InputComponent
+                  id="quantity"
+                  type="number"
+                  invalidText={quantityInvalidText}
+                  validatorFun={greaterThanZeroValidator}
+                  afterValidationFun={(e) => {
+                    setQuantity(e.target.value);
+                  }}
+                  invalidatedFun={() => setQuantity(undefined)}
+                  inputOtherProps={{ placeholder: "Quantity..." }}
+                  showInvalidText={isAllValid === false}
+                />
+              </div>
+              <h2 className="mt-5">Delivery company:</h2>
+              <SelectDeliveryCompanyComponent
+                selectedCompany={deliveryCompany}
+                selectFun={(selectedCompany) =>
+                  setDeliveryCompany(selectedCompany)
+                }
+                showInvalidText={isAllValid === false}
+              />
+              <h2 className="mt-5">Tags:</h2>
+              <AddTagsComponent
+                tags={tags}
+                addTagFun={(newTag) => setTags([...tags, newTag])}
+                deleteTagFun={(deletedTag) => {
+                  setTags(tags.filter((x) => x != deletedTag));
+                }}
+                showInvalidText={isAllValid === false}
+              />
+              <h2 className="mt-5">Images:</h2>
+              <ChooseImagesComponent
+                images={images}
+                changeImagesFun={(newImage) => setImages([...newImage])}
+                showInvalidText={isAllValid === false}
+                buttonText={"Choose"}
+              />
+              <button
+                className="product-category-create-or-update-button mt-32"
+                onClick={async () => {
+                  const isValid =
+                    greaterThanZeroValidator(quantity) &&
+                    deliveryCompany &&
+                    images.length > 0 &&
+                    guidValidator(deliveryCompany.id) &&
+                    greaterThanZeroValidator(price) &&
+                    tags.length > 0 &&
+                    descriptionValidator(description) &&
+                    categoryNameValidator(name);
 
-            <TextAreaComponent
-              id="description"
-              labelText="Descipriton: "
-              invalidText={descriptionInvalidText}
-              validatorFun={descriptionWithEmptyValidator}
-              afterValidationFun={(e) => {
-                setDescription(e.target.value || "");
-              }}
-              invalidatedFun={() => setDescription(undefined)}
-              inputOtherProps={{
-                placeholder: "Description...",
-                maxlength: 500,
-              }}
-              showInvalidText={isAllValid === false}
-            />
+                  setIsAllValid(isValid);
 
-            <AddTagsComponent
-              tags={tags}
-              labelText="Tags: "
-              addTagFun={(newTag) => setTags([...tags, newTag])}
-              deleteTagFun={(deletedTag) => {
-                setTags(tags.filter((x) => x != deletedTag));
-              }}
-              showInvalidText={isAllValid === false}
-            />
-
-            <InputComponent
-              id="price"
-              type="number"
-              labelText="Price: "
-              invalidText={priceInvalidText}
-              validatorFun={greaterThanZeroValidator}
-              afterValidationFun={(e) => {
-                setPrice(e.target.value);
-              }}
-              invalidatedFun={() => setPrice(undefined)}
-              inputOtherProps={{ placeholder: "Price..." }}
-              showInvalidText={isAllValid === false}
-            />
-
-            <SelectDeliveryCompanyComponent
-              selectedCompany={deliveryCompany}
-              labelText="Delivery company: "
-              selectFun={(selectedCompany) =>
-                setDeliveryCompany(selectedCompany)
-              }
-              showInvalidText={isAllValid === false}
-            />
-
-            <ChooseImagesComponent
-              labelText="Images(1x1): "
-              images={images}
-              changeImagesFun={(newImage) => setImages([...newImage])}
-              showInvalidText={isAllValid === false}
-            />
-            <InputComponent
-              id="quantity"
-              labelText="Quantity: "
-              type="number"
-              invalidText={quantityInvalidText}
-              validatorFun={greaterThanZeroValidator}
-              afterValidationFun={(e) => {
-                setQuantity(e.target.value);
-              }}
-              invalidatedFun={() => setQuantity(undefined)}
-              inputOtherProps={{ placeholder: "Quantity..." }}
-              showInvalidText={isAllValid === false}
-            />
-            <button
-              onClick={async () => {
-                const isValid =
-                  greaterThanZeroValidator(quantity) &&
-                  deliveryCompany &&
-                  images.length > 0 &&
-                  guidValidator(deliveryCompany.id) &&
-                  greaterThanZeroValidator(price) &&
-                  tags.length > 0 &&
-                  descriptionValidator(description) &&
-                  categoryNameValidator(name);
-
-                setIsAllValid(isValid);
-
-                const isFree = await nameIsFreeCheck(name);
-                setNameIsFree(isFree);
-                if (isValid === true && isFree === true) await sent();
-              }}
-            >
-              Create
-            </button>
+                  const isFree = await nameIsFreeCheck(name);
+                  setNameIsFree(isFree);
+                  if (isValid === true && isFree === true) await sent();
+                }}
+              >
+                Create
+              </button>
+            </div>
           </div>
         );
     }

@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="FluentValidation">
+            <HintPath>..\..\..\..\.nuget\packages\fluentvalidation\11.11.0\lib\net8.0\FluentValidation.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+            <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.AspNetCore.Http.Features">
+            <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+            <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+            <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.IdentityModel.Tokens">
+            <HintPath>..\..\..\..\.nuget\packages\microsoft.identitymodel.tokens\7.1.2\lib\net8.0\Microsoft.IdentityModel.Tokens.dll</HintPath>
+        </Reference>
+        <Reference Include="Npgsql.EntityFrameworkCore.PostgreSQL">
+          <HintPath>..\..\..\..\.nuget\packages\npgsql.entityframeworkcore.postgresql\9.0.2\lib\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="FluentValidation" Version="11.11.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+      <PackageReference Include="MongoDB.Driver.Core" Version="2.30.0" />
+      <PackageReference Include="MongoDB.Driver.GridFS" Version="2.30.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
+    </ItemGroup>
+</Project>

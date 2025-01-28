@@ -8,22 +8,6 @@ import {
 export const loginType = "LOGIN_TYPE_WITH_SAVE";
 export const logoutType = "LOGOUT";
 
-function login(payload) {
-  console.log("AUTH DATA SAVE!");
-
-  localStorage.setItem(accessTokenInLocalStorage, payload.accessToken);
-  localStorage.setItem(isCustomerInLocalStorage, payload.isCustomer);
-  Cookies.set(refreshTokenInCookies, payload.refreshToken);
-  Cookies.set(userIdInCookies, payload.userId);
-
-  return {
-    userId: payload.userId,
-    accessToken: payload.accessToken,
-    refreshToken: payload.refreshToken,
-    isCustomer: payload.isCustomer,
-    isAuth: true,
-  };
-}
 const defaultValue = {
   userId: undefined,
   accessToken: undefined,
@@ -42,7 +26,25 @@ export function logout() {
 export function authReducer(state = { ...defaultValue }, action) {
   switch (action.type) {
     case loginType:
-      return login(action.payload);
+      console.log("AUTH DATA SAVE TO REDUX STORE!");
+      localStorage.setItem(
+        accessTokenInLocalStorage,
+        action.payload.accessToken
+      );
+      localStorage.setItem(isCustomerInLocalStorage, action.payload.isCustomer);
+      Cookies.set(refreshTokenInCookies, action.payload.refreshToken);
+      Cookies.set(userIdInCookies, action.payload.userId);
+
+      const newState = {
+        userId: action.payload.userId,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+        isCustomer: action.payload.isCustomer,
+        isAuth: true,
+      };
+
+      console.log(newState);
+      return newState;
     case logoutType:
       logout();
       return { ...defaultValue };

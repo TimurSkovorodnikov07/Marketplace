@@ -1,5 +1,8 @@
-import { accessTokenInLocalStorage } from "../configs/localStorageItemName";
-import { refreshTokenInCookies } from "../configs/cookiesName";
+import {
+  accessTokenInLocalStorage,
+  isCustomerInLocalStorage,
+} from "../configs/localStorageItemName";
+import { refreshTokenInCookies, userIdInCookies } from "../configs/cookiesName";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { apiUrl } from "../configs/sources";
@@ -34,20 +37,32 @@ api.interceptors.response.use(
     if (
       error.response.status === 401 &&
       Cookies(refreshTokenInCookies) !== undefined &&
+      Cookies(userIdInCookies) !== undefined &&
       error.config._isRetry === false
     ) {
       try {
         //Нужно isRetry проверка чтобы не сделать бесконечный цикл где хочешь избавиться от 401 но в итоге опять его получаешь(если сервак писал даун)
         originalReq._isRetry = true;
 
-        const response = await tokensUpdate();
+        const response = await tokensUpdate(
+          Cookies(refreshTokenInCookies),
+          Cookies(userIdInCookies)
+        );
+        console.log(response);
 
         if (response.status == 200) {
           localStorage.setItem(
             accessTokenInLocalStorage,
             response.data.accessToken
           );
+          localStorage.setItem(
+            isCustomerInLocalStorage,
+            response.data.isCustomer
+          );
+
           Cookies.set(refreshTokenInCookies, response.data.refreshToken);
+          Cookies.set(userIdInCookies, response.data.userId);
+
           return api.request(originalReq);
         }
         throw new Error("");
@@ -56,6 +71,8 @@ api.interceptors.response.use(
         console.error("REMOVE ALL AUTH DATA FROM api.js");
         logout();
       }
+    } else {
+      logout();
     }
     throw error;
   }

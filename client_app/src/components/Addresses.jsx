@@ -27,8 +27,6 @@ export function getAddresses(isAuth) {
       isAuth === true ? <AccountPage /> : <RegistrationPage />
     ),
     new Address("/login", isAuth === true ? <AccountPage /> : <LoginPage />),
-
-    new Address("/policyandprivacy", <PolicyAndPrivacyPage />),
     new Address("*", <NotFoundPage />),
   ];
 }

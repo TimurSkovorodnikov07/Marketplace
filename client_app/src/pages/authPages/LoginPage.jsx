@@ -33,6 +33,7 @@ export default function LoginPage() {
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [pasIsValid, setPasIsValid] = useState(false);
   const [sent, setSent] = useState(false); //Чтобы юзер не отправил дважды запрос
+  const [isAllValid, setIsAllValid] = useState(true);
 
   async function onSubmit() {
     setSent(true);
@@ -50,28 +51,28 @@ export default function LoginPage() {
 
       if (response.status === 200) {
         const headerValue = response.headers["x-account-is-confirmed"];
-        const isCon = stringToBool(headerValue);
+        const isConfirmed = stringToBool(headerValue);
         const userId = response.data.userId;
 
-        if (isCon === true) {
+        if (isConfirmed === true) {
           saveAuthDates(
             {
               userId: response.data.userId,
               accessToken: response.data.accessToken,
               refreshToken: response.data.refreshToken,
-              isCustomer: stringToBool(response.data.isCustomer),
+              isCustomer: response.data.isCustomer,
             },
             dispath
           );
           navigate("/");
-        } else if (isCon === false) {
+        } else if (isConfirmed === false) {
           setResponseData({
             userId: userId,
             codeLength: response.data.codeLength,
             codeDiedAfterSeconds: response.data.codeDiedAfterSeconds,
           });
         }
-        setAccountIsConfirmed(isCon);
+        setAccountIsConfirmed(isConfirmed);
       }
     } catch (error) {
       console.error(error);
@@ -114,6 +115,7 @@ export default function LoginPage() {
                   ref={emailRef}
                   labelText={"Email: "}
                   inputOtherProps={{ placeholder: "example@mail.abc..." }}
+                  showInvalidText={isAllValid === false}
                 />
               </div>
               <div className="mb-8">
@@ -127,6 +129,7 @@ export default function LoginPage() {
                   ref={pasRef}
                   labelText={"Password: "}
                   inputOtherProps={{ placeholder: "MegaPasw03r+dD..." }}
+                  showInvalidText={isAllValid === false}
                 />
               </div>
             </div>
@@ -139,12 +142,13 @@ export default function LoginPage() {
               <input
                 type="submit"
                 onClick={async () => {
-                  if (
+                  let isVal =
                     emailIsValid === true &&
                     pasIsValid === true &&
-                    sent === false
-                  )
-                    await onSubmit();
+                    sent === false;
+
+                  setIsAllValid(isVal);
+                  if (isVal === true) await onSubmit();
                 }}
               />
               <div>

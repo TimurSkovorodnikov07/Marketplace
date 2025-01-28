@@ -74,6 +74,7 @@ code {
   .give-attention-big-text {
     font-size: 25px;
   }
+
 }
 
 @media (min-width: 768px) {
@@ -86,6 +87,7 @@ code {
   .give-attention-big-text {
     font-size: 28px;
   }
+
 }
 @media (min-width: 1050px) {
   .content-wrapper {
@@ -154,6 +156,10 @@ code {
   body {
     font-size: 15px;
   }
+  .error-text,
+  .small-text {
+    font-size: 10px;
+  }
 }
 @media (min-width: 1050px) {
   h1,
@@ -171,5 +177,9 @@ code {
   }
   body {
     font-size: 20px;
+  }
+  .error-text,
+  .small-text {
+    font-size: 15px;
   }
 }

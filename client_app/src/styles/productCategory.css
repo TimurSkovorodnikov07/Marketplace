@@ -38,6 +38,7 @@
   height: 36px;
 }
 .review-wrapper textarea:focus,
+.review-wrapper textarea:hover,
 .review-wrapper textarea {
   resize: none;
   width: 100%;
@@ -87,6 +88,12 @@
 .seller-partial-description {
   font-size: 12px;
 }
+
+.seller-partial-icon-link,
+.seller-partial-icon-link:visited {
+  border: none;
+  outline: none;
+}
 .seller-partial-icon {
   width: 50px;
   height: 50px;
@@ -105,7 +112,9 @@
   padding: 0px 0px;
 }
 .star-button,
-.star-button:focus {
+.star-button:focus,
+.star-button:hover {
+  border: none;
   background-color: rgba(0, 0, 0, 0);
 }
 
@@ -140,8 +149,10 @@
 .gallery-change-button {
   background-color: rgba(0, 0, 0, 0);
 }
-.gallery-change-button:focus {
+.gallery-change-button:focus,
+.gallery-change-button:hover {
   background-color: rgba(0, 0, 0, 0);
+  border: none;
 }
 .gallery-small-images-wrapper {
   margin-right: 14px;
@@ -189,8 +200,12 @@
   pointer-events: none;
   background-color: rgb(137, 180, 250);
   color: #5b6078;
+  border: none;
 }
 
+.gallery-change-button {
+  border: none;
+}
 .gallery-prev-image-button,
 .gallery-prev-image-button-negative {
   left: 0px;
@@ -392,6 +407,21 @@
   }
   .reviews {
     width: 70%;
+  }
+}
+
+@media (min-width: 1750px) {
+  .gallery-image-wrapper,
+  .gallery-image {
+    width: 700px;
+    height: 700px;
+  }
+}
+@media (min-width: 1950px) {
+  .gallery-image-wrapper,
+  .gallery-image {
+    width: 800px;
+    height: 800px;
   }
 }
 @media (min-width: 0px) and (max-width: 768px) {
