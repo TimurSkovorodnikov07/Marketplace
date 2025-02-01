@@ -6,21 +6,21 @@ using Microsoft.Extensions.Options;
 using server_app.Application.Abstractions.EmailSend;
 using server_app.Application.Abstractions.Hashing;
 using server_app.Application.Extensions;
-using server_app.Application.Services.EntitiesServices.Interfaces;
+using server_app.Application.Options;
+using server_app.Application.Repositories;
 using server_app.Domain.Entities.Users.Seller;
 using server_app.Domain.Model.Dtos;
-using server_app.Domain.Model.Options;
-using server_app.Domain.Model.Queries;
 using server_app.Presentation.Filters;
+using server_app.Presentation.ModelQueries;
 
 namespace server_app.Presentation.Controllers.UserControllers;
 
 [ApiController, Route("/api/seller-controller")]
 public class SellerController(
-    ISellerService sellerService,
+    ISellerRepository sellerRepository,
     IHasher hasher,
     ILogger<CustomerController> logger,
-    IEmailVerify emailVerify,
+    IEmailRepository emailRepository,
     IOptions<VerfiyCodeOptions> verifyCodeOptions,
     IMapper mapper) : ControllerBase
 {
@@ -31,7 +31,7 @@ public class SellerController(
     [HttpGet("{guid:guid}"), ValidationFilter]
     public async Task<IActionResult> Get([Required] Guid guid)
     {
-        var foundSeller = await sellerService.Get(guid);
+        var foundSeller = await sellerRepository.Get(guid);
 
         if (foundSeller is null)
             return NotFound();
@@ -50,8 +50,8 @@ public class SellerController(
     [HttpPost, Route("accountcreate"), AnonymousOnly, ValidationFilter]
     public async Task<IActionResult> AccountCreate([FromForm] SellerRegistrationQuery dto)
     {
-        var confirmedUser = await sellerService.GetConfirmedUser(dto.Email);
-        var existingUser = await sellerService.GetExistingUser(dto.Email, dto.Password);
+        var confirmedUser = await sellerRepository.GetConfirmedUser(dto.Email);
+        var existingUser = await sellerRepository.GetExistingUser(dto.Email, dto.Password);
 
         if (existingUser != null || confirmedUser != null)
             return Conflict("A seller with such an email already exists.");
@@ -66,12 +66,12 @@ public class SellerController(
         if (newUser == null)
             return BadRequest();
 
-        await sellerService.Add(newUser);
+        await sellerRepository.Add(newUser);
         logger.LogDebug("Created Seller: {0}", newUser.Name);
 
         try
         {
-            await emailVerify.CodeSend(newUser.Id, newUser.Email);
+            await emailRepository.CodeSend(newUser.Id, newUser.Email);
         }
         catch (SmtpException e)
         {

@@ -1,3 +1,5 @@
+using server_app.Domain.Entities;
+
 public abstract class UserEntity : Entity
 {
     public string Name { get; set; }

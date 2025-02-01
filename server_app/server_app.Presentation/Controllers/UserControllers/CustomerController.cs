@@ -6,22 +6,22 @@ using Microsoft.Extensions.Options;
 using server_app.Application.Abstractions.EmailSend;
 using server_app.Application.Abstractions.Hashing;
 using server_app.Application.Extensions;
-using server_app.Application.Services.EntitiesServices.Interfaces;
+using server_app.Application.Options;
+using server_app.Application.Repositories;
 using server_app.Domain.Entities.Users.CreditCard;
 using server_app.Domain.Entities.Users.Customer;
-using server_app.Domain.Model.Options;
-using server_app.Domain.Model.Queries;
-using server_app.Infrastructure.ValidatorAttributes;
 using server_app.Presentation.Filters;
+using server_app.Presentation.Filters.ValidatorAttributes;
+using server_app.Presentation.ModelQueries;
 
 namespace server_app.Presentation.Controllers.UserControllers;
 
 [ApiController, Route("/api/customer-controller")]
 public class CustomerController(
-    ICustomerService customerService,
+    ICustomerRepository customerRepository,
     IHasher hasher,
     ILogger<CustomerController> logger,
-    IEmailVerify emailVerify,
+    IEmailRepository emailRepository,
     IOptions<VerfiyCodeOptions> verifyCodeOptions) : ControllerBase
 {
     private readonly VerfiyCodeOptions _verifyCodeOptions = verifyCodeOptions.Value;
@@ -29,8 +29,8 @@ public class CustomerController(
     [HttpPost, Route("accountcreate"), AnonymousOnly, ValidationFilter]
     public async Task<IActionResult> AccountCreate([FromForm] CustomerRegistrationQuery dto)
     {
-        var confirmedUser = await customerService.GetConfirmedUser(dto.Email);
-        var existingUser = await customerService.GetExistingUser(dto.Email, dto.Password);
+        var confirmedUser = await customerRepository.GetConfirmedUser(dto.Email);
+        var existingUser = await customerRepository.GetExistingUser(dto.Email, dto.Password);
 
         if (existingUser != null || confirmedUser != null)
             return Conflict("A customer with such an email already exists.");
@@ -44,12 +44,12 @@ public class CustomerController(
         if (newUser == null)
             return BadRequest("Customer not valid");
 
-        await customerService.Add(newUser);
+        await customerRepository.Add(newUser);
         logger.LogDebug("Created user: {0}", newUser.Name);
         
         try
         {
-            await emailVerify.CodeSend(newUser.Id, newUser.Email);
+            await emailRepository.CodeSend(newUser.Id, newUser.Email);
         }
         catch (SmtpException e)
         {
@@ -76,7 +76,7 @@ public class CustomerController(
         if (!User.Claims.TryIsCustomer(out var customerId))
             return Forbid();
 
-        var owner = await customerService.Get((Guid)customerId);
+        var owner = await customerRepository.Get((Guid)customerId);
 
         if (owner == null)
         {
@@ -92,7 +92,7 @@ public class CustomerController(
         if (newCreditCard == null)
             return BadRequest("Invalid credit card");
 
-        var addResult = await customerService.AddCard(newCreditCard, owner.Id);
-        return addResult.ActionResult;
+        await customerRepository.AddCard(newCreditCard, owner.Id);
+        return Ok();
     }
 }

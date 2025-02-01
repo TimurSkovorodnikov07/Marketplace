@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using server_app.Application.Abstractions.EmailSend;
-using server_app.Domain.Model.Options;
+using server_app.Application.Options;
 
 namespace server_app.Application.Services.MailServices;
 

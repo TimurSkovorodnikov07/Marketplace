@@ -38,49 +38,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.11.0, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Relational": {
-              "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.Extensions.Logging.Console": {
-              "target": "Package",
-              "version": "[9.0.0, )"
-            },
-            "MongoDB.Driver.Core": {
-              "target": "Package",
-              "version": "[2.30.0, )"
-            },
-            "MongoDB.Driver.GridFS": {
-              "target": "Package",
-              "version": "[2.30.0, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[8.0.8, )"
             }
           },
           "imports": [

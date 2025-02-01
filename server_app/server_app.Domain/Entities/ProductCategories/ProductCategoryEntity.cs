@@ -1,5 +1,4 @@
 using server_app.Domain.Entities.ProductCategories.DeliveryCompanies;
-using server_app.Domain.Entities.ProductCategories.Images;
 using server_app.Domain.Entities.ProductCategories.PurchasedProducts;
 using server_app.Domain.Entities.ProductCategories.Reviews;
 using server_app.Domain.Entities.ProductCategories.ValueObjects;
@@ -15,7 +14,7 @@ public class ProductCategoryEntity : Entity
     public string? Description { get; set; }
     public TagsValueObject Tags { get; set; }
     public decimal Price { get; set; }
-    public List<ImageEntity> Images { get; set; }
+    //public List<ImageEntity> Images { get; set; }
     public int Quantity { get; set; }
 
     public List<PurchasedProductEntity> PurchasedProducts { get; set; }

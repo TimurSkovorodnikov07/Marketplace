@@ -1,25 +1,25 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using server_app.Application.Extensions;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Application.Services.EntitiesServices.Interfaces;
+using server_app.Application.Repositories;
 using server_app.Domain.Entities.ProductCategories.Reviews;
-using server_app.Domain.Model.Queries;
-using server_app.Infrastructure.ValidatorAttributes;
+using server_app.Infrastructure.Repositories.ProductCategories;
+using server_app.Presentation.Extensions;
 using server_app.Presentation.Filters;
+using server_app.Presentation.Filters.ValidatorAttributes;
+using server_app.Presentation.ModelQueries;
 
 namespace server_app.Presentation.Controllers;
 
 [ApiController]
 [Route("/api/reviews")]
 public class ReviewController(
-    ReviewService service,
-    ICustomerService customerService,
-    IProductCategoryService productCategoryService,
+    IReviewsRepository repository,
+    ICustomerRepository customerRepository,
+    IProductCategoryRepository productCategoryRepository,
     IMapper mapper,
     ILogger<ReviewController> logger) : ControllerBase
 {
@@ -33,7 +33,7 @@ public class ReviewController(
         if (ownerId == null)
             return Forbid();
 
-        var review = await service.GetByOwnerAndCategoryIdentifiers(
+        var review = await repository.GetByOwnerAndCategoryIdentifiers(
             categoryId: categoryId,
             ownerid: (Guid)ownerId);
 
@@ -43,7 +43,7 @@ public class ReviewController(
     [HttpGet, ValidationFilter]
     public async Task<IActionResult> GetReviews([FromQuery, Required, BaseGetQueryValidator] GetReviewsQuery query)
     {
-        var result = await service.GetReviews(query.CategoryId, query.From, query.To, GetCustomerId());
+        var result = await repository.GetReviews(query.CategoryId, query.From, query.To, GetCustomerId());
 
         if (result == null)
             return NotFound("Category not found");
@@ -58,20 +58,20 @@ public class ReviewController(
         var reviewOwnerId = GetCustomerId();
         if (reviewOwnerId == null) return Forbid();
 
-        var foundCategory = await productCategoryService.Get(query.CategoryId);
+        var foundCategory = await productCategoryRepository.Get(query.CategoryId);
         if (foundCategory == null)
             return NotFound("Category not found");
 
         var isBought =
-            await productCategoryService.IsBought(categoryId: query.CategoryId, buyerId: (Guid)reviewOwnerId);
+            await productCategoryRepository.IsBought(categoryId: query.CategoryId, buyerId: (Guid)reviewOwnerId);
         if (isBought == false)
             return Forbid();
 
-        var foundOwner = await customerService.Get((Guid)reviewOwnerId);
+        var foundOwner = await customerRepository.Get((Guid)reviewOwnerId);
         if (foundOwner == null)
             return NotFound("Category not found");
 
-        var existsReview = await service.GetByOwnerAndCategoryIdentifiers(query.CategoryId, foundOwner.Id);
+        var existsReview = await repository.GetByOwnerAndCategoryIdentifiers(query.CategoryId, foundOwner.Id);
         if (existsReview != null)
             return BadRequest("You have review to this product category.");
 
@@ -81,7 +81,7 @@ public class ReviewController(
         if (newReview == null)
             return BadRequest("New review not valid");
 
-        await service.Add(newReview);
+        await repository.Add(newReview);
         return Ok();
     }
 
@@ -91,15 +91,14 @@ public class ReviewController(
         var ownerId = GetCustomerId();
         if (ownerId == null) return Forbid();
 
-        var result = await service.Update(query.Id, query.NewText, query.NewEstimation, (Guid)ownerId);
-
-        return result.ActionResult;
+        var result = await repository.Update(query.Id, query.NewText, query.NewEstimation, (Guid)ownerId);
+        return result.ResultToIActionResult();
     }
 
     [HttpDelete("{guid:guid}"), Authorize, ValidationFilter]
     public async Task<IActionResult> Remove(Guid guid)
     {
-        var foundReview = await service.Get(guid);
+        var foundReview = await repository.Get(guid);
 
         if (foundReview == null)
             return NotFound("Review not found");
@@ -107,8 +106,8 @@ public class ReviewController(
         if (IsOwner(GetCustomerId(), foundReview) == false)
             return Forbid();
 
-        var result = await service.Remove(foundReview);
-        return result.ActionResult;
+        var result = await repository.Remove(foundReview);
+        return result.ResultToIActionResult();
     }
 
 

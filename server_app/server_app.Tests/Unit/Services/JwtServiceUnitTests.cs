@@ -3,11 +3,11 @@ using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using server_app.Application.Services;
-using server_app.Application.Services.EntitiesServices.Interfaces;
 using server_app.Domain.Entities.Users.Customer;
 using server_app.Domain.Entities.Users.Seller;
-using server_app.Domain.Model.Options;
 using server_app.Application.Extensions;
+using server_app.Application.Options;
+using server_app.Application.Repositories;
 using server_app.Domain.Model.Dtos;
 
 namespace server_app.Tests.Unit.Services;
@@ -32,11 +32,11 @@ public class JwtServiceUnitTests
         var customer = CustomerEntity.Create("HelloWorld", "email@email.com", "passwordhash");
         var id = customer.Id;
 
-        var customerService = A.Fake<ICustomerService>();
+        var customerService = A.Fake<ICustomerRepository>();
         A.CallTo(() => customerService.Get(id)).Returns(customer);
 
         var service = new JwtService(_options, A.Fake<ILogger<JwtService>>(),
-            customerService, A.Fake<ISellerService>());
+            customerService, A.Fake<ISellerRepository>());
 
         // Act
         var (tokens, isCustomer) = await service.GenerateTokensForCustomerOrSeller(id);
@@ -58,9 +58,9 @@ public class JwtServiceUnitTests
         var seller = SellerEntity.Create("HelloWorld", "Description", "selleremail@email.com", "passwordhash");
         var id = seller.Id;
 
-        var customerService = A.Fake<ICustomerService>();
+        var customerService = A.Fake<ICustomerRepository>();
         A.CallTo(() => customerService.Get(id)).Returns<CustomerEntity?>(null);
-        var sellerService = A.Fake<ISellerService>();
+        var sellerService = A.Fake<ISellerRepository>();
         A.CallTo(() => sellerService.Get(id)).Returns(seller);
 
         var service = new JwtService(_options, A.Fake<ILogger<JwtService>>(),

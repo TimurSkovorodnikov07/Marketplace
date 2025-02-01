@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
-using server_app.Domain.Entities.ProductCategories;
 using server_app.Domain.Entities.ProductCategories.DeliveryCompanies;
 using server_app.Domain.Entities.ProductCategories.ValueObjects;
 using server_app.Domain.Entities.Users.Seller;
@@ -20,6 +18,5 @@ public class ProductCategoryCreateDto
     
     [Required] public DeliveryCompanyEntity DeliveryCompany { get; set; }
     [Required] public SellerEntity Owner { get; set; }
-    
-    [Required] public List<IFormFile> Images { get; set; }
+    [Required] public List<SavedFile> Images { get; set; }
 }

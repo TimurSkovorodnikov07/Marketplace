@@ -2,23 +2,24 @@ using server_app.Domain.Validations;
 
 namespace server_app.Domain.Entities.ProductCategories.Images;
 
-public class ImageEntity : Entity
+public class ImageEntity
 {
+    //ImageEntity didn't inheritance from Entity because it need for the normal working of BsonClassMap
+    public Guid Id { get; set; } = Guid.NewGuid();
     public Guid ProductCategoryId { get; set; }
-    public ProductCategoryEntity ProductCategory { get; set; }
-    public string FileName { get; set; }
+
     public string MimeType { get; set; }
 
-    public static ImageEntity? Create(Guid id, string fileName, Guid productId, string mimeType)
+    public byte[] ImageData { get; set; }
+
+    public static ImageEntity? Create(Guid productCategoryId, string mimeType, byte[] imageBytes)
     {
-        var newImage = new ImageEntity
+        var newImage = new ImageEntity()
         {
-            Id = id,
-            ProductCategoryId = productId,
-            FileName = fileName,
-            MimeType = mimeType
+            ProductCategoryId = productCategoryId,
+            MimeType = mimeType,
+            ImageData = imageBytes
         };
-        
         return ImageValidator.IsValid(newImage) ? newImage : null;
     }
 }

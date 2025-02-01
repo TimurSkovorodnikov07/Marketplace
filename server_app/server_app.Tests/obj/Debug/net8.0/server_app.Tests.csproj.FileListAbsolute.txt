@@ -183,3 +183,6 @@
 /home/timur/Desktop/Marketplace/server_app/server_app.Tests/bin/Debug/net8.0/Stenn.StaticMigrations.dll
 /home/timur/Desktop/Marketplace/server_app/server_app.Tests/bin/Debug/net8.0/MongoDB.Driver.dll
 /home/timur/Desktop/Marketplace/server_app/server_app.Tests/bin/Debug/net8.0/MongoDB.Driver.GridFS.dll
+/home/timur/Desktop/Marketplace/server_app/server_app.Tests/bin/Debug/net8.0/MediatR.dll
+/home/timur/Desktop/Marketplace/server_app/server_app.Tests/bin/Debug/net8.0/MediatR.Contracts.dll
+/home/timur/Desktop/Marketplace/server_app/server_app.Tests/bin/Debug/net8.0/Microsoft.Bcl.Memory.dll

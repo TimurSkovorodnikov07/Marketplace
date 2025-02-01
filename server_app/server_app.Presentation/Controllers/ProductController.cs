@@ -1,16 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using server_app.Application.Extensions;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Application.Services.EntitiesServices.Interfaces;
+using server_app.Application.Repositories;
 using server_app.Domain.Model.Dtos;
-using server_app.Domain.Model.Queries;
-using server_app.Infrastructure.ValidatorAttributes;
+using server_app.Presentation.Extensions;
 using server_app.Presentation.Filters;
+using server_app.Presentation.Filters.ValidatorAttributes;
+using server_app.Presentation.ModelQueries;
 
 namespace server_app.Presentation.Controllers;
 
@@ -18,10 +16,10 @@ namespace server_app.Presentation.Controllers;
 [ApiController]
 public class ProductsController(
     ILogger<ProductsController> logger,
-    IProductCategoryService productCategoryService,
-    IDeliveryCompanyService deliveryCompanyService,
-    ISellerService sellerService,
-    ICustomerService customerService,
+    IProductCategoryRepository productCategoryRepository,
+    IDeliveryCompanyRepository deliveryCompanyRepository,
+    ISellerRepository sellerRepository,
+    ICustomerRepository customerRepository,
     IMapper mapper,
     IRatingService ratingService)
     : ControllerBase
@@ -37,14 +35,14 @@ public class ProductsController(
     [HttpGet("recommendation"), ValidationFilter]
     public async Task<IActionResult> GetRecommendation()
     {
-        var recommendation = await productCategoryService.GetRecommendation();
+        var recommendation = await productCategoryRepository.GetRecommendation();
         return Ok(recommendation);
     }
 
     [HttpGet("recommendation-by-tag/{tag}"), ValidationFilter]
     public async Task<IActionResult> GetRecommendationByTag([Required] string tag)
     {
-        var recommendationByTag = await productCategoryService.GetRecommendationByTag(tag);
+        var recommendationByTag = await productCategoryRepository.GetRecommendationByTag(tag);
         return Ok(recommendationByTag);
     }
 
@@ -52,7 +50,7 @@ public class ProductsController(
     public async Task<IActionResult> Get([Required] Guid guid)
     {
         //Тут проверяем на владельца, возвращаем владельцу больше данных чем юзеру
-        var category = await productCategoryService.Get(guid);
+        var category = await productCategoryRepository.Get(guid);
 
         if (category == null)
             return NotFound();
@@ -70,7 +68,7 @@ public class ProductsController(
             var needIsBoughtValue = Request.Headers[GetIsBoughtRequestHeaderType];
             if (!string.IsNullOrEmpty(needIsBoughtValue) && customerGuid != null)
             {
-                var isBought = await productCategoryService.IsBought(categoryId: category.Id, buyerId: (Guid)customerGuid);
+                var isBought = await productCategoryRepository.IsBought(categoryId: category.Id, buyerId: (Guid)customerGuid);
                 Response.Headers.Append(IsBoughtHeaderType, isBought.ToString());
             }
         }
@@ -88,7 +86,7 @@ public class ProductsController(
         {
             HttpContext.Response.Headers.Append(IsForOwnerHeaderType, "true");
             var resultForOwner =
-                await productCategoryService.GetCategoriesByOwner((Guid)ownerGuid, query.From, query.To, query.Search,
+                await productCategoryRepository.GetCategoriesByOwner((Guid)ownerGuid, query.From, query.To, query.Search,
                     query.PriceNoMoreThenOrEqual);
 
             HttpContext.Response.Headers.Append(CategoriesMaxNumberHeaderType, resultForOwner.maxNumber.ToString());
@@ -100,13 +98,13 @@ public class ProductsController(
             return BadRequest("Your token is invalid");
 
         //В другом случаи показываем товары продавца с айди = query.SellerId
-        var foundSeller = await sellerService.Get((Guid)query.SellerId);
+        var foundSeller = await sellerRepository.Get((Guid)query.SellerId);
 
         if (foundSeller == null)
             return NotFound("Seller not found");
 
         HttpContext.Response.Headers.Append(IsForOwnerHeaderType, "false");
-        var resultForViewer = await productCategoryService.GetCategoriesByViewer(foundSeller.Id, query.From, query.To,
+        var resultForViewer = await productCategoryRepository.GetCategoriesByViewer(foundSeller.Id, query.From, query.To,
             query.Search,
             query.PriceNoMoreThenOrEqual);
 
@@ -120,13 +118,13 @@ public class ProductsController(
         if (User.Claims.TryIsCustomer(out var buyerGuid) == false)
             return Forbid();
 
-        var foundCustomer = await customerService.Get((Guid)buyerGuid);
+        var foundCustomer = await customerRepository.Get((Guid)buyerGuid);
 
         if (foundCustomer == null)
             return NotFound("Customer not found");
 
         var productsResult =
-            await productCategoryService.GetPurchasedProducts(foundCustomer.Id, query.From, query.To);
+            await productCategoryRepository.GetPurchasedProducts(foundCustomer.Id, query.From, query.To);
 
         HttpContext.Response.Headers.Append(PurchasedProductsMaxNumberHeaderType, productsResult.maxNumber.ToString());
         return Ok(productsResult.products);
@@ -139,7 +137,7 @@ public class ProductsController(
         if (!User.Claims.TryIsSeller(out var sellerGuid))
             return Forbid();
 
-        var nameIsFree = await productCategoryService.NameIsFree((Guid)sellerGuid, name);
+        var nameIsFree = await productCategoryRepository.NameIsFree((Guid)sellerGuid, name);
 
         return nameIsFree
             ? Ok("Is product categories name free")
@@ -157,12 +155,12 @@ public class ProductsController(
         //БЛЯТЬ, я жество обосрался, при этом у меня Rider показывает имена парр., не внимательность короче https://qna.habr.com/q/1372640y
         Guid ownerGuid = (Guid)sellerGuid;
 
-        var nameIsFree = await productCategoryService.NameIsFree(ownerGuid, query.Name);
+        var nameIsFree = await productCategoryRepository.NameIsFree(ownerGuid, query.Name);
         if (!nameIsFree)
             return Conflict("Product category with this name already exists");
 
-        var foundSeller = await sellerService.Get(ownerGuid);
-        var foundCompany = await deliveryCompanyService.Get(query.DeliveryCompanyId);
+        var foundSeller = await sellerRepository.Get(ownerGuid);
+        var foundCompany = await deliveryCompanyRepository.Get(query.DeliveryCompanyId);
 
         if (foundCompany == null)
             return NotFound("Delivery company not found");
@@ -171,13 +169,14 @@ public class ProductsController(
         newUnfinishedCategory.Owner = foundSeller;
         newUnfinishedCategory.DeliveryCompany = foundCompany;
 
-        return (await productCategoryService.Add(newUnfinishedCategory)).ActionResult;
+        var result = await productCategoryRepository.Add(newUnfinishedCategory);
+        return result.ResultToIActionResult();
     }
 
     [HttpPut, Authorize, ValidationFilter]
     public async Task<IActionResult> Update([Required, FromForm] ProductCategoryUpdateQuery query)
     {
-        var updatedCategory = await productCategoryService.Get(query.Id);
+        var updatedCategory = await productCategoryRepository.Get(query.Id);
 
         if (updatedCategory is null)
             return NotFound();
@@ -186,7 +185,7 @@ public class ProductsController(
             return Forbid();
 
         var updateDto = mapper.Map<ProductCategoryUpdateDto>(query);
-        await productCategoryService.Update(updateDto);
+        await productCategoryRepository.Update(updateDto);
 
         return Ok();
     }
@@ -197,26 +196,25 @@ public class ProductsController(
         if (User.Claims.TryIsCustomer(out var buyerId) == false)
             return Forbid();
 
-        var result = await productCategoryService.Buy(purchasedCategoriesDtos, (Guid)buyerId);
-        return result.ActionResult;
+        var result = await productCategoryRepository.Buy(purchasedCategoriesDtos, (Guid)buyerId);
+        return result.ResultToIActionResult();
     }
 
     [HttpDelete("{guid}"), Authorize, ValidationFilter]
     public async Task<IActionResult> Remove([Required] Guid guid)
     {
-        var category = await productCategoryService.Get(guid);
+        var category = await productCategoryRepository.Get(guid);
 
         if (category is null)
             return NotFound("Category is not found");
 
         if (IsOwner(category.Owner.Id))
         {
-            await productCategoryService.Remove(guid);
+            await productCategoryRepository.Remove(guid);
             return Ok();
         }
 
         return Forbid();
     }
-
     private bool IsOwner(Guid ownerId) => User.Claims.TryIsSeller(out var sellerGuid) && ownerId == sellerGuid;
 }

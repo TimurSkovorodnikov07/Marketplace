@@ -6,24 +6,24 @@ using Microsoft.Extensions.Options;
 using server_app.Application.Abstractions.EmailSend;
 using server_app.Application.Abstractions.Hashing;
 using server_app.Application.Extensions;
+using server_app.Application.Options;
+using server_app.Application.Repositories;
 using server_app.Application.Services;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Domain.Model.Options;
-using server_app.Domain.Model.Queries;
 using server_app.Domain.Users.Tokens;
 using server_app.Presentation.Filters;
+using server_app.Presentation.ModelQueries;
 
 namespace server_app.Presentation.Controllers.UserControllers;
 
 [ApiController, Route("/api/baselogincontroller")]
 public class BaseLoginController(
-    UserEntityService userService,
+    IUserRepository userRepository,
     IHasher hasher,
     IHashVerify hashVerify,
     ILogger<BaseLoginController> logger,
-    IEmailVerify emailVerify,
+    IEmailRepository emailRepository,
     IOptions<VerfiyCodeOptions> verifyCodeOptions,
-    RefreshTokenService refreshTokenService,
+    IRefreshTokenRepository refreshTokenRepository,
     JwtService jwtService) : ControllerBase
 {
     public const string AccountIsConfirmedHeaderType = "X-Account-Is-Confirmed";
@@ -34,12 +34,12 @@ public class BaseLoginController(
     {
         //Confirmed - подвердил почту
         //Existed - созданный, не обез что подверж
-        var confirmedUser = await userService.GetConfirmedUser(dto.Email);
+        var confirmedUser = await userRepository.GetConfirmedUser(dto.Email);
 
         if (confirmedUser is null)
         {
             Response.Headers.Append(AccountIsConfirmedHeaderType, "false");
-            var existingUser = await userService.GetExistingUser(dto.Email, dto.Password);
+            var existingUser = await userRepository.GetExistingUser(dto.Email, dto.Password);
 
             return existingUser == null
                 ? NotFound("User not found")
@@ -62,7 +62,7 @@ public class BaseLoginController(
         if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             return BadRequest("Invalid user id, check your token");
 
-        var tuple = await userService.GetWithInfoWhoIt(userGuid);
+        var tuple = await userRepository.GetWithInfoWhoIt(userGuid);
         var (customer, seller) = tuple;
         var isCustomer = customer != null;
 
@@ -92,14 +92,14 @@ public class BaseLoginController(
     [HttpPut, Route("coderesend/{userId}"), AnonymousOnly, ValidationFilter]
     public async Task<IActionResult> CodeResend([Required] Guid userId)
     {
-        var (user, isSeller) = await userService.Get(userId);
+        var (user, isSeller) = await userRepository.Get(userId);
 
         if (user is null)
             return NotFound("User not found");
 
         try
         {
-            await emailVerify.Resend(userId, user.Email);
+            await emailRepository.Resend(userId, user.Email);
         }
         catch (SmtpException e)
         {
@@ -117,7 +117,7 @@ public class BaseLoginController(
     [HttpPut, Route("tokensupdate"), AnonymousOnly, ValidationFilter]
     public async Task<IActionResult> TokensUpdate([FromBody] TokensUpdateQuery query)
     {
-        var oldToken = await refreshTokenService.GetByUserId(query.UserId);
+        var oldToken = await refreshTokenRepository.GetByUserId(query.UserId);
 
         if (oldToken is null)
             return NotFound("Token not found");
@@ -130,7 +130,7 @@ public class BaseLoginController(
     [HttpPost, Route("emailverify"), AnonymousOnly, ValidationFilter]
     public async Task<IActionResult> EmailVerify([FromBody] EmailVerifyQuery query)
     {
-        var verifyRes = await emailVerify.CodeVerify(query.UserId, query.Code);
+        var verifyRes = await emailRepository.CodeVerify(query.UserId, query.Code);
 
         if (verifyRes)
             return await AccountConfirmed(query.UserId, false);
@@ -149,9 +149,9 @@ public class BaseLoginController(
         var newRefreshToken = RefreshTokenEntity.Create(id, hasher.Hashing(tokens.RefreshToken));
 
         if (exectlyUpdate)
-            await refreshTokenService.Update(newRefreshToken);
+            await refreshTokenRepository.Update(newRefreshToken);
         else
-            await refreshTokenService.AddOrUpdate(newRefreshToken);
+            await refreshTokenRepository.AddOrUpdate(newRefreshToken);
 
         return Ok(new
         {

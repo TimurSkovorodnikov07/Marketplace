@@ -9,7 +9,7 @@ public abstract class ProductCategoryDto
     public decimal Price { get; set; }
     public int Quantity { get; set; }
     public Guid DeliveryCompanyId { get; set; }
-    public List<Guid> ImagesIdentifiers { get; set; }
+    //public List<Guid> ImagesIdentifiers { get; set; }
     
     public int EstimationCount { get; set; }
     public int TotalEstimation { get; set; }

@@ -11,28 +11,17 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
       <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
       <PackageReference Include="MailKit" Version="4.9.0" />
+      <PackageReference Include="MediatR" Version="12.4.1" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.1" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Http.Features">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Mvc.Core">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\8.0.8\ref\net8.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.IdentityModel.Tokens">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.identitymodel.tokens\7.1.2\lib\net8.0\Microsoft.IdentityModel.Tokens.dll</HintPath>
-      </Reference>
-      <Reference Include="System.IdentityModel.Tokens.Jwt">
-        <HintPath>..\..\..\..\.nuget\packages\system.identitymodel.tokens.jwt\7.1.2\lib\net8.0\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-      </Reference>
+      <Folder Include="Commands\" />
+      <Folder Include="Queries\" />
     </ItemGroup>
 </Project>

@@ -1,13 +1,13 @@
-using MongoDB.Driver;
 using server_app.Application.Abstractions.EmailSend;
 using server_app.Application.Abstractions.Hashing;
-using server_app.Application.MongoClient;
+using server_app.Application.Options;
+using server_app.Application.Repositories;
 using server_app.Application.Services;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Application.Services.EntitiesServices.Interfaces;
-using server_app.Application.Services.FileServices;
 using server_app.Application.Services.MailServices;
-using server_app.Domain.Model.Options;
+using server_app.Infrastructure;
+using server_app.Infrastructure.Repositories.ProductCategories;
+using server_app.Infrastructure.Repositories.Users;
+using server_app.Infrastructure.Services;
 using server_app.Presentation.Filters;
 
 namespace server_app.Presentation;
@@ -19,8 +19,7 @@ public static class DependenciesInjection
     {
         services.AddOptionsServices(configuration);
         
-        
-        services.AddSingleton<IMongoDbClient, MongoDbClient>();
+        services.AddSingleton<IMongoDb, MongoDb>();
         services.AddSingleton<ITokenNameInCookies>(jwtOptions);
         services.AddSingleton<BaseEmailSenderService>();
         services.AddSingleton<IHasher, HashingManagerService>();
@@ -28,27 +27,22 @@ public static class DependenciesInjection
 
         services.AddSingleton<ICodeCreator, CodeService>();
         services.AddSingleton<IEmailSender, EmailSenderByYandexService>();
-        services.AddSingleton<IEmailVerify, EmailVerifyService>();
+        services.AddSingleton<IEmailRepository, EmailRepository>();
 
-        services.AddScoped<ImageMongoDbService>();
-        services.AddScoped<IDeliveryCompanyService, DeliveryCompanyService>();
-        services.AddScoped<ISellerService, SellerService>();
-
-        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IDeliveryCompanyRepository, DeliveryCompanyRepository>();
+        services.AddScoped<ISellerRepository, SellerRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         services.AddScoped<JwtService>();
 
-        services.AddScoped<UserEntityService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<ICreditCardRepository, CreditCardRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
 
-        services.AddScoped<RefreshTokenService>();
-
-        services.AddScoped<CreditCardService>();
-
-        services.AddScoped<IImageEntityService, ImageEntityService>();
-
-        services.AddScoped<IRatingService, RatingService>();
-        services.AddScoped<IProductCategoryService, ProductCategoryService>();
-        services.AddScoped<ReviewService>();
+        services.AddScoped<IRatingService, RatingRepository>();
+        services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+        services.AddScoped<IReviewsRepository, ReviewsRepository>();
 
         services.AddFilterServices(configuration);
         //builder.Services.AddScoped<AgeCheckHandler>();

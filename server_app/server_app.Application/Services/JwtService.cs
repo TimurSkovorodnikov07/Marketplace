@@ -3,20 +3,19 @@ using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Application.Services.EntitiesServices.Interfaces;
+using server_app.Application.Options;
+using server_app.Application.Repositories;
 using server_app.Domain.Entities.Users.Customer;
 using server_app.Domain.Entities.Users.Seller;
 using server_app.Domain.Model.Dtos;
-using server_app.Domain.Model.Options;
 
 namespace server_app.Application.Services;
 
 public class JwtService(
     IOptions<JwtOptions> options,
     ILogger<JwtService> logger,
-    ICustomerService customerService,
-    ISellerService sellerService)
+    ICustomerRepository customerRepository,
+    ISellerRepository sellerRepository)
 {
     public const string UserIdClaimType = "userId";
     public const string UserNameClaimType = "userName";
@@ -27,12 +26,12 @@ public class JwtService(
 
     public async Task<(Tokens? tokens, bool isCustomer)> GenerateTokensForCustomerOrSeller(Guid guid)
     {
-        var customer = await customerService.Get(guid);
+        var customer = await customerRepository.Get(guid);
 
         if (customer is not null)
             return (TokensCreateForCustomer(customer), true);
 
-        var seller = await sellerService.Get(guid);
+        var seller = await sellerRepository.Get(guid);
 
         return seller is null
             ? (null, false)

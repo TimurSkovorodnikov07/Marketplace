@@ -10,11 +10,17 @@ public class ImageValidator : AbstractValidator<ImageEntity>
 
     private ImageValidator()
     {
-        RuleFor(x => x.Id).NotEmpty();
-        RuleFor(x => x.FileName).NotEmpty().NotNull();
-        RuleFor(x => x.MimeType).Must(IsMimeTypeAllowed).NotEmpty().NotNull();
+        RuleFor(x => x.Id).NotEmpty().NotNull();
+        RuleFor(x => x.ProductCategoryId).NotEmpty();
+        RuleFor(x => x.ImageData).NotEmpty().NotNull()
+            .Must(x => x.Length > 0);
+        RuleFor(x => x.MimeType).Must(IsMimeTypeAllowed)
+            .NotEmpty().NotNull();
     }
 
-    public static bool IsValid(ImageEntity imageEntity) => new ImageValidator().Validate(imageEntity).IsValid;
-    public static bool IsMimeTypeAllowed(string mimeType) => ImageAllowedMimeTypes.Any(allowedType => mimeType == allowedType);
+    public static bool IsValid(ImageEntity imageEntity) =>
+        new ImageValidator().Validate(imageEntity).IsValid;
+
+    public static bool IsMimeTypeAllowed(string mimeType) =>
+        ImageAllowedMimeTypes.Any(allowedType => mimeType == allowedType);
 }

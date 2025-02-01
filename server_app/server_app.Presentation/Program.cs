@@ -2,14 +2,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using server_app.Application.MapperProfiles;
+using server_app.Application.Options;
 using server_app.Domain;
-using server_app.Domain.Model.Options;
-using server_app.Infrastructure.HealthChecks;
+using server_app.Infrastructure;
 using server_app.Presentation;
 using server_app.Presentation.Controllers;
 using server_app.Presentation.Controllers.UserControllers;
+using server_app.Presentation.Extensions;
+using server_app.Presentation.MapperProfiles;
 using server_app.Presentation.Middlewares;
+using server_app.Presentation.Middlewares.HealthChecks;
 
 
 //$sudo docker run -e ASPNETCORE_ENVIRONMENT=Development -v /root/.microsoft/usersecrets skovorodnikovtimur07/marketplace-server-app
@@ -106,6 +108,7 @@ builder.Services.AddSwaggerGen(o =>
         }] = new List<string>(),
     });
 });
+AddMongoConfigurationExtensions.AddMongoConfiguration();
 builder.Services.AddDbContext<MainDbContext>(optionsBuilder =>
 {
     // Unable to create a 'DbContext' of type ''. The exception 'Unable to resolve service for type 'Microsoft.Extensions.Configuration.IConfiguration' while attempting to activate 'MainDbContext'.' was thrown while attempting to create an instance. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
@@ -138,6 +141,8 @@ else
 }
 
 app.UseHttpsRedirection();
+app.ApplyMigration(); //for the efcore use migrations in a docker container, without this postgres will be without tables and data
+//https://youtube.com/watch?v=WQFx2m5Ub9M Бля спасибо мужику!!! Очень помог, я нихуя не понимал хули у челов в интеренете как то миграциии работали, блять, спасибо!!!!!!!!!
 
 app.UseCors();
 app.UseRouting();

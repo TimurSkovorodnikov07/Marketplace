@@ -1,14 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Application.Services.EntitiesServices.Interfaces;
+using server_app.Application.Repositories;
 using server_app.Domain.Entities.ProductCategories.DeliveryCompanies;
 using server_app.Domain.Entities.ProductCategories.ValueObjects;
 using server_app.Domain.Model.Dtos;
-using server_app.Domain.Model.Queries;
 using server_app.Presentation.Filters;
+using server_app.Presentation.ModelQueries;
 
 namespace server_app.Presentation.Controllers;
 
@@ -16,14 +14,14 @@ namespace server_app.Presentation.Controllers;
 [Route("/api/delivery-company")]
 public class DeliveryCompanyController(
     ILogger<DeliveryCompanyController> logger,
-    IDeliveryCompanyService service,
+    IDeliveryCompanyRepository repository,
     IMapper mapper)
     : ControllerBase
 {
     [HttpGet("{guid:guid}"), ValidationFilter]
     public async Task<IActionResult> Get([Required] Guid guid)
     {
-        var company = await service.Get(guid);
+        var company = await repository.Get(guid);
 
         return company == null
             ? NotFound("Company not found")
@@ -35,8 +33,8 @@ public class DeliveryCompanyController(
     {
         var companies =
             string.IsNullOrEmpty(query.CompanyName)
-                ? service.GetAllCompanies()
-                : service.SearchCompaniesByName(query.CompanyName);
+                ? repository.GetAllCompanies()
+                : repository.SearchCompaniesByName(query.CompanyName);
 
         return Ok(companies);
     }
@@ -50,7 +48,7 @@ public class DeliveryCompanyController(
             || phoneNumber is null)
             return BadRequest("Not a valid web site and/or phone number");
 
-        var foundCompany = await service.GetByAnyParam(query.Name, webSite, phoneNumber);
+        var foundCompany = await repository.GetByAnyParam(query.Name, webSite, phoneNumber);
 
         if (foundCompany is not null)
             return BadRequest("A company with that name, number, or website already exists");
@@ -65,7 +63,7 @@ public class DeliveryCompanyController(
             return BadRequest(); //Вобще такой ситуации не будет, тк есть DataAn. атрибуты на query
         //+ еще проверяю номер и сайт на валидность в начале action, но похуй, пусть будет что ли
 
-        await service.Add(newCompany);
+        await repository.Add(newCompany);
         return Ok();
     }
 }

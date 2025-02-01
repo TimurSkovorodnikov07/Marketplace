@@ -1,3 +1,5 @@
+using server_app.Domain.Entities;
+
 namespace server_app.Application.Extensions;
 
 public static class EntityExtensions

@@ -3,15 +3,11 @@ using AutoMapper;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using server_app.Application.Services.EntitiesServices;
-using server_app.Application.Services.EntitiesServices.Interfaces;
-using server_app.Application.Services.FileServices;
+using server_app.Application.Repositories;
 using server_app.Domain.Entities.ProductCategories;
 using server_app.Domain.Model.Dtos;
 using server_app.Presentation.Controllers;
-using server_app.Tests.Intergration;
 
 namespace server_app.Tests.Unit.Controllers;
 
@@ -37,7 +33,7 @@ public class ImagesControllerTests
         var emptyCategory = new ProductCategoryEntity { Id = guid, OwnerId = Guid.NewGuid() };
         var emptyDtoForViewer = new ProductCategoryDtoForViewer { Id = guid };
 
-        var service = A.Fake<IProductCategoryService>();
+        var service = A.Fake<IProductCategoryRepository>();
         // BLYAT!!　Корчое [[ЮЗАТЬ ИНТЕРФЕЙСЫ для сервисов]], хотя можно юзать и
         // виртуальные методы которые сама этот фреймворк определит, все же лучше юзать интерфейсы, удобнее.
         A.CallTo(() => service.Get(guid))
@@ -49,8 +45,8 @@ public class ImagesControllerTests
 
 
         var controller = CreateProductsController(
-            service, A.Fake<IDeliveryCompanyService>(),
-            A.Fake<ISellerService>(), A.Fake<ICustomerService>(),
+            service, A.Fake<IDeliveryCompanyRepository>(),
+            A.Fake<ISellerRepository>(), A.Fake<ICustomerRepository>(),
             mapper, A.Fake<IRatingService>());
 
         // Act
@@ -67,14 +63,14 @@ public class ImagesControllerTests
         var randomGuid = Guid.NewGuid();
 
         // Arrange
-        var service = A.Fake<IProductCategoryService>();
+        var service = A.Fake<IProductCategoryRepository>();
         A.CallTo(() => service.Get(randomGuid))
             .Returns(Task.FromResult((ProductCategoryEntity?)null));
 
 
         var controller = CreateProductsController(
-            service, A.Fake<IDeliveryCompanyService>(),
-            A.Fake<ISellerService>(), A.Fake<ICustomerService>(),
+            service, A.Fake<IDeliveryCompanyRepository>(),
+            A.Fake<ISellerRepository>(), A.Fake<ICustomerRepository>(),
             A.Fake<IMapper>(), A.Fake<IRatingService>());
 
         // Act
@@ -85,13 +81,13 @@ public class ImagesControllerTests
         Assert.Equal(404, notFoundResult.StatusCode);
     }
 
-    private ProductsController CreateProductsController(IProductCategoryService service,
-        IDeliveryCompanyService deliveryCompanyService, ISellerService sellerService,
-        ICustomerService customerService, IMapper mapper, IRatingService ratingService)
+    private ProductsController CreateProductsController(IProductCategoryRepository repository,
+        IDeliveryCompanyRepository deliveryCompanyRepository, ISellerRepository sellerRepository,
+        ICustomerRepository customerRepository, IMapper mapper, IRatingService ratingService)
     {
         var controller = new ProductsController(A.Fake<ILogger<ProductsController>>(),
-            service, deliveryCompanyService, sellerService,
-            customerService, mapper, ratingService);
+            repository, deliveryCompanyRepository, sellerRepository,
+            customerRepository, mapper, ratingService);
 
         var user = new ClaimsPrincipal();
         var context = new ControllerContext

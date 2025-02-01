@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Http;
-
 namespace server_app.Domain.Model;
 
-public class SavedFile(IFormFile file)
+public class SavedFile(string fileName, Stream fileStream, string mimeType)
 {
-    public IFormFile File { get; set; } = file;
+    public string FileName { get; set; } = fileName;
+    public Stream FileStream { get; set; } = fileStream;
+    public string MimeType { get; set; }
 }
