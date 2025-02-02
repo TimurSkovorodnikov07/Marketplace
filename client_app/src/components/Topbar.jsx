@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 import accountIconImage from "../files/images/accountIcon.png";
 import shoppingCartIconImage from "../files/images/shoppingCartIcon.png";
-import titleIcon from "../files/images/lulu.png";
+import titleIcon from "../files/images/mgeCaterpillar.png";
 import searchImage from "../files/images/searchImage.png";
 import crossImage from "../files/images/cross.png";
 import { ImageComponent } from "./ImageComponent";

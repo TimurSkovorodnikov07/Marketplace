@@ -1,4 +1,5 @@
-### UserSecrets: 
+### The UserSecrets Example:
+
 ```json
 {
   "UserSecrets": {
@@ -6,10 +7,10 @@
       "Address": "googlepidori@yander.ru",
       "Password": "secretpassword"
     },
-    "RedisConnectionStr": "127.0.0.1:6379",
-    "PostgresConnectionStr": "Database=marketplacedb;Server=localhost;Port=5432;User Id = postgres;Password=pgpassword;Pooling=true",
+    "RedisConnectionStr": "127.0.0.1:6370",
+    "PostgresConnectionStr": "Server=postgres;Database=marketplacedb;Port=5432;User Id = postgres;Password=pgpassword;Pooling=true",
     "MongoDb": {
-      "ConnectionString": "mongodb://localhost:27017/",
+      "ConnectionString": "mongodb://localhost:27010/",
       "DatabaseName": "marketplacemongodb",
       "ImagesCollectionName": "images"
     },
@@ -19,7 +20,6 @@
       "AccessTokenExpiresMinutes": 15,
       "AccessTokenNameInCookies": "jwtToken",
       "AccessTokenSecretKey": "accesstokensecretkeyaccesstokensecretkeyaccesstokensecretkeyaccesstokensecretkey",
-
       "AlgorithmForRefreshToken": "RS256",
       "RefreshTokenExpiresDays": 10,
       "RefreshTokenNameInCookies": "jwtToken",
@@ -28,3 +28,6 @@
   }
 }
 ```
+
+I think this project doesn't need a Cqrs/Mediator. Why is this? I think my project isn't so big to it has cqrs(if I'm
+lazy)
