@@ -1,5 +1,5 @@
 # .NET Core SDK
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
 # Sets the working directory
 WORKDIR /app
@@ -23,7 +23,7 @@ EXPOSE 5183
 RUN dotnet publish server_app.Presentation/server_app.Presentation.csproj -c Development -o /publish
 
 # ASP.NET Core Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 COPY --from=build /publish ./
 

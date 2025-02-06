@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { emailVerify, codeResend } from "../requests/baseAuthRequests";
 import { useDispatch } from "react-redux";
 import { loginType } from "../redux/authReducer";
-import { refreshTokenInCookies } from "../configs/cookiesName";
 import { stringToBool } from "../other/converter";
 
 export function saveAuthDates(data, dispath) {
@@ -16,7 +15,7 @@ export function saveAuthDates(data, dispath) {
       isCustomer: data.isCustomer,
     };
 
-    if (typeof data.isCustomer != "boolean"){
+    if (typeof data.isCustomer != "boolean") {
       console.error("IsCutomer NOT boolean");
       throw new Error("IsCutomer NOT boolean");
     }
@@ -66,14 +65,14 @@ export function EmailVerify({ userId, codeDiedAfterSeconds, codeLength }) {
             userId: response.data.userId,
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
-            isCustomer: stringToBool(response.data.isCustomer),
+            isCustomer: response.data.isCustomer,
           },
           dispath
         );
         navigate("/");
       }
     } catch (error) {
-      setErrorText(error.response.data);
+      setErrorText(error.response);
     }
   }
 
@@ -111,14 +110,16 @@ export function EmailVerify({ userId, codeDiedAfterSeconds, codeLength }) {
           id="codeInput"
           type="text"
           validatorFun={(value) => {
-            console.log(value);
+            console.log(value.length);
             console.log(codeLength);
             return value.length === codeLength;
           }}
           invalidatedFun={() =>
             setErrorText(`The code must be ${codeLength} characters long`)
           }
-          afterValidationFun={(e) => emailVer(e.target.value)}
+          afterValidationFun={(e) => {
+            emailVer(e.target.value);
+          }}
           inputOtherProps={{
             placeholder: "Code...",
           }}

@@ -58,9 +58,9 @@ public class CustomerController(
 
         return Ok(new
         {
-            UserId = newUser.Id.ToString(),
-            CodeDiedAfterSeconds = _verifyCodeOptions.DiedAfterSeconds.ToString(),
-            CodeLength = _verifyCodeOptions.Length.ToString()
+            UserId = newUser.Id,
+            CodeDiedAfterSeconds = _verifyCodeOptions.DiedAfterSeconds,
+            CodeLength = _verifyCodeOptions.Length
         });
     }
 

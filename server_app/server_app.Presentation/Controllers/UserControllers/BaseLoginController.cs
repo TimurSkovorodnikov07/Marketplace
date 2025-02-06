@@ -30,25 +30,24 @@ public class BaseLoginController(
     private readonly VerfiyCodeOptions _verifyCodeOptions = verifyCodeOptions.Value;
 
     [HttpPost, Route("login"), AnonymousOnly, ValidationFilter]
-    public virtual async Task<IActionResult> Login([FromForm] UserLoginQuery dto)
+    public async Task<IActionResult> Login([FromForm, Required] UserLoginQuery query)
     {
         //Confirmed - подвердил почту
         //Existed - созданный, не обез что подверж
-        var confirmedUser = await userRepository.GetConfirmedUser(dto.Email);
-
-        if (confirmedUser is null)
+        var confirmedUser = await userRepository.GetConfirmedUser(query.Email);
+        if (confirmedUser == null)
         {
             Response.Headers.Append(AccountIsConfirmedHeaderType, "false");
-            var existingUser = await userRepository.GetExistingUser(dto.Email, dto.Password);
+            var existingUser = await userRepository.GetExistingUser(query.Email, query.Password);
 
             return existingUser == null
                 ? NotFound("User not found")
-                : await CodeResend(confirmedUser.Id);
+                : await CodeResend(existingUser.Id);
         }
 
         Response.Headers.Append(AccountIsConfirmedHeaderType, "true");
 
-        if (!hashVerify.Verify(dto.Password, confirmedUser.PasswordHash))
+        if (!hashVerify.Verify(query.Password, confirmedUser.PasswordHash))
             return BadRequest("Invalid password");
 
         return await AccountConfirmed(confirmedUser.Id, true);
@@ -108,9 +107,9 @@ public class BaseLoginController(
 
         return Ok(new
         {
-            UserId = user.Id.ToString(),
-            CodeDiedAfterSeconds = _verifyCodeOptions.DiedAfterSeconds.ToString(),
-            CodeLength = _verifyCodeOptions.Length.ToString()
+            UserId = user.Id,
+            CodeDiedAfterSeconds = _verifyCodeOptions.DiedAfterSeconds,
+            CodeLength = _verifyCodeOptions.Length
         });
     }
 

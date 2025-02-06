@@ -49,6 +49,7 @@ code {
   height: 100%;
 }
 
+.error-big-text,
 .error-text {
   color: rgb(243, 139, 168);
 }
@@ -147,6 +148,7 @@ code {
   h1 {
     font-size: 30px;
   }
+  .error-big-text,
   h2 {
     font-size: 25px;
   }
@@ -169,6 +171,7 @@ code {
   h1 {
     font-size: 35px;
   }
+  .error-big-text,
   h2 {
     font-size: 30px;
   }

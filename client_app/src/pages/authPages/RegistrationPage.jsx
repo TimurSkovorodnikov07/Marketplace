@@ -193,9 +193,7 @@ export default function RegistrationPage() {
                 }}
               />
               {codeAndText.code == 409 && (
-                <div>
-                  <h2 className="error-text">{codeAndText.text}</h2>
-                </div>
+                  <div className="error-big-text">{codeAndText.text}</div>
               )}
               <div>
                 <p>

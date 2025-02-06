@@ -36,20 +36,19 @@ export default function LoginPage() {
   const [isAllValid, setIsAllValid] = useState(true);
 
   async function onSubmit() {
-    setSent(true);
-
     try {
       const response = await login(
         emailRef?.current?.value,
         pasRef?.current?.value
       );
 
-      setCodeAndText({
-        code: response.status,
-        text: response.statusText,
-      });
-
       if (response.status === 200) {
+        setCodeAndText({
+          code: response.status,
+          text: response.statusText,
+        });
+        setSent(true);
+
         const headerValue = response.headers["x-account-is-confirmed"];
         const isConfirmed = stringToBool(headerValue);
         const userId = response.data.userId;
@@ -76,6 +75,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error(error);
+      console.log(error)
       setSent(false);
       setCodeAndText({
         code: error.response.status,
@@ -97,6 +97,7 @@ export default function LoginPage() {
             />
           );
         }
+        case 404: <div>Idi nahui!</div>
       default:
         return (
           <div className="login-page">
@@ -134,11 +135,6 @@ export default function LoginPage() {
               </div>
             </div>
             <div>
-              {codeAndText.code === 404 ||
-                (codeAndText.code === 400 && (
-                  <div className="error-text">{codeAndText.text}</div>
-                ))}
-
               <input
                 type="submit"
                 onClick={async () => {
@@ -151,6 +147,9 @@ export default function LoginPage() {
                   if (isVal === true) await onSubmit();
                 }}
               />
+              {codeAndText.code == 404 && (
+                <div className="error-big-text">The User doesn't exist</div>
+              )}
               <div>
                 <p>
                   If you don't have an account,{" "}

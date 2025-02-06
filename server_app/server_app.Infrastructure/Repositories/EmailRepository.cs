@@ -5,7 +5,7 @@ using server_app.Application.Abstractions.EmailSend;
 using server_app.Application.Abstractions.Hashing;
 using server_app.Application.Options;
 
-namespace server_app.Infrastructure.Services;
+namespace server_app.Infrastructure.Repositories;
 
 public class EmailRepository(
     IOptions<VerfiyCodeOptions> options,
@@ -47,8 +47,8 @@ public class EmailRepository(
     {
         var codeInCache = await distributedCache.GetStringAsync(userId.ToString());
 
-        return code is not null && codeInCache is not null
-                                && hashVerify.Verify(code, codeInCache)
-            ? true : false;
+        return string.IsNullOrEmpty(code) == false
+               && string.IsNullOrEmpty(codeInCache) == false
+               && hashVerify.Verify(code, codeInCache);
     }
 }

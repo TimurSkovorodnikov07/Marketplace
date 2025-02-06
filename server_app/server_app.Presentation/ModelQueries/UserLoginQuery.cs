@@ -7,8 +7,7 @@ public class UserLoginQuery
     [Required, StringLength(45)]
     public string Email { get; set; }
 
-    [Required,
-     RegularExpression(PASSWORDREGEX)]
+    [Required, RegularExpression(PASSWORDREGEX)]
     public string Password { get; set; }
 
     public const string PASSWORDREGEX

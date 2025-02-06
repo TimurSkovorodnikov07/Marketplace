@@ -7,10 +7,10 @@
       "Address": "googlepidori@yander.ru",
       "Password": "secretpassword"
     },
-    "RedisConnectionStr": "127.0.0.1:6370",
+    "RedisConnectionStr": "redis:6379",
     "PostgresConnectionStr": "Server=postgres;Database=marketplacedb;Port=5432;User Id = postgres;Password=pgpassword;Pooling=true",
     "MongoDb": {
-      "ConnectionString": "mongodb://localhost:27010/",
+      "ConnectionString": "mongodb://mongodb:27010/",
       "DatabaseName": "marketplacemongodb",
       "ImagesCollectionName": "images"
     },
