@@ -7,5 +7,6 @@ public class ProductCategorySmallDtoForViewer
     public List<string> Tags { get; set; }
     public decimal Price { get; set; }
     public int EstimationCount { get; set; }
-    public int TotalEstimation { get; set; }   
+    public int TotalEstimation { get; set; }
+    public Guid MainImageId { get; set; }
 }

@@ -60,7 +60,7 @@ export function ProductCategoryPage() {
           />
         );
       case 404:
-        return <div>Product category is not found(((</div>;
+        return <div className="error-text">Product category is not found</div>;
       default:
         return <div>Loading...</div>;
     }

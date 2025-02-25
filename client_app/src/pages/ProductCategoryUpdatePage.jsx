@@ -207,7 +207,7 @@ export function ProductCategoryUpdate() {
               <button
               className="product-category-create-or-uptate-button mt-32"
                 onClick={async () => {
-                  const isValid =
+                  let isValid =
                     greaterThanZeroValidator(newQuantity) &&
                     newDeliveryCompany &&
                     guidValidator(newDeliveryCompany?.id) &&
@@ -218,7 +218,7 @@ export function ProductCategoryUpdate() {
 
                   setIsAllValid(isValid);
 
-                  const isFree = await nameIsFreeCheck(newName);
+                  let isFree = await nameIsFreeCheck(newName);
                   setNameIsFree(isFree);
 
                   if (

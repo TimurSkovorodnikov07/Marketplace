@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server_app.Application.Extensions;
 using server_app.Application.Repositories;
+using server_app.Application.Services;
 using server_app.Domain.Model.Dtos;
 using server_app.Presentation.Extensions;
 using server_app.Presentation.Filters;
@@ -68,7 +69,8 @@ public class ProductsController(
             var needIsBoughtValue = Request.Headers[GetIsBoughtRequestHeaderType];
             if (!string.IsNullOrEmpty(needIsBoughtValue) && customerGuid != null)
             {
-                var isBought = await productCategoryRepository.IsBought(categoryId: category.Id, buyerId: (Guid)customerGuid);
+                var isBought =
+                    await productCategoryRepository.IsBought(categoryId: category.Id, buyerId: (Guid)customerGuid);
                 Response.Headers.Append(IsBoughtHeaderType, isBought.ToString());
             }
         }
@@ -86,7 +88,8 @@ public class ProductsController(
         {
             HttpContext.Response.Headers.Append(IsForOwnerHeaderType, "true");
             var resultForOwner =
-                await productCategoryRepository.GetCategoriesByOwner((Guid)ownerGuid, query.From, query.To, query.Search,
+                await productCategoryRepository.GetCategoriesByOwner((Guid)ownerGuid, query.From, query.To,
+                    query.Search,
                     query.PriceNoMoreThenOrEqual);
 
             HttpContext.Response.Headers.Append(CategoriesMaxNumberHeaderType, resultForOwner.maxNumber.ToString());
@@ -104,7 +107,8 @@ public class ProductsController(
             return NotFound("Seller not found");
 
         HttpContext.Response.Headers.Append(IsForOwnerHeaderType, "false");
-        var resultForViewer = await productCategoryRepository.GetCategoriesByViewer(foundSeller.Id, query.From, query.To,
+        var resultForViewer = await productCategoryRepository.GetCategoriesByViewer(foundSeller.Id, query.From,
+            query.To,
             query.Search,
             query.PriceNoMoreThenOrEqual);
 
@@ -145,12 +149,24 @@ public class ProductsController(
     }
 
     [HttpPost, Authorize, ValidationFilter]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> Create([Required, FromForm] ProductCategoryCreateQuery query)
     {
         var newUnfinishedCategory = mapper.Map<ProductCategoryCreateDto>(query);
 
+        logger.LogTrace("Images from List<IFormFile>: ");
+        foreach (var i in newUnfinishedCategory.Images)
+        {
+            logger.LogTrace($"New Image {i.FileName}");
+            logger.LogTrace($"Mime type: {i.MimeType}");
+            logger.LogTrace($"File stream length: {i.FileStream.Length}");
+        }
+        
+        logger.LogInformation($"The User Type: {User.Claims.GetUserType()}");
+
         if (!User.Claims.TryIsSeller(out var sellerGuid))
             return Forbid();
+
         //return Forbid(authenticationSchemes: "Your not seller");
         //БЛЯТЬ, я жество обосрался, при этом у меня Rider показывает имена парр., не внимательность короче https://qna.habr.com/q/1372640y
         Guid ownerGuid = (Guid)sellerGuid;
@@ -170,7 +186,7 @@ public class ProductsController(
         newUnfinishedCategory.DeliveryCompany = foundCompany;
 
         var result = await productCategoryRepository.Add(newUnfinishedCategory);
-        return result.ResultToIActionResult();
+        return result.ResultToIActionResult(logger);
     }
 
     [HttpPut, Authorize, ValidationFilter]
@@ -216,5 +232,6 @@ public class ProductsController(
 
         return Forbid();
     }
+
     private bool IsOwner(Guid ownerId) => User.Claims.TryIsSeller(out var sellerGuid) && ownerId == sellerGuid;
 }

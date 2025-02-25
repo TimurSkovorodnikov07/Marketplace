@@ -6,7 +6,7 @@ namespace server_app.Application.Repositories;
 
 public interface IDeliveryCompanyRepository : IEntityRepository<DeliveryCompanyEntity, DeliveryCompanyUpdatedDto>
 {
-    Task<DeliveryCompanyEntity?> GetByAnyParam(string name, Uri webSite, PhoneNumberValueObject phoneNum);
+    Task<DeliveryCompanyEntity?> GetByAnyParam(string name, string webSite, PhoneNumberValueObject phoneNum);
     IEnumerable<DeliveryCompanyForViewerDto> SearchCompaniesByName(string str);
     IEnumerable<DeliveryCompanyForViewerDto> GetAllCompanies();
 }

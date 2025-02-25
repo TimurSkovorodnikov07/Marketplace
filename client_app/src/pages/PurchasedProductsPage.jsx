@@ -43,11 +43,11 @@ export function PurchasedProductsPage() {
     switch (codeAndText.code) {
       case 200:
         return (
-          <div>
+          <>
             {products.length > 0 ? (
-              <div className="category">
+              <div className="purchased-product-images">
                 {products.map((x) => (
-                  <div key={x.purchasedDate}>
+                  <div className="category purchased-product" key={x.purchasedDate}>
                     <PurchasedProductInfoComponent product={x} />
                   </div>
                 ))}
@@ -55,7 +55,7 @@ export function PurchasedProductsPage() {
             ) : (
               <div className="mt-24">No purchased product</div>
             )}
-          </div>
+          </>
         );
     }
   }

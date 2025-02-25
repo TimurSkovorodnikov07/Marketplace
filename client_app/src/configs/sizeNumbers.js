@@ -1,0 +1,1 @@
+export const maxWidthForSmartphones = 1050;

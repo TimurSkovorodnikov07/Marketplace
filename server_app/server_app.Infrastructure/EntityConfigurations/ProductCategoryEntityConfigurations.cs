@@ -31,6 +31,7 @@ public class ProductCategoryEntityConfigurations : IEntityTypeConfiguration<Prod
             .HasDefaultValue(0).HasColumnName("total_estimation");
         builder.Property(x => x.EstimationCount).IsRequired()
             .HasDefaultValue(0).HasColumnName("estimation_count");
+        builder.Property(x => x.MainImageId).IsRequired().HasColumnName("main_image_id");
         
         builder.HasOne(x => x.Owner).WithMany(x => x.ProductsCategories)
             .IsRequired().HasForeignKey(x => x.OwnerId)

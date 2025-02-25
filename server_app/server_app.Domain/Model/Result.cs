@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace server_app.Domain.Model;
 
 public struct Result
@@ -7,7 +9,7 @@ public struct Result
         IsSuccesed = isSuccesed;
 
         if (isSuccesed)
-            HttpCode = 200;
+            HttpCode = (int)HttpStatusCode.OK;
     }
 
     public Result(bool isSuccesed, int code)
@@ -31,22 +33,20 @@ public struct Result
 
 
     public static Result Ok() => new Result(true);
-    public static Result Ok(object? value) => new Result(true, 200, value);
+    public static Result Ok(object? value) => new Result(true, (int)HttpStatusCode.OK, value);
 
-    public static Result Forbid() => new Result(false, 403);
-    public static Result InternalServerError() => new Result(false, 500, "The Error in Server)");
-    public static Result BadRequest(object? value = null) => new(false, 403, value);
-    public static Result NotFound(object? value = null) => new() { IsSuccesed = false, Value = value, };
+    public static Result Forbid() => new Result(false, (int)HttpStatusCode.Forbidden);
 
-    public static Result PaymentRequired() => new(false, 402);
+    public static Result InternalServerError() =>
+        new Result(false, (int)HttpStatusCode.InternalServerError, "The Error in Server)");
 
+    public static Result BadRequest(object? value = null) => new(false, (int)HttpStatusCode.BadRequest, value);
+    public static Result NotFound(object? value = null) => new(false, (int)HttpStatusCode.NotFound, value);
 
-    //Жаль шарп не позволяет указать вроде new(string) в where, в таком случаи я бы передавал value(object?) что удобнее чем ActionResultWithObjectT
-    // private static Result ResultReturn<ActionResultT, ActionResultWithObjectT>(bool isSuc,
-    //     ActionResultWithObjectT? actionResult = null)
-    //     where ActionResultT : StatusCodeResult, new()
-    //     where ActionResultWithObjectT : ActionResult =>
-    //     new Result(isSuc, actionResult is null
-    //         ? new ActionResultT()
-    //         : actionResult);
+    public static Result PaymentRequired() => new(false, (int)HttpStatusCode.PaymentRequired);
+
+    //Сука лучше не писать числа, лучше блять юзать уже существующие константы из HttpStatusCode.
+    
+    //Я 3-4 часа блять убил не понимая хули при создании товара получаю 403, когда в других конечных точках не получаю, что уже означает что у меня все заеб с авторизацией, думал, дело в ClaimsExtension, до этого хуйня была с ним, думал опять. Нет нихуя,
+    //дело было в том что я блять в Result классе сделал метод BadRequest котоырй возвращал как раз этот неверный код блтяь, просто пиздец.
 }

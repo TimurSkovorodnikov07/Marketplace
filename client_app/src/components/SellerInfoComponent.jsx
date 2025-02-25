@@ -3,6 +3,7 @@ import { SellerInfoWriteComponent } from "../components/SellerInfoWriteComponent
 import { SellerProductCategoriesComponent } from "../components/SellerProductCategoriesComponent";
 import { LogoutModalWindow } from "./LogoutModalWindow";
 import { SearchInputs } from "./SearchInputs";
+import {maxWidthForSmartphones} from "../configs/sizeNumbers"
 
 export function SellerInfoComponent({
   sellerInfo,
@@ -11,7 +12,6 @@ export function SellerInfoComponent({
 }) {
   const [search, setSearch] = useState("");
   const [priceNoMoreThenOrEqual, setPriceNoMoreThenOrEqual] = useState(0);
-  const minWidthForComputers = 1050;
 
   console.log(sellerInfo);
   return (
@@ -33,7 +33,7 @@ export function SellerInfoComponent({
             />
           </div>
         </div>
-        {window.innerWidth >= minWidthForComputers && isForOwner === true && (
+        {window.innerWidth >= maxWidthForSmartphones && isForOwner === true && (
           <LogoutModalWindow />
         )}
       </div>
@@ -44,7 +44,8 @@ export function SellerInfoComponent({
           search={search}
         />
       </div>
-      {window.innerWidth < minWidthForComputers && isForOwner === true && (
+
+      {window.innerWidth < maxWidthForSmartphones && isForOwner === true && (
         <LogoutModalWindow />
       )}
     </>

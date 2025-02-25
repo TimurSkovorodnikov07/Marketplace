@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCompanyInfo } from "../requests/deliveryCompanyRequests";
 import { Link } from "react-router-dom";
+import { ToolTip } from "./Tooltip";
 
 export function DeliveryCompanyInfo({ deliveryCompanyId }) {
   const [info, setInfo] = useState(null);
@@ -32,15 +33,10 @@ export function DeliveryCompanyInfo({ deliveryCompanyId }) {
   return (
     <>
       {info ? (
-        <>
-          <span className="tooltip">
-            <Link to={info.webSite}>{info.name}</Link>
-            <span className="tooltiptext">
-              <p>{info.description}</p>
-              <p>{phoneNum}</p>
-            </span>
-          </span>
-        </>
+        <ToolTip linkTo={info.webSite} linkText={info.name}>
+          <p>{info.description}</p>
+          <p>{phoneNum}</p>
+        </ToolTip>
       ) : (
         <></>
       )}

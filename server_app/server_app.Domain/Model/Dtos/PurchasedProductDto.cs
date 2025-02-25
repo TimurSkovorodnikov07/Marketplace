@@ -10,6 +10,8 @@ public class PurchasedProductDto
     //public List<Guid> ImagesIdentifiers { get; set; }
     
     public Guid CategoryId { get; set; }
+    public Guid MainImageId { get; set; }
+    
     public DateTime PurchasedDate { get; set; }
     public DateTime MustDeliveredBefore { get; set; }
     public DateTime? DeliveredDate { get; set; }

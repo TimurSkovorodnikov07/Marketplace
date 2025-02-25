@@ -22,6 +22,7 @@ export function BuyModalWindow({ list }) {
     [list]
   );
 
+  console.log(list);
   async function buy() {
     try {
       const response = await productBuy(listForQuery);
@@ -51,7 +52,12 @@ export function BuyModalWindow({ list }) {
       case 400:
         return (
           <AddCreditCardComponent
-            onAdded={() => setCodeAndText({ code: 0, text: "" })}
+            OnAdded={() =>
+              setCodeAndText({
+                code: 0,
+                text: "",
+              })
+            }
           />
         );
       case 402:
@@ -59,20 +65,14 @@ export function BuyModalWindow({ list }) {
       default:
         return (
           <>
-            <p>
-              You sure want buy:{" "}
+            <div className="mb-8">
+              You sure want to buy:
               <ol>
                 {list.map((x) => (
-                  <li key={x.id}>
-                    {x.name} -{" "}
-                    <span className="give-attention">
-                      {x.numberOfPurchases}
-                    </span>{" "}
-                    piece
-                  </li>
+                  <li key={x.id}>{`${x.name}(${x.numberOfPurchases})`}</li>
                 ))}
               </ol>
-            </p>
+            </div>
             <button
               onClick={async () => {
                 await buy();

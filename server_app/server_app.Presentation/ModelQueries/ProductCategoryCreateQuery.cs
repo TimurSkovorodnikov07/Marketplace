@@ -19,5 +19,5 @@ public class ProductCategoryCreateQuery
 
     [Required] public Guid DeliveryCompanyId { get; set; }
 
-    [Required, ListIsNotEmptyValidatorFilter] public List<IFormFile> Images { get; set; }
+    [Required, FormFileListIsNotEmptyValidatorFilter] public List<IFormFile> Images { get; set; }
 }

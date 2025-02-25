@@ -19,11 +19,11 @@ export function NumberInputComponent({
     <div className="number-input-wrapper">
       <button
         onClick={() => setValueEverywhere(value - 1)}
-        className={
-          `small-text ${min && value <= min
+        className={`small-text ${
+          min && value <= min
             ? "number-input-left-arrow-innactive"
-            : "number-input-left-arrow"}`
-        }
+            : "number-input-left-arrow"
+        }`}
       >
         {"-"}
       </button>
@@ -48,11 +48,11 @@ export function NumberInputComponent({
       </div>
       <button
         onClick={() => setValueEverywhere(value + 1)}
-        className={
-          `small-text ${max && value >= max
+        className={`small-text ${
+          max && value >= max
             ? "number-input-right-arrow-innactive"
-            : "number-input-right-arrow"}`
-        }
+            : "number-input-right-arrow"
+        }`}
       >
         {"+"}
       </button>

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { emailVerify, codeResend } from "../requests/baseAuthRequests";
 import { useDispatch } from "react-redux";
 import { loginType } from "../redux/authReducer";
-import { stringToBool } from "../other/converter";
 
 export function saveAuthDates(data, dispath) {
   try {
@@ -72,7 +71,7 @@ export function EmailVerify({ userId, codeDiedAfterSeconds, codeLength }) {
         navigate("/");
       }
     } catch (error) {
-      setErrorText(error.response);
+      setErrorText(error.response.data);
     }
   }
 
@@ -98,11 +97,9 @@ export function EmailVerify({ userId, codeDiedAfterSeconds, codeLength }) {
     <>
       <div>
         {time > 0 ? (
-          <>
-            <p>The code will become invalid after: {time} seconds</p>
-          </>
+          <div>The code will become invalid after: {time} seconds</div>
         ) : (
-          <p>Time is up, send the code again, and write a new code below</p>
+          <div>Time is up, send the code again, and write a new code below</div>
         )}
       </div>
       <div>
@@ -126,7 +123,7 @@ export function EmailVerify({ userId, codeDiedAfterSeconds, codeLength }) {
         />
       </div>
       <div>
-        <p id="error-text" className="error-text">
+        <p  className="error-text">
           {errorText}
         </p>
         <button onClick={async () => await resend()}>

@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace server_app.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -34,7 +36,7 @@ namespace server_app.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    website = table.Column<string>(type: "text", nullable: false),
+                    website = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
@@ -224,6 +226,17 @@ namespace server_app.Infrastructure.Migrations
                         principalTable: "ratings",
                         principalColumn: "category_id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "delivery_companies",
+                columns: new[] { "id", "description", "name", "phone_number", "website" },
+                values: new object[,]
+                {
+                    { new Guid("ab977dee-7ba0-4c8e-9700-763d702977a0"), "Description 1", "DeliveryCompanyNum 1", "+7 888 032 0324", "https://helloworld.gov/" },
+                    { new Guid("ab977dee-7ba0-4c8e-9700-763d702977a1"), "Blahblahblah", "Transporter company", "+6 533 003 0002", "https://transporter.com/" },
+                    { new Guid("ab977dee-7ba0-4c8e-9700-763d702977a2"), "Blah blah blah", "Some Dodecahedron", "+7 007 942 2390", "https://dodecahedron.org/" },
+                    { new Guid("ab977dee-7ba0-4c8e-9700-763d702977a5"), "Blah123 blah blah...", "Some DC", "+1 117 955 0000", "https://metanit.com/sharp/aspnet6/" }
                 });
 
             migrationBuilder.CreateIndex(

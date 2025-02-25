@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "v5ga1R/Dmco=",
+  "dgSpecHash": "fSeXkEhY0ZI=",
   "success": true,
   "projectFilePath": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/server_app.Presentation.csproj",
   "expectedPackageFiles": [
@@ -95,7 +95,7 @@
     "/home/timur/.nuget/packages/system.text.json/9.0.1/system.text.json.9.0.1.nupkg.sha512",
     "/home/timur/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
     "/home/timur/.nuget/packages/zstdsharp.port/0.7.3/zstdsharp.port.0.7.3.nupkg.sha512",
-    "/home/timur/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.1/microsoft.aspnetcore.app.ref.9.0.1.nupkg.sha512"
+    "/home/timur/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.2/microsoft.aspnetcore.app.ref.9.0.2.nupkg.sha512"
   ],
   "logs": []
 }

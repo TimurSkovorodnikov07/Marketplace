@@ -9,7 +9,7 @@ export default function ModalWindow({ isOpen, onClosed, children }) {
     setTimeout(() => {
       setIsExiting(false); // Reset exit state
       onClosed(); // Trigger the parent's close handler
-    }, 200); // Match duration of exit animation
+    }, 300); // Match duration of exit animation
   };
 
   return (

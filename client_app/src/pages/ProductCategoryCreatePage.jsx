@@ -25,7 +25,6 @@ import { SelectDeliveryCompanyComponent } from "../components/SelectDeliveryComp
 import { ChooseImagesComponent } from "../components/ChooseImagesComponent";
 import { guidValidator } from "../validators/guidValidator";
 import { TextAreaComponent } from "../components/TextAreaComponent";
-import { NumberInputComponent } from "../components/NumberInputComponent";
 
 export async function nameIsFreeCheck(name) {
   try {
@@ -38,6 +37,8 @@ export async function nameIsFreeCheck(name) {
 }
 
 export function ProductCategoryCreatePage() {
+  const nameIsOccupiedText = "The Name is occupied";
+
   const [codeAndText, setCodeAndText] = useResponseCode();
   const isCustomer = useSelector((state) => state.auth.isCustomer);
   const nagivate = useNavigate();
@@ -45,6 +46,7 @@ export function ProductCategoryCreatePage() {
 
   const [name, setName] = useState(undefined);
   const [nameIsFree, setNameIsFree] = useState(true);
+
   const [description, setDescription] = useState(undefined);
   const [tags, setTags] = useState([]);
   const [price, setPrice] = useState(undefined);
@@ -97,22 +99,23 @@ export function ProductCategoryCreatePage() {
               <InputComponent
                 id="name"
                 type="text"
-                invalidText={
-                  nameIsFree === true ? nameInvalidText : "Name is occupied"
-                }
+                invalidText={nameInvalidText}
                 validatorFun={(value) => {
                   return (
-                    categoryNameValidator(value) === true && nameIsFree === true
+                    categoryNameValidator(value) === true
                   );
                 }}
                 afterValidationFun={(e) => {
+                  setNameIsFree(true);
                   setName(e.target.value);
                 }}
-                beforeValidationFun={(e) => setNameIsFree(true)}
                 invalidatedFun={() => setName(undefined)}
                 inputOtherProps={{ placeholder: "Name..." }}
                 showInvalidText={isAllValid === false}
               />
+              {nameIsFree == false && (
+                <div className="error-text">{nameIsOccupiedText}</div>
+              )}
               <h2 className="mt-5">Description:</h2>
               <TextAreaComponent
                 id="description"
@@ -124,7 +127,7 @@ export function ProductCategoryCreatePage() {
                 invalidatedFun={() => setDescription(undefined)}
                 textareaOtherProps={{
                   placeholder: "Description...",
-                  maxlength: 500,
+                  maxlength: 499,
                 }}
                 showInvalidText={isAllValid === false}
               />
@@ -178,14 +181,17 @@ export function ProductCategoryCreatePage() {
               <h2 className="mt-5">Images:</h2>
               <ChooseImagesComponent
                 images={images}
-                changeImagesFun={(newImage) => setImages([...newImage])}
+                changeImagesFun={(newImages) => {
+                  console.log("new Images: ", newImages);
+                  setImages([...newImages]);
+                }}
                 showInvalidText={isAllValid === false}
                 buttonText={"Choose"}
               />
               <button
                 className="product-category-create-or-update-button mt-32"
                 onClick={async () => {
-                  const isValid =
+                  let isValid =
                     greaterThanZeroValidator(quantity) &&
                     deliveryCompany &&
                     images.length > 0 &&
@@ -197,7 +203,7 @@ export function ProductCategoryCreatePage() {
 
                   setIsAllValid(isValid);
 
-                  const isFree = await nameIsFreeCheck(name);
+                  let isFree = await nameIsFreeCheck(name);
                   setNameIsFree(isFree);
                   if (isValid === true && isFree === true) await sent();
                 }}

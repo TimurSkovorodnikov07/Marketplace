@@ -11,6 +11,6 @@ public class SellerEntityConfiguration : IEntityTypeConfiguration<SellerEntity>
         builder.ToTable("sellers");
         builder.UseTpcMappingStrategy();
         
-        builder.Property(x => x.Description).IsRequired().HasMaxLength(500).HasColumnName("description");
+        builder.Property(x => x.Description).IsRequired().HasMaxLength(125).HasColumnName("description");
     }
 }

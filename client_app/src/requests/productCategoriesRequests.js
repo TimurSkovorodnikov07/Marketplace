@@ -93,10 +93,20 @@ export async function productCategoryCreate(
 
   const formData = objectToFormMapper(data);
 
-  images.forEach((file) => {
-    console.log(file);
-    formData.append("Images", file, file.name);
-  });
+  if (Array.isArray(images)) {
+    images.forEach((file) => {
+      if (file && file.name) {
+        console.log("Adding image:", file);
+        formData.append("Images", file, file.name);
+      } else {
+        console.warn("Invalid file object:", file);
+      }
+    });
+  }
+  else
+  {
+    console.error("Images array are empty")
+  }
 
   return api
     .post(`/${controllerName}`, formData, {

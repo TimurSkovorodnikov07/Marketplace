@@ -65,6 +65,7 @@ export function ProductCategoryInfoComponent({
                           {
                             id: category.id,
                             numberOfPurchases: numberOfPurchases,
+                            name: category.name,
                           },
                         ]}
                       />
@@ -108,30 +109,33 @@ export function ProductCategoryInfoComponent({
             <div className="category-info-element">
               <SellerPartialInfo sellerId={category.ownerId} />
             </div>
-            {line()}
           </>
         )}
         <div className="category-info-element">
           <div className="category-info-quantity-input-wrapper">
-            {category.quantity > 0 ? (
+            {isForOwner == false && (
               <>
-                {" "}
-                <div className="give-attention-text">Quantity</div>
-                <NumberInputComponent
-                  id="numberOfPurchasesInput"
-                  value={numberOfPurchases}
-                  setValue={setNumberOfPurchases}
-                  min={1}
-                  max={category.quantity}
-                  inputOtherProps={{
-                    min: 1,
-                    max: category.quantity,
-                    className: "number-input category-info-quantity-input",
-                  }}
-                />
+                {category.quantity > 1 ? (
+                  <>
+                    {line()}
+                    <div className="give-attention-text">Quantity</div>
+                    <NumberInputComponent
+                      id="numberOfPurchasesInput"
+                      value={numberOfPurchases}
+                      setValue={setNumberOfPurchases}
+                      min={1}
+                      max={category.quantity}
+                      inputOtherProps={{
+                        min: 1,
+                        max: category.quantity,
+                        className: "number-input category-info-quantity-input",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>{category.quantity === 0 && <div>Sorry, products is over...</div>}</>
+                )}
               </>
-            ) : (
-              <>{"Sorry, products is over("}</>
             )}
           </div>
         </div>
@@ -146,7 +150,7 @@ export function ProductCategoryInfoComponent({
       <div className="product-category-wrapper">
         <div className="main-product-category-info">
           <div className="gallery">
-            <GalleryComponent imagesIdentifiers={category.imagesIdentifiers} />
+            <GalleryComponent categoryId={category.id} />
           </div>
 
           <div className="product-category-info">{getBaseInfo()}</div>
@@ -158,8 +162,12 @@ export function ProductCategoryInfoComponent({
         <div className="category-info-element delivery-company-info">
           <DeliveryCompanyInfo deliveryCompanyId={category.deliveryCompanyId} />
         </div>
-        <div className="give-attention-text">Description: </div>
-        <div className="category-info-element">{category.description}</div>
+        {category.description != null && category.description?.length > 0 && (
+          <>
+            <div className="give-attention-text">Description: </div>
+            <div className="category-info-element">{category.description}</div>
+          </>
+        )}
         <div className="reviews">
           <Reviews canWrite={isBought === true} categoryId={category.id} />
         </div>

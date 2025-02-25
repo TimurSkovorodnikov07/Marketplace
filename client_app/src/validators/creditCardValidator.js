@@ -5,9 +5,12 @@ export const masterCardPattern =
   /^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/;
 
 export function creditCardValidator(number, type, money) {
+  const isMasterCard =
+    regexTest(masterCardPattern, number) && type === "MasterCard";
+  const isVisa = regexTest(visaCardPattern, number) && type === "VisaCard";
+
   return (
-    ((regexTest(masterCardPattern, number) && type == "MasterCard") ||
-      (regexTest(visaCardPattern, number) && type == "VisaCard")) &&
+    (isMasterCard === true || isVisa === true) &&
     creditCardMoneyValidator(money)
   );
 }
@@ -20,5 +23,5 @@ export function creditCardNumberValidator(cardNum) {
 export const maxMoneyNumber = 100000000;
 
 export function creditCardMoneyValidator(money) {
-  return money != undefined && money < 100000000 && money >= 0;
+  return money != undefined && money < maxMoneyNumber && money >= 0;
 }

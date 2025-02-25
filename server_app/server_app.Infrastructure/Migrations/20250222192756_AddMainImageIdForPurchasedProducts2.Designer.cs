@@ -13,15 +13,15 @@ using server_app.Infrastructure;
 namespace server_app.Infrastructure.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20250201120854_InitMig")]
-    partial class InitMig
+    [Migration("20250222192756_AddMainImageIdForPurchasedProducts2")]
+    partial class AddMainImageIdForPurchasedProducts2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -119,18 +119,36 @@ namespace server_app.Infrastructure.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("name");
 
-                    b.Property<string>("WebSite")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("website");
-
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("WebSite")
-                        .IsUnique();
-
                     b.ToTable("delivery_companies", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a0"),
+                            Description = "Description 1",
+                            Name = "DeliveryCompanyNum 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a1"),
+                            Description = "Blahblahblah",
+                            Name = "Transporter company"
+                        },
+                        new
+                        {
+                            Id = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a2"),
+                            Description = "Blah blah blah",
+                            Name = "Some Dodecahedron"
+                        },
+                        new
+                        {
+                            Id = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a5"),
+                            Description = "Blah123 blah blah...",
+                            Name = "Some DC"
+                        });
                 });
 
             modelBuilder.Entity("server_app.Domain.Entities.ProductCategories.ProductCategoryEntity", b =>
@@ -151,6 +169,10 @@ namespace server_app.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(0)
                         .HasColumnName("estimation_count");
+
+                    b.Property<Guid>("MainImageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("main_image_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -205,6 +227,10 @@ namespace server_app.Infrastructure.Migrations
                     b.Property<DateTime?>("DeliveredDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("delivered_date");
+
+                    b.Property<Guid>("MainImageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("main_image_id");
 
                     b.Property<DateTime>("MustDeliveredBefore")
                         .HasColumnType("timestamp with time zone")
@@ -322,8 +348,8 @@ namespace server_app.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasMaxLength(125)
+                        .HasColumnType("character varying(125)")
                         .HasColumnName("description");
 
                     b.ToTable("sellers", (string)null);
@@ -372,9 +398,78 @@ namespace server_app.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("DeliveryCompanyEntityId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a0"),
+                                    Number = "+7 888 032 0324"
+                                },
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a1"),
+                                    Number = "+6 533 003 0002"
+                                },
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a2"),
+                                    Number = "+7 007 942 2390"
+                                },
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a5"),
+                                    Number = "+1 117 955 0000"
+                                });
+                        });
+
+                    b.OwnsOne("server_app.Domain.Entities.ProductCategories.ValueObjects.WebSiteValueObject", "WebSite", b1 =>
+                        {
+                            b1.Property<Guid>("DeliveryCompanyEntityId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("WebSiteValue")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("character varying(255)")
+                                .HasColumnName("website");
+
+                            b1.HasKey("DeliveryCompanyEntityId");
+
+                            b1.HasIndex("WebSiteValue")
+                                .IsUnique();
+
+                            b1.ToTable("delivery_companies");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DeliveryCompanyEntityId");
+
+                            b1.HasData(
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a0"),
+                                    WebSiteValue = "https://helloworld.gov/"
+                                },
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a1"),
+                                    WebSiteValue = "https://transporter.com/"
+                                },
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a2"),
+                                    WebSiteValue = "https://dodecahedron.org/"
+                                },
+                                new
+                                {
+                                    DeliveryCompanyEntityId = new Guid("ab977dee-7ba0-4c8e-9700-763d702977a5"),
+                                    WebSiteValue = "https://metanit.com/sharp/aspnet6/"
+                                });
                         });
 
                     b.Navigation("PhoneNumber")
+                        .IsRequired();
+
+                    b.Navigation("WebSite")
                         .IsRequired();
                 });
 
@@ -399,7 +494,7 @@ namespace server_app.Infrastructure.Migrations
                             b1.Property<Guid>("ProductCategoryEntityId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<List<string>>("Tags")
+                            b1.PrimitiveCollection<List<string>>("Tags")
                                 .IsRequired()
                                 .HasColumnType("varchar[]")
                                 .HasColumnName("tags");

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fk4LUIZ+8X4=",
+  "dgSpecHash": "DCQxX4KFwt0=",
   "success": true,
   "projectFilePath": "/home/timur/Desktop/Marketplace/server_app/server_app.Application/server_app.Application.csproj",
   "expectedPackageFiles": [
@@ -24,7 +24,7 @@
     "/home/timur/.nuget/packages/system.identitymodel.tokens.jwt/8.3.1/system.identitymodel.tokens.jwt.8.3.1.nupkg.sha512",
     "/home/timur/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/home/timur/.nuget/packages/system.security.cryptography.pkcs/8.0.1/system.security.cryptography.pkcs.8.0.1.nupkg.sha512",
-    "/home/timur/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.1/microsoft.aspnetcore.app.ref.9.0.1.nupkg.sha512"
+    "/home/timur/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.2/microsoft.aspnetcore.app.ref.9.0.2.nupkg.sha512"
   ],
   "logs": []
 }

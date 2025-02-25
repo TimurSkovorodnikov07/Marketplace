@@ -8,20 +8,22 @@ import {
 } from "../validators/creditCardValidator";
 import { InputComponent } from "./InputComponent";
 import { SelectComponent } from "./SelectComponent";
-import { NumberInputComponent } from "./NumberInputComponent";
+import { useNavigate } from "react-router-dom";
 
-export function AddCreditCardComponent({ onAdded }) {
+export function AddCreditCardComponent({ OnAdded }) {
   const [number, setNumber] = useState("");
   const [type, setType] = useState("");
   const [money, setMoney] = useState(0);
   const [isAllValid, setIsAllValid] = useState(true);
+  const navigator = useNavigate();
 
   async function add() {
     try {
-      const response = addCard(number, type, money);
+      const response = await addCard(number, type, money);
 
       if (response.status === 200) {
-        onAdded();
+        console.log("OK!");
+        OnAdded();
       }
     } catch (error) {
       console.error(error);
@@ -40,7 +42,7 @@ export function AddCreditCardComponent({ onAdded }) {
           invalidText={"Invalid number"}
           validatorFun={creditCardNumberValidator}
           invalidatedFun={() => setNumber(undefined)}
-          afterValidationFun={(e) => setNumber(e.target.value)}
+          afterValidationFun={(e) => setNumber(e.target.value.toString())}
           inputOtherProps={{
             placeholder: "xxxx xxxx xxxx xxxx",
             required: true,
@@ -52,7 +54,7 @@ export function AddCreditCardComponent({ onAdded }) {
       <div className="add-credit-card-element">
         <SelectComponent
           id="typeSelect"
-          onSelect={(value) => setType(value)}
+          onSelect={(value) => setType(value.toString())}
           textAndValue={[
             { text: "Master Card", value: "MasterCard" },
             { text: "Visa", value: "VisaCard" },
@@ -65,15 +67,15 @@ export function AddCreditCardComponent({ onAdded }) {
           id="moneyInput"
           type="number"
           invalidText={
-            "The amount of money must be greater than 0 and must not exceed 100,000,000"
+            "The amount of money must be greater than 0 and must not exceed 100.000.000"
           }
           validatorFun={(value) => {
-            const floatValue = parseFloat(value);
+            let floatValue = parseFloat(value);
             console.log(floatValue);
-            if (floatValue != isNaN)
-              return creditCardMoneyValidator(floatValue);
 
-            return false;
+            return floatValue != isNaN
+              ? creditCardMoneyValidator(floatValue)
+              : false;
           }}
           invalidatedFun={() => setMoney(undefined)}
           afterValidationFun={(e) => {
@@ -92,9 +94,15 @@ export function AddCreditCardComponent({ onAdded }) {
       {line()}
       <button
         onClick={async () => {
-          const isValid = creditCardValidator(number, type, money);
+          let isValid = creditCardValidator(number, type, money);
+
           setIsAllValid(isValid);
-          if (isValid === true) await add();
+          console.log("Is Valid: ", isValid);
+
+          if (isValid === true) {
+            console.log("IS VALID!");
+            await add();
+          }
         }}
       >
         Add card

@@ -24,9 +24,15 @@ export function ChooseImagesComponent({
             id="imageInput"
             type="file"
             onChange={(e) => {
-              changeImagesFun([...e.target.files]);
+              const validFiles = [...e.target.files].filter((file) =>
+                ["image/jpg", "image/png", "image/jpeg"].includes(file.type)
+              );
+              if (validFiles.length > 0) {
+                console.log("Valid Files: ", validFiles);
+                changeImagesFun(validFiles);
+              }
             }}
-            accept="image/png, image/jpeg"
+            accept="image/png, image/jpeg, image/jpg"
             multiple
           />
         </div>
@@ -35,10 +41,10 @@ export function ChooseImagesComponent({
             blobs.length > 0 ? " bg-[#11111b]" : ""
           }`}
         >
-          {blobs.map((b) => (
-            <ul>
-              <li key={b} className="choosen-image">
-                <img src={b} />
+          {blobs.map((b, index) => (
+            <ul key={index}>
+              <li className="choosen-image">
+                <img src={b} alt={`Selected ${index}`} />
               </li>
             </ul>
           ))}

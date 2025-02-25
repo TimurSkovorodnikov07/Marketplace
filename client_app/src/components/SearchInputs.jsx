@@ -1,5 +1,4 @@
 import { InputComponent } from "./InputComponent";
-import { NumberInputComponent } from "./NumberInputComponent";
 
 export function SearchInputs({
   setSearch,

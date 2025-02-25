@@ -138,16 +138,17 @@ public class ProductCategoryRepository(
             if (newCategory == null)
                 return await BadRequestResultReturnAndTransactionCanceled("New category not valid");
 
-            await dbContext.ProductsCategories.AddAsync(newCategory);
-            await dbContext.SaveChangesAsync();
+            var (saveIsSuccesses, mainImageId) =
+                await imageRepository.Save(createdCategory.Images, newCategory.Id);
 
-            var saveIsSuccesses =
-                await imageRepository.Create(createdCategory.Images, newCategory.Id);
-
-            if (!saveIsSuccesses)
+            if (saveIsSuccesses == false || mainImageId == null)
                 return await BadRequestResultReturnAndTransactionCanceled(
                     "Images could not be saved, they may not be valid");
 
+            newCategory.MainImageId = (Guid)mainImageId;
+            await dbContext.ProductsCategories.AddAsync(newCategory);
+            await dbContext.SaveChangesAsync();
+            
             await ratingService.AddCommonRating(newCategory.Id);
             await dbContext.SaveChangesAsync();
             await dbContext.Database.CommitTransactionAsync();
@@ -224,7 +225,7 @@ public class ProductCategoryRepository(
                 var randomDays = new Random().Next(1, 15);
                 var mustDeliveredBefore = DateTime.UtcNow.AddDays(randomDays);
                 var newPurchasedProduct = PurchasedProductEntity.Create(foundCategory, foundBuyer, mustDeliveredBefore,
-                    dto.NumberOfPurchases, totalSum);
+                    dto.NumberOfPurchases, totalSum, foundCategory.MainImageId);
                 //Имитация, блять, по другому будет пиздец долго, скорее всего мой маркетплейс юзать не будут
                 //А в идиале нужно запрашивать инфу у апи deliveryCompany
 

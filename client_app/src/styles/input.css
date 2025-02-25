@@ -50,6 +50,20 @@ textarea {
   justify-content: center;
   flex-direction: row;
 }
+.number-input-wrapper input,
+.number-input-wrapper input:focus
+.number-input-wrapper input:hover,
+.number-input-left-arrow,
+.number-input-right-arrow,
+.number-input-left-arrow:focus,
+.number-input-right-arrow:focus,
+.number-input-left-arrow:hover,
+.number-input-right-arrow:hover {
+  outline: none;
+  border: none;
+  color: #d9d9d9;
+  background-color: rgb(49, 50, 68);
+}
 .number-input-left-arrow,
 .number-input-right-arrow,
 .number-input-left-arrow-innactive,
@@ -71,18 +85,15 @@ textarea {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.number-input-left-arrow:focus,
-.number-input-right-arrow:focus,
-.number-input:focus {
-  color: #d9d9d9;
-  background-color: rgb(49, 50, 68);
-}
 
-.number-input-left-arrow-innactive:focus,
-.number-input-right-arrow-innactive:focus,
 .number-input-left-arrow-innactive,
-.number-input-right-arrow-innactive {
+.number-input-right-arrow-innactive
+.number-input-left-arrow-innactive:hover,
+.number-input-right-arrow-innactive:hover,
+.number-input-left-arrow-innactive:focus,
+.number-input-right-arrow-innactive:focus {
   background-color: rgb(49, 50, 68);
+  border: none;
   pointer-events: none;
   color: #45475a;
 }
@@ -91,9 +102,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-.custom-input:focus {
 }
 
 .tooltip {

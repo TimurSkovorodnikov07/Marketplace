@@ -1,8 +1,12 @@
 export const nameInvalidText =
   "The name should not be empty or very big(need 1-24 symbols)";
 
-export const descriptionInvalidText =
+  export const descriptionInvalidText =
   "The description must not be empty or above 500 characters";
+  export const descriptionInvalidTextForSeller =
+  "The description must not be empty or above 125 characters";
+
+
 
 export const descriptionWithEmptyInvalidText =
   "The description must or above 5000 characters";

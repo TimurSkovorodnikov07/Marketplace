@@ -13,7 +13,9 @@ public class ProductCategoryEntity : Entity
     public string Name { get; set; }
     public string? Description { get; set; }
     public TagsValueObject Tags { get; set; }
+
     public decimal Price { get; set; }
+
     //public List<ImageEntity> Images { get; set; }
     public int Quantity { get; set; }
 
@@ -27,6 +29,21 @@ public class ProductCategoryEntity : Entity
     public int TotalEstimation { get; set; }
     public int EstimationCount { get; set; }
 
+    private Guid _mainImageId;
+    public Guid MainImageId
+    {
+        get => _mainImageId;
+        set
+        {
+            if (_mainImageId != Guid.Empty)
+                throw new InvalidOperationException("The value is already set and cannot be changed.");
+                
+            _mainImageId = value;
+        }
+    }
+
+
+
     public static ProductCategoryEntity? Create(ProductCategoryCreateDto dto)
     {
         var newCategory = new ProductCategoryEntity
@@ -39,7 +56,7 @@ public class ProductCategoryEntity : Entity
             DeliveryCompany = dto.DeliveryCompany,
             Owner = dto.Owner,
             EstimationCount = 0,
-            TotalEstimation = 0
+            TotalEstimation = 0,
         };
         return ProductCategoryValidator.IsValid(newCategory)
             ? newCategory

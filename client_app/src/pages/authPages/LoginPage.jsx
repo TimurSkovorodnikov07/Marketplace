@@ -38,8 +38,8 @@ export default function LoginPage() {
   async function onSubmit() {
     try {
       const response = await login(
-        emailRef?.current?.value,
-        pasRef?.current?.value
+        emailRef.current.value,
+        pasRef.current.value
       );
 
       if (response.status === 200) {
@@ -50,7 +50,7 @@ export default function LoginPage() {
         setSent(true);
 
         const headerValue = response.headers["x-account-is-confirmed"];
-        const isConfirmed = stringToBool(headerValue);
+        let isConfirmed = stringToBool(headerValue);
         const userId = response.data.userId;
 
         if (isConfirmed === true) {
@@ -75,7 +75,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error(error);
-      console.log(error)
+      console.log(error);
       setSent(false);
       setCodeAndText({
         code: error.response.status,
@@ -97,43 +97,44 @@ export default function LoginPage() {
             />
           );
         }
-        case 404: <div>Idi nahui!</div>
+      case 404:
+        <div>Idi nahui!</div>;
       default:
         return (
           <div className="login-page">
-            <div className="min-h-[70vh] mb-16">
-              <div className="mb-16">
-                <h2>Log in</h2> to your account to use our application
-              </div>
-              <div className="mb-8">
-                <InputComponent
-                  id="emailInput"
-                  type="email"
-                  invalidText={emailInvalidText}
-                  validatorFun={emailValidator}
-                  afterValidationFun={(e) => setEmailIsValid(true)}
-                  invalidatedFun={() => setEmailIsValid(false)}
-                  ref={emailRef}
-                  labelText={"Email: "}
-                  inputOtherProps={{ placeholder: "example@mail.abc..." }}
-                  showInvalidText={isAllValid === false}
-                />
-              </div>
-              <div className="mb-8">
-                <InputComponent
-                  id="passwordInput"
-                  type="password"
-                  invalidText={passwordInvalidText}
-                  validatorFun={passwordValidator}
-                  afterValidationFun={(e) => setPasIsValid(true)}
-                  invalidatedFun={() => setPasIsValid(false)}
-                  ref={pasRef}
-                  labelText={"Password: "}
-                  inputOtherProps={{ placeholder: "MegaPasw03r+dD..." }}
-                  showInvalidText={isAllValid === false}
-                />
-              </div>
+            <div className="mb-16">
+              <h2>Log in</h2> to your account to use our application
             </div>
+
+            <div className="login-page-inputs min-h-[70vh] mb-16">
+              <InputComponent
+                id="emailInput"
+                type="email"
+                invalidText={emailInvalidText}
+                validatorFun={emailValidator}
+                afterValidationFun={(e) => setEmailIsValid(true)}
+                invalidatedFun={() => setEmailIsValid(false)}
+                ref={emailRef}
+                labelText={"Email: "}
+                inputOtherProps={{ placeholder: "example@mail.abc..." }}
+                showInvalidText={isAllValid === false}
+              />
+              <div className="mb-8"></div>
+
+              <InputComponent
+                id="passwordInput"
+                type="password"
+                invalidText={passwordInvalidText}
+                validatorFun={passwordValidator}
+                afterValidationFun={(e) => setPasIsValid(true)}
+                invalidatedFun={() => setPasIsValid(false)}
+                ref={pasRef}
+                labelText={"Password: "}
+                inputOtherProps={{ placeholder: "MegaPasw03r+dD..." }}
+                showInvalidText={isAllValid === false}
+              />
+            </div>
+
             <div>
               <input
                 type="submit"

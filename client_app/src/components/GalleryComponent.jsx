@@ -1,30 +1,46 @@
-import { useMemo, useState } from "react";
-import { getPathToImage } from "./ImageComponent";
+import { useEffect, useMemo, useState } from "react";
+import { getImagesByCategoryId } from "../requests/imagesRequest";
 
-export function GalleryComponent({ imagesIdentifiers = [] }) {
-  const list = useMemo(() => {
-    const resultArray = [];
-    let curIndex = 0;
+export function GalleryComponent({ categoryId }) {
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-    while (curIndex < imagesIdentifiers.length) {
-      resultArray.push({ index: curIndex, value: imagesIdentifiers[curIndex] });
-      curIndex++;
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await getImagesByCategoryId(categoryId);
+
+        if (response.status === 200) {
+          setImages(response.data);
+          setSelectedImage({ data: response.data[0], index: 0 });
+        }
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+    fetchImages();
+  }, [categoryId]);
+
+  const list = useMemo(
+    () => images.map((img, index) => ({ index, ...img })), // Keep full image object
+    [images]
+  );
+
+  function move(isIncrement) {
+    if (!selectedImage) return;
+
+    const newIndex = isIncrement
+      ? selectedImage.index + 1
+      : selectedImage.index - 1;
+
+    if (newIndex >= 0 && newIndex < list.length) {
+      setSelectedImage({ data: list[newIndex], index: newIndex }); // Select full image object
     }
-    return resultArray;
-  }, [imagesIdentifiers]);
+  }
 
-  const [selectedImageAndIndex, setSelectedImageAndIndex] = useState({
-    index: 0,
-    value: imagesIdentifiers[0],
-  });
-
-  function move(isIncrepent) {
-    const curIndex = selectedImageAndIndex.index;
-    const newSelectedIndex = isIncrepent === true ? curIndex + 1 : curIndex - 1;
-    setSelectedImageAndIndex({
-      index: newSelectedIndex,
-      value: imagesIdentifiers[newSelectedIndex],
-    });
+  function getImageSrc(image) {
+    if (!image) return "";
+    return `data:${image.mimeType};base64,${image.imageData}`;
   }
 
   return (
@@ -32,16 +48,16 @@ export function GalleryComponent({ imagesIdentifiers = [] }) {
       {list.length > 1 ? (
         <>
           <div className="gallery-small-images-wrapper">
-            {list.map((x) => (
-              <div key={x.value}>
+            {list.map((x, index) => (
+              <div key={x.id}>
                 <button
-                  className={"gallery-change-button"}
-                  onClick={() => setSelectedImageAndIndex(x)}
+                  className="gallery-change-button"
+                  onClick={() => setSelectedImage({ data: x, index: index })}
                 >
                   <img
-                    src={getPathToImage(x.value)}
+                    src={getImageSrc(x)}
                     className={
-                      x.index === selectedImageAndIndex.index
+                      x.index === selectedImage?.index
                         ? "gallery-selected-small-image"
                         : "gallery-small-image"
                     }
@@ -50,41 +66,45 @@ export function GalleryComponent({ imagesIdentifiers = [] }) {
               </div>
             ))}
           </div>
-          <div className={"gallery-image-wrapper"}>
+          <div className="gallery-image-wrapper">
             <button
               onClick={() => move(false)}
               className={
-                selectedImageAndIndex.index > 0
+                selectedImage?.index > 0
                   ? "gallery-prev-image-button"
                   : "gallery-prev-image-button-negative"
               }
             >
-              {"<-"}
+              {"←"}
             </button>
 
-            <img
-              src={getPathToImage(selectedImageAndIndex.value)}
-              className={"gallery-image"}
-            />
+            {selectedImage && (
+              <img
+                src={getImageSrc(selectedImage.data)}
+                className="gallery-image"
+              />
+            )}
 
             <button
               onClick={() => move(true)}
               className={
-                selectedImageAndIndex.index < list.length - 1
+                selectedImage?.index < list.length - 1
                   ? "gallery-next-image-button"
                   : "gallery-next-image-button-negative"
               }
             >
-              {"->"}
+              {"→"}
             </button>
           </div>
         </>
       ) : (
-        <div className={"gallery-image-wrapper"}>
-          <img
-            src={getPathToImage(selectedImageAndIndex.value)}
-            className={"gallery-image"}
-          />
+        <div className="gallery-image-wrapper">
+          {selectedImage && (
+            <img
+              src={getImageSrc(selectedImage.data)}
+              className="gallery-image"
+            />
+          )}
         </div>
       )}
     </>

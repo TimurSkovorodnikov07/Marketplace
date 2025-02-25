@@ -8,6 +8,7 @@ export function getPathToImage(id, getFromServer = true) {
 export function ImageComponent({
   imageId,
   linkTo,
+  imageWrapperClass,
   imageClass,
   linkClass,
   getFromServer = true,
@@ -15,12 +16,17 @@ export function ImageComponent({
   function getImage() {
     return getPathToImage(imageId, getFromServer);
   }
+  console.log("Path to image: ", getImage());
 
-  return linkTo === undefined ? (
-    <img src={getImage()} className={imageClass} />
-  ) : (
-    <Link className={linkClass} to={linkTo}>
-      <img src={getImage()} className={imageClass} />
-    </Link>
+  return (
+    <div className={imageWrapperClass}>
+      {linkTo === undefined ? (
+        <img src={getImage()} className={imageClass} />
+      ) : (
+        <Link className={linkClass} to={linkTo}>
+          <img src={getImage()} className={imageClass} />
+        </Link>
+      )}
+    </div>
   );
 }

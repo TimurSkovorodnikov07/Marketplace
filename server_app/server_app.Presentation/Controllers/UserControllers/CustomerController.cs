@@ -67,8 +67,6 @@ public class CustomerController(
     [HttpPatch, Route("addcard"), Authorize, ValidationFilter]
     public async Task<IActionResult> AddCreditCard([Required, CreditCardAddQueryValidation] CreditCardAddQuery query)
     {
-        logger.LogCritical("NIGGERSSS!!!!");
-
         if (Enum.TryParse(query.Type, true,
                 out CreditCardType cardType) == false)
             return BadRequest("Invalid card type");

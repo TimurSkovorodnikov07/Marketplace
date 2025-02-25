@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { InputComponent } from "./InputComponent";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import accountIconImage from "../files/images/accountIcon.png";
 import shoppingCartIconImage from "../files/images/shoppingCartIcon.png";

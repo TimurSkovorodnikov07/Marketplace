@@ -3,26 +3,32 @@ import { ImageComponent } from "./ImageComponent";
 
 export function PurchasedProductInfoComponent({ product }) {
   const format = "DD/MM/YYYY";
+  console.log("Purchased product: ", product);
 
   return (
     <>
-      <div>{product.name}</div>
-      <div>{product.description}</div>
-      <div>{product.totalSum}</div>
-      <div>{product.purchasedQuantity}</div>
-      <div>{moment(product.purchasedDate).format(format)}</div>
-      <div>{moment(product.mustDeliveredBefore).format(format)}</div>
+      <h1>{product.name}</h1>
+      <div>Sum: {product.totalSum}$</div>
+      <div>Quantity: {product.purchasedQuantity}</div>
+      <div>Purchased Date: {moment(product.purchasedDate).format(format)}</div>
       {product.deliveredDate != undefined ? (
-        <div>{moment(product.deliveredDate).format(format)}</div>
+        <div>
+          Delivered Date: {moment(product.deliveredDate).format(format)}
+        </div>
       ) : (
-        <></>
+        <div>
+          Must Delivered Before:{" "}
+          {moment(product.mustDeliveredBefore).format(format)}
+        </div>
       )}
-
-      <ImageComponent
-        imageId={product.imagesIdentifiers[0]}
-        linkTo={`/products/${product.categoryId}`}
-        imageClass="category-image"
-      />
+      <div className="mt-8">
+        <ImageComponent
+          imageId={product.mainImageId}
+          linkTo={`/products/${product.categoryId}`}
+          imageWrapperClass="purchased-product-image-wrapper"
+          imageClass="purchased-product-image"
+        />
+      </div>
     </>
   );
 }

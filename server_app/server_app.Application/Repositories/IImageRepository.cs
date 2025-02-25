@@ -9,8 +9,8 @@ public interface IImageRepository
     Task<IEnumerable<ImageEntity>> GetByProductCategoryId(Guid id);
     Task<ImageEntity?> GetById(Guid id);
 
-    Task<bool> Create(SavedFile file, Guid productId);
-    Task<bool> Create(List<SavedFile> files, Guid productId);
+    Task<(bool, Guid?)> Save(SavedFile file, Guid productId);
+    Task<(bool, Guid?)> Save(List<SavedFile> files, Guid productId);
     Task<bool> DeleteById(Guid id);
     Task<bool> DeleteAllByProductCategoryId(Guid categoryId);
 }

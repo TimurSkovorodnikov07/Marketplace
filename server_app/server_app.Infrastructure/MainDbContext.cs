@@ -5,6 +5,7 @@ using server_app.Domain.Entities.ProductCategories.DeliveryCompanies;
 using server_app.Domain.Entities.ProductCategories.PurchasedProducts;
 using server_app.Domain.Entities.ProductCategories.Ratings;
 using server_app.Domain.Entities.ProductCategories.Reviews;
+using server_app.Domain.Entities.ProductCategories.ValueObjects;
 using server_app.Domain.Entities.Users.CreditCard;
 using server_app.Domain.Entities.Users.Customer;
 using server_app.Domain.Entities.Users.Seller;

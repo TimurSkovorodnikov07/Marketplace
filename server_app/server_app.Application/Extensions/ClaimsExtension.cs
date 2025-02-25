@@ -21,9 +21,11 @@ public static class ClaimsExtension
     }
 
     public static string? GetUserType(this IEnumerable<Claim> claims) => GetValue(claims, JwtService.UserTypeClaimType);
-    private static bool IsSeller(IEnumerable<Claim> claims) => GetUserType(claims) == "seller";
 
-    private static bool TryGet(IEnumerable<Claim> claims, bool isSeller, string selectType, out string? result)
+    private static bool IsSeller(IEnumerable<Claim> claims) =>
+        string.Equals(GetUserType(claims), "seller", StringComparison.OrdinalIgnoreCase);
+
+    public static bool TryGet(IEnumerable<Claim> claims, string selectType, bool isSeller, out string? result)
     {
         if (IsSeller(claims) == isSeller)
         {
@@ -32,34 +34,15 @@ public static class ClaimsExtension
             if (string.IsNullOrEmpty(result) == false)
                 return true;
         }
+
         result = null;
         return false;
     }
 
 
-    public static bool TryGetSellerIdValue(this IEnumerable<Claim> claims, out string? result) =>
-        TryGet(claims, true, JwtService.UserIdClaimType, out result);
-
-    public static bool TryGetSellerNameValue(this IEnumerable<Claim> claims, out string? result) =>
-        TryGet(claims, true, JwtService.UserNameClaimType, out result);
-
-    public static bool TryGetSellerEmailValue(this IEnumerable<Claim> claims, out string? result) =>
-        TryGet(claims, true, JwtService.UserEmailClaimType, out result);
-
-
-    public static bool TryGetCustomerIdValue(this IEnumerable<Claim> claims, out string? result) =>
-        TryGet(claims, false, JwtService.UserIdClaimType, out result);
-
-    public static bool TryGetCustomerNameValue(this IEnumerable<Claim> claims, out string? result) =>
-        TryGet(claims, false, JwtService.UserNameClaimType, out result);
-
-    public static bool TryGetCustomerEmailValue(this IEnumerable<Claim> claims, out string? result) =>
-        TryGet(claims, false, JwtService.UserEmailClaimType, out result);
-
-
     public static bool TryIsCustomer(this IEnumerable<Claim> claims, out Guid? guid)
     {
-        if (TryGetCustomerIdValue(claims, out string? guidString)
+        if (TryGet(claims, JwtService.UserIdClaimType, false, out string? guidString)
             && Guid.TryParse(guidString, out Guid customerGuid))
         {
             guid = customerGuid;
@@ -72,7 +55,7 @@ public static class ClaimsExtension
 
     public static bool TryIsSeller(this IEnumerable<Claim> claims, out Guid? guid)
     {
-        if (TryGetSellerIdValue(claims, out string? sellerGuidString)
+        if (TryGet(claims, JwtService.UserIdClaimType, true, out string? sellerGuidString)
             && Guid.TryParse(sellerGuidString, out var sellerGuid))
         {
             guid = sellerGuid;

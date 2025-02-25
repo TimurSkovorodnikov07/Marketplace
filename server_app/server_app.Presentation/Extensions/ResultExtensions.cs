@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using server_app.Application.Exceptions;
 using server_app.Domain.Model;
+using server_app.Presentation.Controllers;
 
 namespace server_app.Presentation.Extensions;
 
 public static class ResultExtensions
 {
-    public static IActionResult ResultToIActionResult(this Result result)
+    public static IActionResult ResultToIActionResult(this Result result, ILogger<ProductsController> logger = null)
     {
+        logger?.LogInformation($"Returning {result.HttpCode}: {result.Value}");
+        
         return result.HttpCode switch
         {
             200 => Ok(result.Value),

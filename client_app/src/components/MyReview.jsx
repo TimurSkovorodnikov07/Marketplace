@@ -50,7 +50,7 @@ export function MyReview({ review, text, estimation, setText, setEstimation }) {
                 beforeValidationFun={(e) => setText(e.target.value)}
                 textareaOtherProps={{
                   placeholder: "Write review...",
-                  maxlength: 500,
+                  maxlength: 499,
                 }}
                 defaultValue={review.text}
               />

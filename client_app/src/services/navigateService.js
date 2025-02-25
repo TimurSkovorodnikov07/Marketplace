@@ -5,3 +5,4 @@ export function goToLogin(navigator) {
 export function byLogout(navigator) {
   navigator(-1);
 }
+

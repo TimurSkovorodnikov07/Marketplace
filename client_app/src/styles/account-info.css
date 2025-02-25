@@ -25,6 +25,9 @@
 .account-info-wrapper,
 .account-partial-products-wrapper {
 }
+.account-partial-products-wrapper{
+  border-radius: 10px;
+}
 
 .search-inputs-wrapper {
   margin: 20px 0px;

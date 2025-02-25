@@ -13,10 +13,12 @@ public class EmailSenderByYandexService(
 {
     private readonly EmailOptions _emailOptions = options.Value;
     private readonly ILogger<EmailSenderByYandexService> _logger = logger;
-
+    
+    private const string Host = "smtp.yandex.ru";
+    
     public async Task SendAsync(string toAddress, string title, string htmlBody)
     {
         await baseSender.Send(_emailOptions.Address, _emailOptions.Password, toAddress,
-            "smtp.yandex.ru", 587, title, htmlBody);
+            Host, 587, title, htmlBody);
     }
 }

@@ -19,6 +19,7 @@ import "./styles/tooltip.css";
 import "./styles/delivery-company-select.css"
 import "./styles/add-tag.css"
 import "./styles/product-category-create-or-update.css"
+import "./styles/purchased-products.css"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

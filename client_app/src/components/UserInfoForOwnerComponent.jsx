@@ -5,6 +5,7 @@ import { LogoutModalWindow } from "./LogoutModalWindow";
 import { useNavigate } from "react-router-dom";
 import { goToLogin } from "../services/navigateService";
 import { PurchasedProductsPage } from "../pages/PurchasedProductsPage";
+import { maxWidthForSmartphones } from "../configs/sizeNumbers";
 
 export function UserInfoForOwnerComponent() {
   const navigate = useNavigate();
@@ -34,17 +35,20 @@ export function UserInfoForOwnerComponent() {
     return (
       <div>
         <div className="account-info-element">
-          <div className="account-info-label">Name: </div> {info.name}
+          <div className="account-info-label">Name: </div>
+          <h2>{info.name}</h2>
         </div>
         <div className="account-info-element">
-          <div className="account-info-label">Email: </div> {info.email}
+          <div className="account-info-label">Email: </div>{" "}
+          <div className="small-text">{info.email}</div>
         </div>
         {info.isCustomer === false && (
           <div className="account-info-element">
-            <div className="account-info-label">Description: </div>{" "}
-            {info.description}
+            <div className="account-info-label">Description: </div>
+            <div className="small-text">{info.description}</div>
           </div>
         )}
+        <div className="line-on-bottom"></div>
       </div>
     );
   }
@@ -54,17 +58,23 @@ export function UserInfoForOwnerComponent() {
       (info.isCustomer === true || info.isCustomer === false) && (
         <>
           <div className="account-info-wrapper">
-            <div className="account-info">
+            <div className="account-info mb-16">
               <div>{baseInfo()}</div>
 
-              <div className="toend">
+              {window.innerWidth >= maxWidthForSmartphones && (
                 <LogoutModalWindow />
-              </div>
+              )}
             </div>
           </div>
           <div className="account-partial-products-wrapper">
             <PurchasedProductsPage />
           </div>
+
+          {window.innerWidth < maxWidthForSmartphones && (
+            <div className="mt-16">
+              <LogoutModalWindow />
+            </div>
+          )}
         </>
       )
     );

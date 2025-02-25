@@ -8,7 +8,11 @@ public class PhoneNumberValueObject
 
     public static PhoneNumberValueObject? Create(string phoneNumber)
     {
-        var newPhoneNum = new PhoneNumberValueObject { Number = StringsExtensions.LeaveOnlyTheNumbers(phoneNumber) };
+        var newPhoneNum = new PhoneNumberValueObject
+        {
+            Number = StringsExtensions.LeaveOnlyTheNumbers(phoneNumber)
+        };
+        
         return PhoneNumberValidator.IsValid(newPhoneNum) ? newPhoneNum : null;
     }
 }

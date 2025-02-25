@@ -33,20 +33,25 @@ api.interceptors.response.use(
     return conf;
   },
   async (error) => {
-    const originalReq = error.config;
+    console.error("Error message: ", error);
+    console.log(
+      "Refresh token from Cookies: ",
+      Cookies.get(refreshTokenInCookies)
+    );
+    console.log("User Id from Cookies", Cookies.get(userIdInCookies));
+
     if (
-      error.response.status === 401 &&
-      Cookies(refreshTokenInCookies) !== undefined &&
-      Cookies(userIdInCookies) !== undefined &&
-      error.config._isRetry === false
+      error.response.status == 401 &&
+      Cookies.get(refreshTokenInCookies) != undefined &&
+      Cookies.get(userIdInCookies) != undefined
     ) {
       try {
         //Нужно isRetry проверка чтобы не сделать бесконечный цикл где хочешь избавиться от 401 но в итоге опять его получаешь(если сервак писал даун)
-        originalReq._isRetry = true;
+        error.config._isRetry = true;
 
-        const response = await tokensUpdate(
-          Cookies(refreshTokenInCookies),
-          Cookies(userIdInCookies)
+        let response = await tokensUpdate(
+          Cookies.get(refreshTokenInCookies),
+          Cookies.get(userIdInCookies)
         );
         console.log(response);
 
@@ -59,20 +64,17 @@ api.interceptors.response.use(
             isCustomerInLocalStorage,
             response.data.isCustomer
           );
-
           Cookies.set(refreshTokenInCookies, response.data.refreshToken);
           Cookies.set(userIdInCookies, response.data.userId);
 
-          return api.request(originalReq);
+          return api.request(error.config);
         }
-        throw new Error("");
+        throw new Error("The Tokens didn't update");
       } catch (er) {
         console.error(er);
         console.error("REMOVE ALL AUTH DATA FROM api.js");
         logout();
       }
-    } else {
-      logout();
     }
     throw error;
   }

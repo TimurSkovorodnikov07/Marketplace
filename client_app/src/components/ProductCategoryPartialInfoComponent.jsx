@@ -15,7 +15,7 @@ export function ProductCategoryPartialInfoComponent({
       <>
         <div className="text-start">
           <ImageComponent
-            imageId={category.imagesIdentifiers[0]}
+            imageId={category.mainImageId}
             linkTo={`/products/${category.id}`}
             imageClass="partial-category-image"
           />
@@ -24,7 +24,7 @@ export function ProductCategoryPartialInfoComponent({
           <div>
             <Stars
               className="partial-category-star"
-              estimation={category.estimation}
+              estimation={category.totalEstimation}
             />
           </div>
         </div>

@@ -20,7 +20,7 @@ public class MainMapperProfile : Profile
             .ForMember(des => des.WebSite, opt => opt.MapFrom(x => x.NewWebSite))
             .ForMember(des => des.PhoneNumber, opt => opt.MapFrom(x => x.NewPhoneNumber));
         CreateMap<DeliveryCompanyEntity, DeliveryCompanyForViewerDto>()
-            .ForMember(des => des.WebSite, x => x.MapFrom(c => c.WebSite.ToString()))
+            .ForMember(des => des.WebSite, x => x.MapFrom(c => c.WebSite.WebSiteValue))
             .ForMember(des => des.PhoneNumber, x => x.MapFrom(c => c.PhoneNumber.Number));
 
         CreateMap<UserEntity, UserDto>();
@@ -42,11 +42,13 @@ public class MainMapperProfile : Profile
             .ForMember(des => des.DeliveryCompanyId, opt => opt.MapFrom(s => s.DeliveryCompany.Id))
             .Include<ProductCategoryEntity, ProductCategoryDtoForOwner>()
             .Include<ProductCategoryEntity, ProductCategoryDtoForViewer>();
-
         CreateMap<ProductCategoryEntity, ProductCategoryDtoForOwner>();
         CreateMap<ProductCategoryEntity, ProductCategoryDtoForViewer>();
-        CreateMap<ProductCategoryEntity, ProductCategorySmallDtoForViewer>();
 
+
+        CreateMap<ProductCategoryEntity, ProductCategorySmallDtoForViewer>()
+            .ForMember(des => des.Tags, opt => opt.MapFrom(x => x.Tags.Tags));
+        
         CreateMap<PurchasedProductEntity, PurchasedProductDto>()
             .ForMember(d => d.Name, opt => opt.MapFrom(x => x.Category.Name))
             .ForMember(d => d.Description, opt => opt.MapFrom(x => x.Category.Description))

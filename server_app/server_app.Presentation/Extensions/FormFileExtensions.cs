@@ -8,15 +8,22 @@ public static class FormFileExtensions
     {
         var savedFiles = new List<SavedFile>();
 
-        if (formFiles == null || formFiles.Count <= 0)
+        if (formFiles == null || formFiles.Count == 0)
             return savedFiles;
-        
+
         foreach (var file in formFiles)
         {
-            using var stream = file.OpenReadStream();
-            var newSavedFile = new SavedFile(file.FileName, stream, file.ContentType);
-            savedFiles.Add(newSavedFile);            
+            //Ранее был using до var memoryStream, поставил по превычке, потом смотрю, в Stream во всех SavedFile пуст, при этом не в IFormFile-ах, колектор накурился мб
+            var memoryStream = new MemoryStream(); 
+            file.CopyTo(memoryStream);
+
+            // Reset position before reading
+            memoryStream.Position = 0;
+
+            var newSavedFile = new SavedFile(file.FileName, memoryStream, file.ContentType);
+            savedFiles.Add(newSavedFile);
         }
+
         return savedFiles;
     }
 }

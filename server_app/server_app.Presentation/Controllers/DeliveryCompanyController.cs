@@ -43,12 +43,13 @@ public class DeliveryCompanyController(
     public async Task<IActionResult> Create([Required, FromForm] DeliveryCompanyCreateQuery query)
     {
         var phoneNumber = PhoneNumberValueObject.Create(query.PhoneNumber);
+        var webSite = WebSiteValueObject.Create(query.WebSite);
 
-        if (!Uri.TryCreate(query.WebSite, new UriCreationOptions(), out Uri? webSite)
-            || phoneNumber is null)
-            return BadRequest("Not a valid web site and/or phone number");
+        if (phoneNumber is null) return BadRequest("The phone number isn't valid");
+        if (webSite is null) return BadRequest("The website isn't valid");
 
-        var foundCompany = await repository.GetByAnyParam(query.Name, webSite, phoneNumber);
+
+        var foundCompany = await repository.GetByAnyParam(query.Name, webSite.WebSiteValue, phoneNumber);
 
         if (foundCompany is not null)
             return BadRequest("A company with that name, number, or website already exists");
@@ -60,10 +61,18 @@ public class DeliveryCompanyController(
             phoneNum: phoneNumber);
 
         if (newCompany is null)
-            return BadRequest(); //Вобще такой ситуации не будет, тк есть DataAn. атрибуты на query
+            return BadRequest("Created Delivery Company isn't valid");
+        //Вобще такой ситуации не будет, тк есть DataAn. атрибуты на query
         //+ еще проверяю номер и сайт на валидность в начале action, но похуй, пусть будет что ли
 
         await repository.Add(newCompany);
         return Ok();
+    }
+
+    [HttpDelete("{guid:guid}"), ValidationFilter]
+    public async Task<IActionResult> Remove([Required] Guid guid)
+    {
+        var result = await repository.Remove(guid);
+        return result ? Ok() : BadRequest();
     }
 }

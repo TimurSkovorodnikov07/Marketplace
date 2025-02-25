@@ -16,6 +16,7 @@ public class PurchasedProductEntityConfigurations : IEntityTypeConfiguration<Pur
         builder.Property(x => x.TotalSum).HasColumnName("total_sum");
         builder.Property(x => x.MustDeliveredBefore).IsRequired().HasColumnName("must_delivered_before");
         builder.Property(x => x.DeliveredDate).HasColumnName("delivered_date");
+        builder.Property(x => x.MainImageId).HasColumnName("main_image_id");
 
         builder.Property(x => x.CategoryId).HasColumnName("category_id");//Отношения уже написаны в ProductCategoryEntityConfigurations
         builder.Property(x => x.BuyerId).HasColumnName("buyer_id");

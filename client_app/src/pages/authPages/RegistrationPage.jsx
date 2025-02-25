@@ -3,11 +3,15 @@ import {
   nameInvalidText,
   passwordInvalidText,
   descriptionInvalidText,
+  descriptionInvalidTextForSeller,
 } from "../../configs/TextsDuringInvalidity";
 import emailValidator from "../../validators/emailValidator";
 import passwordValidator from "../../validators/passwordValidator";
 import userNameValidator from "../../validators/userNameValidator";
-import { descriptionValidator } from "../../validators/descriptionValidator";
+import {
+  descriptionValidator,
+  descriptionValidatorForSeller,
+} from "../../validators/descriptionValidator";
 
 import { useRef, useState } from "react";
 import { InputComponent } from "../../components/InputComponent";
@@ -37,25 +41,27 @@ export default function RegistrationPage() {
   const [isAllValid, setIsAllValid] = useState(true);
 
   //Only for Seller
-  const desRef = useRef(null);
+  const [descriptionValue, setDescriptionValue] = useState(null);
   const [descriptionIsValid, setDescriptionNameIsValid] = useState(false);
+
 
   async function onSubmit() {
     setSent(true);
 
     try {
-      const response = isForCustomer
-        ? await customerAccountCreate(
-            nameRef?.current?.value,
-            emailRef?.current?.value,
-            pasRef?.current?.value
-          )
-        : await sellerAccountCreate(
-            nameRef?.current?.value,
-            emailRef?.current?.value,
-            pasRef?.current?.value,
-            desRef?.current?.value
-          );
+      const response =
+        isForCustomer === true
+          ? await customerAccountCreate(
+              nameRef.current.value,
+              emailRef.current.value,
+              pasRef.current.value
+            )
+          : await sellerAccountCreate(
+              nameRef.current.value,
+              emailRef.current.value,
+              pasRef.current.value,
+              descriptionValue
+            );
       if (response.status === 200) {
         setUserId(response.data.userId);
         setCodeLength(parseInt(response.data.codeLength));
@@ -87,96 +93,97 @@ export default function RegistrationPage() {
       default:
         return (
           <div className="registration-page">
-            <div className="min-h-[70vh] mb-16">
-              <div className="mb-16">
-                {isForCustomer ? (
-                  <>
-                    <h2>Registration</h2> to your account to use our application
-                  </>
-                ) : (
-                  <>
-                    <h2>Registration</h2>
-                    to your{" "}
-                    <span className="give-attention-text text-[#f38ba8]">
-                      seller
-                    </span>{" "}
-                    account to use our application
-                  </>
-                )}
-              </div>
-              <div className="mb-8">
-                <InputComponent
-                  id="nameInput"
-                  type="text"
-                  invalidText={nameInvalidText}
-                  validatorFun={userNameValidator}
-                  afterValidationFun={(e) => setNameIsValid(true)}
-                  invalidatedFun={() => setNameIsValid(false)}
-                  ref={nameRef}
-                  inputOtherProps={{
-                    placeholder: "Name...",
-                  }}
-                  labelText={"Name: "}
-                  showInvalidText={isAllValid === false}
-                />
-              </div>
+            {isForCustomer ? (
+              <>
+                <h2>Registration</h2> to your account to use our application
+              </>
+            ) : (
+              <>
+                <h2>Registration</h2>
+                to your{" "}
+                <span className="give-attention-text text-[#f38ba8]">
+                  seller
+                </span>{" "}
+                account to use our application
+              </>
+            )}
+            <div className="registration-page-inputs min-h-[70vh] mb-16">
+              <div className="mb-8"></div>
+              <InputComponent
+                id="nameInput"
+                type="text"
+                invalidText={nameInvalidText}
+                validatorFun={userNameValidator}
+                afterValidationFun={(e) => setNameIsValid(true)}
+                invalidatedFun={() => setNameIsValid(false)}
+                ref={nameRef}
+                inputOtherProps={{
+                  placeholder: "Name...",
+                }}
+                labelText={"Name: "}
+                showInvalidText={isAllValid === false}
+              />
+              <div className="mb-8"></div>
+
               {isForCustomer ? (
                 <></>
               ) : (
-                <div className="mb-8">
+                <div>
                   <TextAreaComponent
-                    id="descriptionInput"
-                    invalidText={descriptionInvalidText}
-                    validatorFun={descriptionValidator}
+                    id="descriptionRegistrationInput"
+                    invalidText={descriptionInvalidTextForSeller}
+                    validatorFun={descriptionValidatorForSeller}
                     afterValidationFun={(e) => {
                       setDescriptionNameIsValid(true);
+                      setDescriptionValue(e.target.value)
+                      console.log(e.target.value);
                     }}
                     invalidatedFun={() => {
                       setDescriptionNameIsValid(false);
                     }}
                     labelText={"Description: "}
-                    ref={desRef}
-                    inputOtherProps={{
+                    textareaOtherProps={{
                       placeholder: "Description...",
+                      maxlength: 125,
                     }}
                     showInvalidText={isAllValid === false}
                   />
+                  <div className="mb-8"></div>
                 </div>
               )}
-              <div className="mb-8">
-                <InputComponent
-                  id="emailInput"
-                  type="email"
-                  invalidText={emailInvalidText}
-                  validatorFun={emailValidator}
-                  afterValidationFun={(e) => setEmailIsValid(true)}
-                  invalidatedFun={() => setEmailIsValid(false)}
-                  ref={emailRef}
-                  inputOtherProps={{
-                    placeholder: "example@mail.abc...",
-                  }}
-                  labelText={"Email: "}
-                  showInvalidText={isAllValid === false}
-                />
-              </div>
-              <div className="mb-8">
-                <InputComponent
-                  id="passwordInput"
-                  type="password"
-                  invalidText={passwordInvalidText}
-                  validatorFun={passwordValidator}
-                  afterValidationFun={(e) => setPasIsValid(true)}
-                  invalidatedFun={() => setPasIsValid(false)}
-                  ref={pasRef}
-                  inputOtherProps={{
-                    placeholder: "megaPasw03r+dD...",
-                  }}
-                  showInvalidText={isAllValid === false}
-                  labelText={"Password: "}
-                />
-              </div>
-            </div>
 
+              <InputComponent
+                id="emailInput"
+                type="email"
+                invalidText={emailInvalidText}
+                validatorFun={emailValidator}
+                afterValidationFun={(e) => setEmailIsValid(true)}
+                invalidatedFun={() => setEmailIsValid(false)}
+                ref={emailRef}
+                inputOtherProps={{
+                  placeholder: "example@mail.abc...",
+                }}
+                labelText={"Email: "}
+                showInvalidText={isAllValid === false}
+              />
+              <div className="mb-8"></div>
+
+              <InputComponent
+                id="passwordInput"
+                type="password"
+                invalidText={passwordInvalidText}
+                validatorFun={passwordValidator}
+                afterValidationFun={(e) => setPasIsValid(true)}
+                invalidatedFun={() => setPasIsValid(false)}
+                ref={pasRef}
+                inputOtherProps={{
+                  placeholder: "megaPasw03r+dD...",
+                }}
+                showInvalidText={isAllValid === false}
+                labelText={"Password: "}
+              />
+              <div className="mb-8"></div>
+            </div>
             <div>
               <input
                 type="submit"
@@ -193,7 +200,7 @@ export default function RegistrationPage() {
                 }}
               />
               {codeAndText.code == 409 && (
-                  <div className="error-big-text">{codeAndText.text}</div>
+                <div className="error-big-text">{codeAndText.text}</div>
               )}
               <div>
                 <p>

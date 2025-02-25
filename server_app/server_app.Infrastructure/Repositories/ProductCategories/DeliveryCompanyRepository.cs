@@ -30,11 +30,11 @@ public class DeliveryCompanyRepository(MainDbContext context, IMapper mapper)
             .Select(c => mapper.Map<DeliveryCompanyForViewerDto>(c));
     }
 
-    public async Task<DeliveryCompanyEntity?> GetByAnyParam(string name, Uri webSite, PhoneNumberValueObject phoneNum)
+    public async Task<DeliveryCompanyEntity?> GetByAnyParam(string name, string webSite, PhoneNumberValueObject phoneNum)
     {
         return await context.Companies
             .FirstOrDefaultAsync(p => p.Name == name
-                                      || p.WebSite == webSite
+                                      || p.WebSite.WebSiteValue == webSite
                                       || p.PhoneNumber.Number == phoneNum.Number);
     }
 
@@ -48,6 +48,7 @@ public class DeliveryCompanyRepository(MainDbContext context, IMapper mapper)
     {
         if (await context.Companies
                 .AnyAsync(x => x.Id == updatedCompany.Id) == false)
+            
             return false;
 
         var mappedCompany = mapper.Map<DeliveryCompanyEntity>(updatedCompany);

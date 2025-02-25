@@ -16,6 +16,7 @@ public class ImageEntity
     {
         var newImage = new ImageEntity()
         {
+            Id = Guid.NewGuid(),
             ProductCategoryId = productCategoryId,
             MimeType = mimeType,
             ImageData = imageBytes
