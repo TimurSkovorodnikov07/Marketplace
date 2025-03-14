@@ -14,11 +14,14 @@ namespace server_app.Presentation;
 
 public static class DependenciesInjection
 {
-    public static IServiceCollection AddServices(this IServiceCollection services,
-        IConfiguration configuration, JwtOptions jwtOptions)
+    public static IServiceCollection AddServices(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        JwtOptions jwtOptions
+    )
     {
         services.AddOptionsServices(configuration);
-        
+
         services.AddSingleton<IMongoDb, MongoDb>();
         services.AddSingleton<ITokenNameInCookies>(jwtOptions);
         services.AddSingleton<BaseEmailSenderService>();
@@ -45,30 +48,29 @@ public static class DependenciesInjection
         services.AddScoped<IReviewsRepository, ReviewsRepository>();
 
         services.AddFilterServices(configuration);
-        //builder.Services.AddScoped<AgeCheckHandler>();
 
         return services;
     }
 
-    private static IServiceCollection AddOptionsServices(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddOptionsServices(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
-        services.Configure<MongoDbOptions>(
-            configuration.GetRequiredSection("UserSecrets:MongoDb"));
-        services.Configure<JwtOptions>(
-            configuration.GetRequiredSection("UserSecrets:Jwt"));
-        services.Configure<VerfiyCodeOptions>(
-            configuration.GetRequiredSection("VerifyCode"));
-        services.Configure<HealthOptions>(
-            configuration.GetRequiredSection("Health"));
-        services.Configure<EmailOptions>(
-            configuration.GetRequiredSection("UserSecrets:Email"));
-        services.Configure<RatingForceOptions>(
-            configuration.GetRequiredSection("RattingForce"));
+        services.Configure<MongoDbOptions>(configuration.GetRequiredSection("UserSecrets:MongoDb"));
+        services.Configure<JwtOptions>(configuration.GetRequiredSection("UserSecrets:Jwt"));
+        services.Configure<VerfiyCodeOptions>(configuration.GetRequiredSection("VerifyCode"));
+        services.Configure<HealthOptions>(configuration.GetRequiredSection("Health"));
+        services.Configure<EmailOptions>(configuration.GetRequiredSection("UserSecrets:Email"));
+        services.Configure<RatingForceOptions>(configuration.GetRequiredSection("RattingForce"));
 
         return services;
     }
 
-    private static IServiceCollection AddFilterServices(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddFilterServices(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         services.AddScoped<ValidationFilter>();
         return services;

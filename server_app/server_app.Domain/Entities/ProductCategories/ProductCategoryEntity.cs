@@ -15,8 +15,6 @@ public class ProductCategoryEntity : Entity
     public TagsValueObject Tags { get; set; }
 
     public decimal Price { get; set; }
-
-    //public List<ImageEntity> Images { get; set; }
     public int Quantity { get; set; }
 
     public List<PurchasedProductEntity> PurchasedProducts { get; set; }

@@ -37,11 +37,6 @@ export function EmailVerify({ userId, codeDiedAfterSeconds, codeLength }) {
   const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
-    //setTimeout позволяет вызвать функцию один раз через определённый интервал времени.
-    //Например проходит 3 сек, работает фукнция, все, дальше он не будет работать.
-
-    //setInterval позволяет вызывать функцию регулярно, повторяя вызов через определённый интервал времени.
-    //Он же работать будет каждые 3 секунды
     const timer = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime <= 0) {

@@ -23,7 +23,6 @@ public class CreditCardAddQueryValidator : AbstractValidator<CreditCardAddQuery>
         if (!Enum.TryParse(creditCard.Type, true, out CreditCardType cardType))
             return false;
 
-        //https://stackoverflow.com/questions/9315647/regex-credit-card-number-tests
         var dictionary = new Dictionary<CreditCardType, string>()
         {
             {

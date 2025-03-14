@@ -217,19 +217,14 @@ public class ProductCategoryRepository(
 
                 decimal totalSum = dto.NumberOfPurchases * foundCategory.Price;
                 totalSumForAllProducts += totalSum;
-                // 3) Создаем "Купленный" продукт, забыл сказать, до покупки так таковых продуктов нету,
-                // почему? А потому что мне это нахуй не надо, ведь у меня нету РЕАЛЬНОГО взаимодествия с deliveryCompany которым каждый продукт важен
-                // У меня просто есть категория, и число продуктов в ней, до покупки продукты не создаю
-                //Как нибудь поменяю когда проект изменю сделая его больше похожим на РЕАЛЬНЫЙ маркетплейс
+                // 3) Создаем "Купленный" продукт
 
                 var randomDays = new Random().Next(1, 15);
                 var mustDeliveredBefore = DateTime.UtcNow.AddDays(randomDays);
                 var newPurchasedProduct = PurchasedProductEntity.Create(foundCategory, foundBuyer, mustDeliveredBefore,
                     dto.NumberOfPurchases, totalSum, foundCategory.MainImageId);
-                //Имитация, блять, по другому будет пиздец долго, скорее всего мой маркетплейс юзать не будут
-                //А в идиале нужно запрашивать инфу у апи deliveryCompany
 
-                // 4)  Товар  добавлен, колл товаров стало меньше
+                // 4)  Товар  добавлен, колл. товаров стало меньше
                 await dbContext.PurchasedProducts.AddAsync(newPurchasedProduct);
                 foundCategory.Quantity -= dto.NumberOfPurchases;
                 await ratingService.Purchased(buyerId: foundBuyer.Id, purchasedCategoryId: foundCategory.Id,
@@ -277,9 +272,6 @@ public class ProductCategoryRepository(
     private async Task<(IEnumerable<ReturnType> categories, int maxNumber)> GetCategories<ReturnType>(Guid ownerId,
         int from, int to, string? search = null, int priceNoMoreThenOrEqual = 0) where ReturnType : ProductCategoryDto
     {
-        //В прев проекте я не думаю нахерачил кучу ToList() что являеться очень тупой и опастной штукой
-        //Если кратко есть методы вроде ToList(), ToArray(), Single(), First(), Count(), Sum(), Max(), Min(), Average() и тому подобные
-        //Прикод этих меодов в том что они ВОЗВРАЩАЮТ ДАННЫЕ, именно возвращают а не создают запрос как тот же Where или OrderBy
         var query = dbContext.ProductsCategories
             .Include(c => c.DeliveryCompany)
             .Include(c => c.Owner)
@@ -304,7 +296,6 @@ public class ProductCategoryRepository(
     }
 
 
-    //Методы чтобы дохуя кода не писать в методах с транзакциями
     private async Task<Result> BadRequestResultReturnAndTransactionCanceled(object? value = null) =>
         await ResultReturnAndTransactionCanceled(Result.BadRequest(value));
 

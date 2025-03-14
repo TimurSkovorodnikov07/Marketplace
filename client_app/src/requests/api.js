@@ -14,12 +14,8 @@ export const api = axios.create({
   baseURL: apiUrl,
 });
 
-//ТУТ БЛЯТЬ КОНСТАТНЫ НЕ ПИСАТЬ!!!!!!!!!!!!!!
-
 //Request
 api.interceptors.request.use((conf) => {
-  //Беру сразу тут тк блять, ранее кидал в константу и получал отказ когда хотел взять и залогиниться, почему?
-  //Потому что блять он тут лежал, адже когда я logout делал, все ровно он в конст лежал БЛЯТЬ!!!
   conf.headers.Authorization = `Bearer ${localStorage.getItem(
     accessTokenInLocalStorage
   )}`;
@@ -27,7 +23,6 @@ api.interceptors.request.use((conf) => {
 });
 
 //Response
-//Первый парраметр действия если запрос успешный, второй если нет:
 api.interceptors.response.use(
   (conf) => {
     return conf;
@@ -46,7 +41,6 @@ api.interceptors.response.use(
       Cookies.get(userIdInCookies) != undefined
     ) {
       try {
-        //Нужно isRetry проверка чтобы не сделать бесконечный цикл где хочешь избавиться от 401 но в итоге опять его получаешь(если сервак писал даун)
         error.config._isRetry = true;
 
         let response = await tokensUpdate(

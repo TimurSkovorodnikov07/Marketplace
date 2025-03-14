@@ -1,9 +1,6 @@
 import { useState, forwardRef, useEffect } from "react";
 import "../styles/index.css";
 
-//forwardRef позволяет сзодать ссылку в первом комп и юзать ее в втором комп.
-//Стоит заметить, ебанный typescript выебываеться, потому при создании ссылки у нее в джинериках должен быьть тип HTMLElement-а, в какой тип элемента ссылаться
-//Вобще это можно было сделать и с помощью useState, но мне просто стало интересно хули реакт не может работать с ref за пределами компонента.
 export const InputComponent = forwardRef((params, ref) => {
   const [isValid, setIsValid] = useState(false);
   const [inputValue, setInputValue] = useState(undefined);

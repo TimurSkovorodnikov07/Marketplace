@@ -53,6 +53,5 @@ public class MainMapperProfile : Profile
             .ForMember(d => d.Name, opt => opt.MapFrom(x => x.Category.Name))
             .ForMember(d => d.Description, opt => opt.MapFrom(x => x.Category.Description))
             .ForMember(d => d.CategoryId, opt => opt.MapFrom(x => x.Category.Id));
-        //Вот так можно удобно говорить automapper-у что мапить(по дефолту он маппит по одному и тому же имени свйоства и типу)
     }
 }

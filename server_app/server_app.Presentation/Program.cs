@@ -14,7 +14,6 @@ using server_app.Presentation.Middlewares;
 using server_app.Presentation.Middlewares.HealthChecks;
 
 
-//$sudo docker run -e ASPNETCORE_ENVIRONMENT=Development -v /root/.microsoft/usersecrets skovorodnikovtimur07/marketplace-server-app
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
@@ -111,9 +110,6 @@ builder.Services.AddSwaggerGen(o =>
 AddMongoConfigurationExtensions.AddMongoConfiguration();
 builder.Services.AddDbContext<MainDbContext>(optionsBuilder =>
 {
-    // Unable to create a 'DbContext' of type ''. The exception 'Unable to resolve service for type 'Microsoft.Extensions.Configuration.IConfiguration' while attempting to activate 'MainDbContext'.' was thrown while attempting to create an instance. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
-    // Ебанный efcore опять радует своими ебучими ошибками
-    // Потому решил не юзать OnConfiguring, тк а как же мне нахуй брать сервисы тогда, пиздец
     var pgConnectionStr = builder.Configuration["UserSecrets:PostgresConnectionStr"];
 
     if (string.IsNullOrWhiteSpace(pgConnectionStr))
@@ -141,8 +137,9 @@ else
 }
 
 app.UseHttpsRedirection();
-app.ApplyMigration(); //for the efcore use migrations in a docker container, without this postgres will be without tables and data
-//https://youtube.com/watch?v=WQFx2m5Ub9M Бля спасибо мужику!!! Очень помог, я нихуя не понимал хули у челов в интеренете как то миграциии работали, блять, спасибо!!!!!!!!!
+app.ApplyMigration();
+//for the efcore use migrations in a docker container, without this postgres will be without changed tables
+//https://youtube.com/watch?v=WQFx2m5Ub9M
 
 app.UseCors();
 app.UseRouting();
@@ -153,6 +150,6 @@ app.MapHealthChecks("/health");
 app.MapControllers();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-//Там был срачь с сохранением колонки с DateTime, добавил строчку выше ^
+//Там был срачь с сохранением колонки с DateTime, добавил потому строчку выше ^
 
 app.Run();

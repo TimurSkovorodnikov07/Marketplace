@@ -167,8 +167,6 @@ public class ProductsController(
         if (!User.Claims.TryIsSeller(out var sellerGuid))
             return Forbid();
 
-        //return Forbid(authenticationSchemes: "Your not seller");
-        //БЛЯТЬ, я жество обосрался, при этом у меня Rider показывает имена парр., не внимательность короче https://qna.habr.com/q/1372640y
         Guid ownerGuid = (Guid)sellerGuid;
 
         var nameIsFree = await productCategoryRepository.NameIsFree(ownerGuid, query.Name);
@@ -180,7 +178,6 @@ public class ProductsController(
 
         if (foundCompany == null)
             return NotFound("Delivery company not found");
-        //Проверять наличие юзера в бд не нужно тк если разраб НЕ долбоеб он закинет в jwt token СУЩЕСТВУЮЩЕГО продовца
 
         newUnfinishedCategory.Owner = foundSeller;
         newUnfinishedCategory.DeliveryCompany = foundCompany;

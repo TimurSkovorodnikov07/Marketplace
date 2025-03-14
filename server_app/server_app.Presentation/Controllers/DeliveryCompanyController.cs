@@ -62,8 +62,6 @@ public class DeliveryCompanyController(
 
         if (newCompany is null)
             return BadRequest("Created Delivery Company isn't valid");
-        //Вобще такой ситуации не будет, тк есть DataAn. атрибуты на query
-        //+ еще проверяю номер и сайт на валидность в начале action, но похуй, пусть будет что ли
 
         await repository.Add(newCompany);
         return Ok();

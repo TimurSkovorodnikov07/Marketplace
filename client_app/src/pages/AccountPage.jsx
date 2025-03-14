@@ -15,7 +15,6 @@ export function AccountPage() {
       navigate(`/sellers/${auth.userId}`);
     }
 
-    //AuthenticationMiddleware может не сразу закинуть в стейт контейнер, потому так лучше:
     if (!localStorage.getItem(accessTokenInLocalStorage)) {
       goToLogin(navigate);
     }
@@ -32,10 +31,4 @@ export function AccountPage() {
   ) : (
     <></>
   );
-
-  // return auth.isCustomer === true ? (
-  //   <div>Customer info</div>
-  // ) : (
-  //   <Navigate to={`/sellers/${auth.userId}`} />
-  // ); Раньше был такой, useSelector auth.isCustomer снчало был false а после сатновился true
 }

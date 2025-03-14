@@ -32,7 +32,7 @@ export default function LoginPage() {
 
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [pasIsValid, setPasIsValid] = useState(false);
-  const [sent, setSent] = useState(false); //Чтобы юзер не отправил дважды запрос
+  const [sent, setSent] = useState(false);
   const [isAllValid, setIsAllValid] = useState(true);
 
   async function onSubmit() {

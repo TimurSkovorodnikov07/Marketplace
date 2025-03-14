@@ -44,9 +44,4 @@ public struct Result
     public static Result NotFound(object? value = null) => new(false, (int)HttpStatusCode.NotFound, value);
 
     public static Result PaymentRequired() => new(false, (int)HttpStatusCode.PaymentRequired);
-
-    //Сука лучше не писать числа, лучше блять юзать уже существующие константы из HttpStatusCode.
-    
-    //Я 3-4 часа блять убил не понимая хули при создании товара получаю 403, когда в других конечных точках не получаю, что уже означает что у меня все заеб с авторизацией, думал, дело в ClaimsExtension, до этого хуйня была с ним, думал опять. Нет нихуя,
-    //дело было в том что я блять в Result классе сделал метод BadRequest котоырй возвращал как раз этот неверный код блтяь, просто пиздец.
 }

@@ -14,7 +14,3 @@ export function queryWithStringsCreate(path, typesAndValues) {
 function queryString(type, value, symbol) {
   return value == undefined ? "" : `${symbol}${type}=${value}`;
 }
-//Как я блять хуею с js
-//From^%20%20%20%20%20%20%20%20%20%20 вместо норм числа, то же было и с to
-//Я потом взял и разделил на 2 строки и их плюсанул, вуоля, блять, заработало сука нормально, ебануться
-//100% из за того что я в ${} закидывал пустую строку, бляьт

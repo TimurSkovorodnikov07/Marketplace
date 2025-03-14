@@ -2,12 +2,6 @@
   display: grid;
   grid-template-areas: "account-info" "account-partial-products";
   grid-template-rows: 1fr;
-  /*
-  With grid or flex height or width doesn't always works, so need uses 
-  the grid-templates-rows(for height) or grid-template-columns(for width).
-
-  grid-template-rows:  1fr = STREACH height to 100%
-  */
   min-height: 100%;
 }
 .account-info-wrapper {

@@ -13,7 +13,6 @@ public static class FormFileExtensions
 
         foreach (var file in formFiles)
         {
-            //Ранее был using до var memoryStream, поставил по превычке, потом смотрю, в Stream во всех SavedFile пуст, при этом не в IFormFile-ах, колектор накурился мб
             var memoryStream = new MemoryStream(); 
             file.CopyTo(memoryStream);
 

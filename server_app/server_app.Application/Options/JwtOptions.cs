@@ -3,7 +3,6 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-//Нужно быть акуратным с названиями свойств Optionө-ов и ключами в json-ах
 namespace server_app.Application.Options;
 
 public class JwtOptions : ITokenNameInCookies

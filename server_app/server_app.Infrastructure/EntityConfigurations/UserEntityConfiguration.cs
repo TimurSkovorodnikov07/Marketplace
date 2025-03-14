@@ -13,10 +13,6 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
         //Также создаеться общия таблица Users
         //TPC - Table Per Class тут же в отл от TPT даже те что наследуешь свойства будут как колонки одной таблицы
         
-        //builder.HasKey(x => x.Id).HasName("user_id");
-        //Делаем только для UserEntity Id колонку, иначе efcore орать будет хули родитель не имеет колонку
-        //Ребенку ее переобределять нельзя, что пиздец кстати
-        
         builder.Property(x => x.Name).HasMaxLength(25).IsRequired().HasColumnName("name");
         builder.Property(x => x.Email).HasMaxLength(50).IsRequired().HasColumnName("email");
         builder.Property(x => x.EmailVerify).IsRequired().HasColumnName("email_verify");

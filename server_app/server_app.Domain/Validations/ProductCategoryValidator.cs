@@ -14,7 +14,6 @@ public class ProductCategoryValidator : AbstractValidator<ProductCategoryEntity>
 
         RuleFor(x => x.Description).Must(des => string.IsNullOrEmpty(des) || des.Length <= 500)
             .WithMessage("Description not valid");
-        //Про Description, если его нету то и проверять не нужно(меня такое тоже устраивает), иначе проврека чтобы он большим небыл
 
         RuleFor(x => x.Tags).NotNull().Must(tags => tags is not null && tags.Tags.Count > 0).WithMessage("Tags empty");
         RuleFor(x => x.Owner).NotNull().WithMessage("Owner is null");

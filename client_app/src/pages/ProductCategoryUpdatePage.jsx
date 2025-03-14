@@ -44,14 +44,11 @@ export function ProductCategoryUpdate() {
           const data = response.data;
           setFoundCategory(data);
 
-          //Еще нужно для InputComponent тк обьекты именно в этом компоненте пустые,
-          //изменяться их значения лишь тогда когда юзер изменить input, если не вызывать тут сеты они будут пустыми
           setName(data.name);
           setDescription(data.description);
           setTags(data.tags);
           setPrice(data.price);
           setQuantity(data.quantity);
-          //setDeliveryCompany(); можно не вызывать тк SelectDeliveryCompanyComponent его сам вызовит и даст value
         }
       } catch (error) {
         console.error(error);

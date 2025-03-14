@@ -23,10 +23,6 @@ public class ImagesControllerTests
     [InlineData(ThirdGuid)]
     public async Task GetCategory_AsAnonViewer_ReturnsOk(string guidString)
     {
-        //-------
-        //Create BuilderClass for makes the productController 
-
-
         Assert.True(Guid.TryParse(guidString, out var guid));
 
         // Arrange
@@ -34,8 +30,6 @@ public class ImagesControllerTests
         var emptyDtoForViewer = new ProductCategoryDtoForViewer { Id = guid };
 
         var service = A.Fake<IProductCategoryRepository>();
-        // BLYAT!!　Корчое [[ЮЗАТЬ ИНТЕРФЕЙСЫ для сервисов]], хотя можно юзать и
-        // виртуальные методы которые сама этот фреймворк определит, все же лучше юзать интерфейсы, удобнее.
         A.CallTo(() => service.Get(guid))
             .Returns(Task.FromResult(emptyCategory));
 
