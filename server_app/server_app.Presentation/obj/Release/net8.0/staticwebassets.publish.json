@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "mArvzhdX9pwk7t2o5/SuaQBD6mi8z9GG4JlHBeBKh94=",
+  "Source": "server_app.Presentation",
+  "BasePath": "_content/server_app.Presentation",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "server_app.Presentation/wwwroot",
+      "Source": "server_app.Presentation",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/",
+      "BasePath": "_content/server_app.Presentation",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico",
+      "SourceId": "server_app.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/",
+      "BasePath": "_content/server_app.Presentation",
+      "RelativePath": "favicon.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.jpg",
+      "SourceId": "server_app.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/",
+      "BasePath": "_content/server_app.Presentation",
+      "RelativePath": "favicon.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.jpg"
+    }
+  ]
+}

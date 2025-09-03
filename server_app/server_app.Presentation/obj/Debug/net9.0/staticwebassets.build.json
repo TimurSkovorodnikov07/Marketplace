@@ -1,0 +1,465 @@
+{
+  "Version": 1,
+  "Hash": "hwV/sPyRegXFQv/CGpL87DmDbi3AVJCMR56LFoZP55g=",
+  "Source": "server_app.Presentation",
+  "BasePath": "_content/server_app.Presentation",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "server_app.Presentation/wwwroot",
+      "Source": "server_app.Presentation",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/",
+      "BasePath": "_content/server_app.Presentation",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/obj/Debug/net9.0/compressed/xan4bgvlmp-chdipq9vsu.gz",
+      "SourceId": "server_app.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/server_app.Presentation",
+      "RelativePath": "favicon#[.{fingerprint=chdipq9vsu}]?.ico.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "pl5h5fv7m7",
+      "Integrity": "naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico",
+      "SourceId": "server_app.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/",
+      "BasePath": "_content/server_app.Presentation",
+      "RelativePath": "favicon#[.{fingerprint}]?.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "chdipq9vsu",
+      "Integrity": "wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.jpg",
+      "SourceId": "server_app.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/",
+      "BasePath": "_content/server_app.Presentation",
+      "RelativePath": "favicon#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "devtb79sx5",
+      "Integrity": "y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "favicon.chdipq9vsu.ico",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/obj/Debug/net9.0/compressed/xan4bgvlmp-chdipq9vsu.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000006198514"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "161328"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "chdipq9vsu"
+        },
+        {
+          "Name": "label",
+          "Value": "favicon.ico"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.chdipq9vsu.ico",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "270398"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "chdipq9vsu"
+        },
+        {
+          "Name": "label",
+          "Value": "favicon.ico"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.chdipq9vsu.ico.gz",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/obj/Debug/net9.0/compressed/xan4bgvlmp-chdipq9vsu.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "161328"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "chdipq9vsu"
+        },
+        {
+          "Name": "label",
+          "Value": "favicon.ico.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.devtb79sx5.jpg",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "53713"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "devtb79sx5"
+        },
+        {
+          "Name": "label",
+          "Value": "favicon.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.ico",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/obj/Debug/net9.0/compressed/xan4bgvlmp-chdipq9vsu.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000006198514"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "161328"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.ico",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "270398"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl+N1MJVHdENQ="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.ico.gz",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/obj/Debug/net9.0/compressed/xan4bgvlmp-chdipq9vsu.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "161328"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-naekK515hHlGS0z/xe87fNUrq5u8gJp2q8XRRemyEtE="
+        }
+      ]
+    },
+    {
+      "Route": "favicon.jpg",
+      "AssetFile": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "53713"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 Aug 2024 19:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ="
+        }
+      ]
+    }
+  ]
+}

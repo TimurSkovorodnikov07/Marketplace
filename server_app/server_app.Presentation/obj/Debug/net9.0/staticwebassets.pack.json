@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.ico",
+      "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/home/timur/Desktop/Marketplace/server_app/server_app.Presentation/wwwroot/favicon.jpg",
+      "PackagePath": "staticwebassets/favicon.jpg"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.server_app.Presentation.props",
+      "PackagePath": "build\\server_app.Presentation.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.server_app.Presentation.props",
+      "PackagePath": "buildMultiTargeting\\server_app.Presentation.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.server_app.Presentation.props",
+      "PackagePath": "buildTransitive\\server_app.Presentation.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.server_app.Presentation.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.server_app.Presentation.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

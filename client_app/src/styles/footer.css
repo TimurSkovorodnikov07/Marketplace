@@ -1,0 +1,97 @@
+.app-footer {
+  background-color: rgb(24, 24, 37);
+  grid-area: footer;
+
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+}
+.app-footer-content {
+  margin: 15px 25px;
+  background-color: rgb(49, 50, 68);
+  border-radius: 15px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-media-list {
+  display: flex;
+  justify-content: start;
+}
+
+.media-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 35px;
+}
+
+.copyright-text {
+  text-align: end;
+  margin-top: 10px;
+  border-radius: 1px;
+  width: 100%;
+  margin: 0px -25px;
+}
+
+.about {
+  flex: 6; /* Будет занимать больше места */
+  margin-right: 30px;
+}
+.social-media {
+  margin-right: 30px;
+}
+.contact-info {
+  text-align: right;
+}
+.social-media,
+.contact-info {
+  flex: 2; /* Будут занимать меньше пространства */
+}
+
+@media (max-width: 1400px) {
+  .about {
+    flex: 3;
+    margin-right: 15px;
+  }
+  .social-media {
+    margin-right: 15px;
+  }
+  .social-media,
+  .contact-info {
+    flex: 1;
+  }
+}
+@media (max-width: 1280px) {
+  .about {
+    flex: 2;
+  }
+}
+@media (max-width: 1050px) {
+  .app-footer-content {
+    flex-direction: column; /* Расположить элементы по вертикали */
+    align-items: center; /* Выравнивание по центру */
+  }
+  .about,
+  .social-media {
+    margin: 0px 0px;
+    margin-bottom: 25px;
+  }
+  .about,
+  .social-media,
+  .contact-info {
+    flex: 1;
+    width: 100%; /* Элементы занимают всю ширину */
+    text-align: center;
+  }
+  .social-media-list {
+    justify-content: center;
+  }
+  .media-icon {
+    margin: 0px 15px; /* Уменьшить отступ между иконками */
+  }
+  .copyright-text {
+    text-align: center;
+    margin: 20px 0px;
+    margin-bottom: 0px;
+  }
+}

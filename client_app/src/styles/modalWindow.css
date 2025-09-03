@@ -1,0 +1,105 @@
+/* General Styles */
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1; /* Initial opacity */
+  transition: opacity 0.3s ease-in-out; /* Fade transition */
+}
+
+.modal-wrapper.fade-out {
+  opacity: 0; /* Fade out when exiting */
+}
+
+.modal-content-wrapper {
+  background-color: rgb(49, 50, 68);
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden; /* Prevent overflow during animation */
+
+  color: #d9d9d9;
+}
+
+/* Slide-in Animation */
+.modal-content-wrapper.slide-in {
+  animation: slideIn 0.2s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px); /* Slide down from above */
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0); /* Settle in place */
+    opacity: 1;
+  }
+}
+
+/* Slide-out Animation */
+.modal-content-wrapper.slide-out {
+  animation: slideOut 0.3s ease-in-out forwards;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0); /* Start in place */
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-50px); /* Slide up and fade */
+    opacity: 0;
+  }
+}
+
+/* Modal Content */
+.modal-content {
+  padding: 20px 10px;
+  font-size: 20px;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  height: 20px;
+  width: 20px;
+
+  border: none;
+  background-color: rgb(49, 50, 68);
+}
+.modal-close-button:hover,
+.modal-close-button:focus {
+  color: rgb(137, 180, 250);
+  border: none;
+  background-color: rgb(49, 50, 68);
+}
+
+.modal-button {
+  border-radius: 6px;
+  min-height: 40px;
+  padding: 0px 50px;
+}
+.add-credit-card-wrapper input,
+.add-credit-card-wrapper select {
+  width: 250px;
+}
+.add-credit-card-element {
+  margin-bottom: 20px;
+}

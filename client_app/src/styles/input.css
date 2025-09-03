@@ -1,0 +1,135 @@
+input,
+button,
+textarea,
+select,
+.choose-images-label{
+  min-height: 40px;
+  padding: 0px 10px;
+  margin: 10px 10px;
+  outline: none;
+  border: 2px solid rgba(137, 180, 250, 0.4);
+  background-color: rgb(49, 50, 68);
+  border-radius: 6px;
+  transition: color 0.1s ease-in, background-color 0.1s ease-in;
+}
+
+input:focus,
+input:hover,
+button:hover,
+button:focus,
+textarea:focus,
+textarea:hover,
+select:focus,
+select:hover,
+.choose-images-label:focus,
+.choose-images-label:hover{
+  transition: color 0.1s ease-in, background-color 0.1s ease-in;
+  color: rgb(137, 180, 250);
+  background-color: #45475a;
+  border: 2px solid rgb(137, 180, 250);
+}
+textarea {
+  overflow-y: hidden;
+}
+
+.number-input {
+  padding: 0px 0px;
+  margin: 0px 0px;
+  border-radius: 0px;
+  max-width: 80px;
+  flex-shrink: 0; /* Prevent shrinking */
+  flex-grow: 0; /* Prevent growing */
+  text-align: center;
+  height: 100%;
+  border: none;
+}
+.number-input-wrapper {
+  min-height: 50px;
+  display: flex;
+
+  justify-content: center;
+  flex-direction: row;
+}
+.number-input-wrapper input,
+.number-input-wrapper input:focus
+.number-input-wrapper input:hover,
+.number-input-left-arrow,
+.number-input-right-arrow,
+.number-input-left-arrow:focus,
+.number-input-right-arrow:focus,
+.number-input-left-arrow:hover,
+.number-input-right-arrow:hover {
+  outline: none;
+  border: none;
+  color: #d9d9d9;
+  background-color: rgb(49, 50, 68);
+}
+.number-input-left-arrow,
+.number-input-right-arrow,
+.number-input-left-arrow-innactive,
+.number-input-right-arrow-innactive {
+  font-size: 18px;
+  margin: 0px 0px;
+  border-radius: 0px;
+  height: 100%;
+  border: none;
+}
+
+.number-input-left-arrow,
+.number-input-left-arrow-innactive {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.number-input-right-arrow,
+.number-input-right-arrow-innactive {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.number-input-left-arrow-innactive,
+.number-input-right-arrow-innactive
+.number-input-left-arrow-innactive:hover,
+.number-input-right-arrow-innactive:hover,
+.number-input-left-arrow-innactive:focus,
+.number-input-right-arrow-innactive:focus {
+  background-color: rgb(49, 50, 68);
+  border: none;
+  pointer-events: none;
+  color: #45475a;
+}
+/*Remove default arrows*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  textarea {
+    max-height: 150px;
+  }
+}
+
+@media (min-width: 1080px) {
+  textarea {
+    max-height: 200px;
+  }
+}
+
+@media (min-width: 1600px) {
+  textarea {
+    max-height: 250px;
+  }
+}
+
+@media (min-width: 1980px) {
+  textarea {
+    max-height: 300px;
+  }
+}

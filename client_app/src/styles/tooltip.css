@@ -1,0 +1,39 @@
+/* Скрываем текст подсказки по умолчанию */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  font-size: 15px;
+  text-align: center;
+  padding: 8px;
+
+  /* Позиционирование подсказки */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Сдвигаем подсказку над элементом */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  color: rgb(137, 180, 250);
+  background-color: #313244;
+  border: 3px solid rgb(137, 180, 250);
+  border-radius: 5px;
+}
+
+/* Добавляем стрелочку снизу подсказки */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+
+  border-width: 9px;
+  margin-left: -9px;
+  border-color: rgb(137, 180, 250) transparent transparent transparent;
+}
+
+/* Показываем подсказку при наведении */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

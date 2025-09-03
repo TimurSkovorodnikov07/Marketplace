@@ -1,0 +1,18 @@
+a {
+  color: rgb(203, 166, 247);
+  border-bottom: 1.5px solid rgb(203, 166, 247);
+  outline: none;
+}
+a:visited {
+  color: rgb(148, 226, 213);
+  border-bottom: 1.5px solid rgb(148, 226, 213);
+}
+
+.image-in-link {
+  border-bottom: 0px solid white;
+  outline: none;
+}
+.image-in-link:visited {
+  border: 0px solid white;
+  outline: none;
+}

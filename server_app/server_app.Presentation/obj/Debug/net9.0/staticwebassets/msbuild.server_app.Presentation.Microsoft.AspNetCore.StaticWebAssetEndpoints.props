@@ -1,0 +1,28 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/server_app.Presentation/favicon.chdipq9vsu.ico">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"chdipq9vsu"},{"Name":"integrity","Value":"sha256-wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl\u002BN1MJVHdENQ="},{"Name":"label","Value":"_content/server_app.Presentation/favicon.ico"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"270398"},{"Name":"Content-Type","Value":"image/x-icon"},{"Name":"ETag","Value":"\u0022wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl\u002BN1MJVHdENQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 05 Aug 2024 19:59:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/server_app.Presentation/favicon.devtb79sx5.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"devtb79sx5"},{"Name":"integrity","Value":"sha256-y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ="},{"Name":"label","Value":"_content/server_app.Presentation/favicon.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"53713"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 05 Aug 2024 19:59:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/server_app.Presentation/favicon.ico">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl\u002BN1MJVHdENQ="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"270398"},{"Name":"Content-Type","Value":"image/x-icon"},{"Name":"ETag","Value":"\u0022wMUXdn9jeM9pIB8FCM9Y2kRUS03Ds2tl\u002BN1MJVHdENQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 05 Aug 2024 19:59:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/server_app.Presentation/favicon.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"53713"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022y8T6wXi1bPvEsN102lxsv4g7n129KV3g7KCyLo/ejzQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 05 Aug 2024 19:59:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

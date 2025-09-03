@@ -1,0 +1,13 @@
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/bin/Debug/net8.0/server_app.Domain.deps.json
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/bin/Debug/net8.0/server_app.Domain.dll
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/bin/Debug/net8.0/server_app.Domain.pdb
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.csproj.AssemblyReference.cache
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.AssemblyInfoInputs.cache
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.AssemblyInfo.cs
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.csproj.CoreCompileInputs.cache
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.sourcelink.json
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.dll
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/refint/server_app.Domain.dll
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/server_app.Domain.pdb
+/home/timur/Desktop/Marketplace/server_app/server_app.Domain/obj/Debug/net8.0/ref/server_app.Domain.dll

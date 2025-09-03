@@ -1,0 +1,93 @@
+networks:
+  dev:
+    driver: bridge
+
+services:
+  #Nginx
+  proxy:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+    depends_on:
+      - server_app
+      - client_app
+    networks:
+      - dev
+  
+  # ASP.NET Core application
+  server_app:
+    container_name: server-app
+    build:
+      context: ./server_app
+      dockerfile: Dockerfile
+    ports:
+      - "5183:5183"
+    depends_on:
+      - redis
+      - mongodb
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5183
+    networks:
+      - dev
+
+    #for windows: $APPDATA/Microsoft/UserSecrets/$USER_SECRETS_ID:/root/.microsoft/usersecrets/$USER_SECRETS_ 
+    volumes:
+      - /home/timur/.microsoft/usersecrets/bd1f8802-13a0-4b5f-891d-3be2cef1574c:/root/.microsoft/usersecrets/bd1f8802-13a0-4b5f-891d-3be2cef1574c
+  
+  
+  # React application
+  client_app:
+    container_name: client-app
+    build:
+      context: ./client_app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - dev
+
+  # Redis
+  redis:
+    container_name: redis
+    image: redis:7.2.5
+    ports:
+      - "6379:6379"
+    networks:
+      - dev
+  
+  # MongoDB
+  mongodb:
+    container_name: mongodb
+    image: mongo:8.0.4
+    ports:
+      - "27010:27010"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - dev
+
+  # PostgreSQL
+  postgres:
+    container_name: postgres
+    image: postgres:17.2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: nigPostgres_Pas5432
+      POSTGRES_DB: marketplace
+    ports:
+      - '5432:5432'
+    networks:
+      - dev
+    volumes:
+      - postgres_data:/var/lib/postgresql@17/data
+
+volumes:
+  postgres_data:
+  
+  mongo_data:
+    driver: local

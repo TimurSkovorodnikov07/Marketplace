@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+body {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  color: #d9d9d9;
+  background-color: rgb(17, 17, 27);
+}
+.line-on-bottom {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px dashed rgb(255, 255, 255, 0.1);
+}
+code {
+  font-family: source-code-pro, monospace;
+}
+.app {
+  border-radius: 6px;
+
+  display: grid;
+  grid-template-areas:
+    "topbar"
+    "content"
+    "footer";
+
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto 1fr auto;
+  /*1fr чтобы контент брал остаток стр даже если пустой, то есть если поставить auto auto auto остаток будет бртаь конец футера(тк он снизу стр)*/
+
+  row-gap: 25px;
+  color: rgb(205, 214, 244);
+}
+.app-body {
+  text-align: center;
+  align-items: center;
+  grid-area: content;
+  place-items: center;
+
+  min-height: 90vh;
+  width: 100%;
+}
+
+.content-wrapper {
+  height: 100%;
+}
+
+.error-big-text,
+.error-text {
+  color: rgb(243, 139, 168);
+}
+.give-attention-big-text,
+.give-attention-text {
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.give-attention-big-text {
+  font-size: 22px;
+}
+.give-attention-text-via-color {
+  color: #cba6f7;
+}
+@media (min-width: 550px) {
+  .content-wrapper {
+    margin: 0px 0px;
+  }
+  .give-attention-text {
+    font-size: 17px;
+  }
+  .give-attention-big-text {
+    font-size: 25px;
+  }
+
+}
+
+@media (min-width: 768px) {
+  .content-wrapper {
+    margin: 0px 20px;
+  }
+  .give-attention-text {
+    font-size: 20px;
+  }
+  .give-attention-big-text {
+    font-size: 28px;
+  }
+
+}
+@media (min-width: 1050px) {
+  .content-wrapper {
+    margin: 0px 40px;
+  }
+}
+@media (min-width: 1300px) {
+  .content-wrapper {
+    margin: 0px 100px;
+  }
+  .give-attention-text {
+    font-size: 23px;
+  }
+  .give-attention-big-text {
+    font-size: 31px;
+  }
+
+  .app {
+    row-gap: 40px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .content-wrapper {
+    margin: 0px 160px;
+  }
+  .give-attention-text {
+    font-size: 27px;
+  }
+  .give-attention-big-text {
+    font-size: 35px;
+  }
+
+  .app {
+    row-gap: 50px;
+  }
+}
+
+/*
+@media (min-width: 550px) {
+}
+
+@media (min-width: 1050px) {
+}
+@media (min-width: 1300px) {
+}
+
+@media (min-width: 1600px) {
+}
+*/
+
+@media (min-width: 0px) and (max-width: 1050px) {
+  h1,
+  h2 {
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+  }
+  .error-big-text,
+  h2 {
+    font-size: 25px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+  body {
+    font-size: 15px;
+  }
+  .error-text,
+  .small-text {
+    font-size: 10px;
+  }
+}
+@media (min-width: 1050px) {
+  h1,
+  h2 {
+    margin-bottom: 15px;
+  }
+  h1 {
+    font-size: 35px;
+  }
+  .error-big-text,
+  h2 {
+    font-size: 30px;
+  }
+  h3 {
+    font-size: 25px;
+  }
+  body {
+    font-size: 20px;
+  }
+  .error-text,
+  .small-text {
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,28 @@
+.add-tag-wrapper {
+  display: flex;
+  align-items: center;
+}
+.added-tags-wrapper {
+  border: none;
+  display: flex;
+  flex-wrap:wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+}
+.added-tag {
+  display: flex;
+}
+.added-tag-button,
+.added-tag-button:focus,
+.added-tag-button:hover {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+.added-tag-button:focus,
+.added-tag-button:hover {
+  color: rgb(243, 139, 168);
+}

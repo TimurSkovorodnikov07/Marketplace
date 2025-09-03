@@ -1,0 +1,37 @@
+.selected-delivery-company-wrapper {
+}
+.selected-delivery-company-name {
+}
+.selected-delivery-company-button {
+}
+.selected-delivery-company-button:focus,
+.selected-delivery-company-button:hover {
+  color: rgb(243, 139, 168);
+}
+.found-delivery-companies {
+}
+
+.delivery-company-select-wrapper {
+  background-color: rgb(49, 50, 68);
+  border-radius: 6px;
+  transition: color 0.1s ease-in, background-color 0.1s ease-in;
+  border: 2px solid rgba(137, 180, 250, 0.4);
+}
+
+.found-delivery-company-button,
+.found-delivery-company-button:focus,
+.found-delivery-company-button:hover,
+.delivery-company-select-search,
+.delivery-company-select-search:focus,
+.delivery-company-select-search:hover {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px solid white;
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+.delivery-company-select-search-show-companies,
+.delivery-company-select-search-show-companies:hover,
+.delivery-company-select-search-show-companies:focus {
+  border-bottom: 2px dashed rgba(137, 180, 250, 0.4);
+  margin-bottom: 15px;
+}
